@@ -1,20 +1,17 @@
+import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
+import { BlogSEO } from '@/components/SEO'
+import Comments from '@/components/comments'
+import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
+import { PostFrontMatter } from 'types/PostFrontMatter'
+import { ReactNode } from 'react'
 import SectionContainer from '@/components/SectionContainer'
-import { BlogSEO } from '@/components/SEO'
-import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import Comments from '@/components/comments'
-import { ReactNode } from 'react'
-import { PostFrontMatter } from 'types/PostFrontMatter'
-import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
 
 const editUrl = (fileName) => `${siteMetadata.siteRepo}/blob/master/data/blog/${fileName}`
-const discussUrl = (slug) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(
-    `${siteMetadata.siteUrl}/blog/${slug}`
-  )}`
+const kofiUrl = () => `${siteMetadata.kofi}`
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -102,11 +99,9 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:pb-0 xl:col-span-3 xl:row-span-2">
               <div className="pt-10 pb-8 prose dark:prose-dark max-w-none">{children}</div>
               <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={discussUrl(slug)} rel="nofollow">
-                  {'Discuss on Twitter'}
-                </Link>
-                {` • `}
                 <Link href={editUrl(fileName)}>{'View on GitHub'}</Link>
+                <span className="mr-2 ml-2">·</span>
+                <Link href={kofiUrl()}>{'Buy me a coffee'}</Link>
               </div>
               <Comments frontMatter={frontMatter} />
             </div>

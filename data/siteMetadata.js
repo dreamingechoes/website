@@ -5,8 +5,8 @@ const siteMetadata = {
   description: 'I\'m Iván González 👋 Software Engineer from the north of Spain, interested in all kinds of technologies.',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://dreamingecho.es',
+  siteRepo: 'https://github.com/dreamingechoes/website',
   siteLogo: '/static/images/logo.svg',
   image: '/static/images/avatar.png',
   socialBanner: '/static/images/twitter-card.png',
@@ -16,6 +16,7 @@ const siteMetadata = {
   facebook: '',
   youtube: '',
   linkedin: 'https://www.linkedin.com/in/ivangonzalezsaiz',
+  kofi: 'https://ko-fi.com/dreamingechoes',
   locale: 'en-US',
   analytics: {
     // supports plausible, simpleAnalytics or googleAnalytics

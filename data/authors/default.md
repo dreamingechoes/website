@@ -1,18 +1,20 @@
 ---
 name: Iván González
-avatar: /static/images/avatar.png
-occupation: Software Engineer
+avatar: /static/images/avatar.svg
+occupation: Engineering Team Leader
 company: Remote
 twitter: https://twitter.com/dreamingechoes
-linkedin: https://www.linkedin.com/dreamingechoes
+gitlab: https://gitlab.com/dreamingechoes
+github: https://github.com/dreamingechoes
+dev: https://dev.to/dreamingechoes
 ---
 
-Software Engineer from the north of Spain interested in all kinds of technologies. I've been working as a software engineer since 2005, starting to develop desktop applications to quickly focus on my true passion: web development.
+👋 Hi! I'm Iván González Sáiz, a senior software engineer with a bachelor's degree in computer science and +12 years of professional experience.
 
-With years of experience working with Ruby, Rails, Elixir, and Phoenix Framework, right now I'm focused on my transition to become a T-Shaped developer: keep making my backend expertise strong while I improve my knowledge of other areas such as frontend, devops, mobile dev, and UI/UX. Working full-remote.
+🙋 T-Shaped profile, although Backend is my core expertise, I can bring value as well in other areas such as Frontend, DevOps, Mobile Dev, and UI/UX. Product-focused, my main goal is to solve problems. I'm also focused on team management, enabling and supporting engineers to give the most out of themselves while growing and improving themselves in the process. Working fully remote since 2016, and managing teams since 2020. I always try to do my best.
 
-Diversity in the tech industry is very important to me, as well as mental health awareness, and accessibility. Always trying to do my best.
+🧑‍💻 My main technical knowledge involves technologies such as Elixir, Phoenix Framework, Ruby, Ruby On Rails, HTML, CSS, Javascript, React, and React Native.
 
-When I'm not working, I like to learn new technologies, write about software development, organize meetups and conferences about software development, mentor new developers, take some photographs, and play the guitar.
+✨ Diversity in the tech industry is very important to me, as well as mental health awareness, and accessibility.
 
-Some of my main technical skills are Elixir, Phoenix Framework, Ruby, Ruby On Rails, Python, HTML, CSS, Javascript, React, React Native, PostgreSQL, MySQL, Docker, AWS, Git, C++, and Java.
+🧘 When I'm not working, I like to learn new technologies, write about software development, organize meetups and conferences, mentor new developers, take some photographs, and play the guitar.
