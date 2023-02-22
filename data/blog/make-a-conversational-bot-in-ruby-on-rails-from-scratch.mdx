@@ -1,0 +1,394 @@
+---
+title: Make a conversational bot in Ruby on Rails from scratch
+date: '2015-10-10'
+tags: ['ruby', 'rails', 'aiml', 'bot']
+draft: false
+summary: This is a post in where we're going to develop a conversational bot with the help of AIML in Ruby on Rails.
+authors: ['default']
+---
+
+Hi everyone! For the first post on my Github's page I was wondering what could I do to make something fun and useful, so I ended with this idea: **make a conversational bot in Ruby on Rails**.
+
+Since I began to study about artificial intelligence some years ago, one of the most interesting fields of this computer science's area for me was the [automated online assistants](https://en.wikipedia.org/wiki/Automated_online_assistant).
+The first approach I found that was kind of simple was [AIML](https://en.wikipedia.org/wiki/AIML), or **Artificial Intelligence Markup Language**. Is a XML dialect that helps you to create natural language bots, developed between 1995 and 2002.
+
+## Let's see an extremely short introduction to AIML
+
+Because all the details about the AIML syntax and usage are properly documented on the [Alicebot](http://www.alicebot.org/aiml.html) website, we're going to see the basis in order to be able to do our very simple first bot.
+
+On this piece of code we have the _Hello wold!_ of AIML (kind of):
+
+```xml
+<aiml version="1.0.1" encoding="UTF-8"?>
+   <category>
+      <pattern> HELLO MY BELOVED BOT! </pattern>
+      <template>
+         Hello my friend! :)
+      </template>
+   </category>
+</aiml>
+```
+
+For this example, the result of the interaction with our bot will be:
+
+```sh
+User: Hello my beloved bot!
+Bot: Hello my friend! :)
+```
+
+As you could see, matches with any XML dialect, having tags, elements and attributes.
+
+So, let's see on detail the pieces we have on this example:
+
+### Tags
+
+`<aiml>` defines the beginning and end of a AIML document.
+`<category>` defines the **unit of knowledge** in bot's knowledge base.
+`<pattern>` defines the pattern to match what a user may input to a bot.
+`<template>` defines the response to user's input.
+
+### Elements
+
+Both tag contents: `HELLO MY BELOVED BOT!` and `Hello my friend! :)`
+
+### Attributes
+
+In this case we only have attributes on the `aiml` tag (`version` and `encoding`), but other `aiml` tags could have attributes as well.
+
+## AIML basic tags
+
+Now that we have a first idea of what is AIML and his goal, for the purpose of this example we are going to see some basic tags (apart from which we had seen) which will help us to make our bot.
+
+### star
+
+Is used to match wild card \* character(s) in `pattern` tag.
+
+#### Syntax
+
+```xml
+<star index = "n"/>
+```
+
+where **n** indicates the position of \* within the user input in `pattern` tag.
+
+```xml
+<category>
+   <pattern> A * is a *. </pattern>
+   <template>
+      When a <star index="1"/> is not a <star index="2"/>?
+   </template>
+</category>
+```
+
+If user enters _"A mango is a fruit."_ then bot will respond as _"When a mango is not a fruit?"_.
+
+### srai
+
+Is a multipurpose tag. This tag enables AIML to define different targets for same template.
+
+#### Syntax
+
+```xml
+<srai> pattern <srai/>
+```
+
+The commonly used terms associated with `srai` are:
+
+- Symbol Reduction
+- Divide and Conquer
+- Synonyms resolution
+- Keywords detection
+
+Having this `aiml` file defined:
+
+```xml
+<category>
+   <pattern>WHO IS ALBERT EINSTEIN?</pattern>
+   <template>Albert Einstein was a german physicist.</template>
+</category>
+<category>
+   <pattern> WHO IS ISSAC NEWTON? </pattern>
+   <template>Issac Newton was a english physicist and mathematician.</template>
+</category>
+
+<category>
+   <pattern>DO YOU KNOW WHO * IS?</pattern>
+   <template>
+      <srai>WHO IS <star/></srai>
+   </template>
+</category>
+```
+
+If user enters _"Do you know who Albert Einstein is?"_ then bot will respond with the template defined on the pattern `WHO IS ALBERT EINSTEIN?`: _"Albert Einstein was a german physicist."_.
+
+### random
+
+Is as name suggests used to get random responses. This tag enables AIML to respond differently for same input. `random` tag is used along with `li` tags. `li` tags carries different responses that are to be delivered to user on random basis.
+
+#### Syntax
+
+```xml
+<random>
+<li> pattern1 </li>
+<li> pattern2 </li>
+...
+<li> patternN </li>
+</random>
+```
+
+For example, consider following conversation:
+
+```sh
+Human: Hi
+Robot: Hello!
+Human: Hi
+Robot: Hi! Nice to meet you!
+```
+
+Now we are ready to do our first simple bot (AIML has more tags, but for the purpose of this post, with this three tags is enough). If you want to get deeper on this, check [this tutorial](http://www.tutorialspoint.com/aiml/index.htm) (in fact, the examples shown here are picked directly from there).
+
+## Ok, but... why this should be fun?
+
+Well, apart from the fun that implies learn new things, we could do a conversational bot of anything, so let's do one with your favorite comedian. In my case, this is the Spanish comedian [Chiquito de la Calzada](https://en.wikipedia.org/wiki/Chiquito_de_la_Calzada):
+
+![Chiquito de la Calza](/static/images/blog/make-a-conversational-bot-in-ruby-on-rails-from-scratch/chiquito.gif)
+
+_Chiquito de la Calzada in all his glory. Please don't fall hypnotized by the gif, I know is hard, but let's continue._
+
+## Building a super simple Ruby on Rails app
+
+Well, we could make the robot using the `irb` console to interact with it (no user interface of any kind), but as we will make the bot in Ruby, why not make a simple Rails application and give a touch of fun?
+
+We will use one of the gems that more I love when it comes to make an application in a matter of minutes: [rails apps composer](https://github.com/RailsApps/rails_apps_composer).
+
+Basically is a gem through a fairly simple question/answer process helps you create a fully functional Rails application. We will have to follow these steps:
+
+```sh
+$ mkdir myapp
+$ cd myapp
+$ rvm use ruby-2.2.2@myapp --ruby-version --create
+$ gem install rails
+$ gem install rails_apps_composer
+$ gem install rvm # (only needed if creating a project-specific rvm gemset)
+$ rails_apps_composer new . -r core
+```
+
+After answering the questions that the gem makes us, we will have our Rails application. In this case, as it is an application that will not have database or anything special, we try to specify the most basic options. In my case I chose that I would generate a Rails application example, based on [bootstrap framework](http://getbootstrap.com/), with only the **home** and **about** views.
+
+With a little CSS and some HTML we'll have a view like this (don't worry if I don't put the code in detail, at the end of the post you have a link to the repository where the final example is):
+
+![screenshot](/static/images/blog/make-a-conversational-bot-in-ruby-on-rails-from-scratch/bot-1.png)
+
+As you can see, is a very simple view: an image, an area where the bot will display the response, text input and a button to interact.
+
+## Programr, the gem that will help us to create the bot
+
+Now we have our Rails application, let's move to manage files `aiml` we will generate for our bot. The `aiml` files alone do not result in the bot, but we need something the interpreter. In much of modern programming languages there an implementation to interpret these files (from Java to C, and of course, Ruby).
+
+The Github user [Bob Whitney](https://github.com/robertjwhitney) has ported [http://aiml-programr.rubyforge.org/](http://aiml-programr.rubyforge.org/) to a gem. That gem is [Programr](https://github.com/robertjwhitney/programr), a Ruby implementation of an interpreter for the **Artificial Intelligence Markup Language**.
+
+We only have to add this gem into our `Gemfile` and run the `bundle install` command.
+
+In the README's gem you have a simple example of usage, that I put here:
+
+```ruby
+# programr_test.rb
+
+require 'bundler'
+Bundler.setup :default
+
+require 'programr'
+
+if ARGV.empty?
+  puts 'Please pass a list of AIMLs and/or directories as parameters'
+  puts 'Usage: ruby programr_test.rb {aimlfile|dir}[{aimlfile|dir}]...'
+  exit
+end
+
+robot = ProgramR::Facade.new
+robot.learn(ARGV)
+
+while true
+  print '>> '
+  s = STDIN.gets.chomp
+  reaction = robot.get_reaction(s)
+  STDOUT.puts "<< #{reaction}"
+end
+```
+
+`robot = ProgramR::Facade.new` returns us an instance of `ProgramR::Facade` model. `ARGV` contains (or should contain if we pass the info properly), the `aiml` file or folder that contains the list of `aiml` files of our bot.
+
+`robot.learn(ARGV)` parse the `aiml` files and keep in memory all the information for manage the bot conversation.
+
+`reaction = robot.get_reaction(s)` sends to the bot an entry (`s` contains the user message), match the user message with any of the bot patterns, and returns a response as result. Very simple and easy to understand. Let's integrate **Programr** with our Rails app!
+
+First of all, create a folder in `lib` directory with the name of your bot (in my case, _chiquibot_) and put there all your `aiml` files. Then create a new initializer to load all the information:
+
+```ruby
+require 'programr'
+
+brains = Dir.glob("lib/chiquibot/*")
+
+CHIQUIBOT = ProgramR::Facade.new
+CHIQUIBOT.learn(brains)
+```
+
+At the end we'll have something like this:
+
+```
+.
++-- app
++-- bin
++-- config
+|   +-- initializers
+|       +-- chiquibot.rb
++-- db
++-- lib
+|   +-- chiquibot
+|       +-- chiquibot.aiml
+|       +-- ...
++-- log
++-- public
+|   ...
+```
+
+This will load the `aiml` files when the Rails server starts. The next step is create an action on `ApplicationController` we could call via `Ajax` to get the bot response. Simply add this code into the controller:
+
+```ruby
+class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+
+  def ask_chiquito
+    reaction = CHIQUIBOT.get_reaction(params[:query])
+    render json: { response: reaction.present? ? reaction : '¿Comorl?' }
+  end
+end
+```
+
+and then add the route on `routes.rb` file:
+
+```ruby
+get 'ask_chiquito', to: 'application#ask_chiquito'
+```
+
+Ok! We're almost done! Now the only thing we have to do is code some JS in order to do the Ajax call to our action. Let's do it simple, adding this few lines of code into our `application.js`:
+
+```javascript
+$(document).ready(function () {
+  $('#al-ataquerl').on('click', function (event) {
+    $.ajax({
+      url: '/ask_chiquito',
+      type: 'json',
+      method: 'get',
+      data: { query: $('#query').val() },
+      success: function (data) {
+        $('.chiquibot-response').removeClass('hide')
+        $('#chiquito-response').html(data['response'])
+        $('#query').val('')
+      },
+    })
+  })
+})
+```
+
+As you can see, on the `click` event hover the button with ID `#al-ataquerl` we do an `ajax` request to the url of our action, with the content of the input with ID `#query` as query. Finally on `success`, we update the `div` with ID `#chiquito-response` changing his `html` content with the one stored on `data['response']`. Simple as that!
+
+Now if you send some message that matches with any of the patterns you have stored on your `aiml` files, you should see something like this:
+
+![screenshot](/static/images/blog/make-a-conversational-bot-in-ruby-on-rails-from-scratch/bot-2.png)
+
+In my case, I have done a very very simple `aiml` file with a few sentences as an example, but I encourage you to do the smartest bot ever made! Here is my `aiml` file:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <aiml version="1.0">
+
+    <category>
+      <pattern>HOLA *</pattern>
+      <template>
+        Buenos días Grijando More, ¿qué quieres?
+      </template>
+    </category>
+
+    <category>
+      <pattern>ADIOS *</pattern>
+      <template>
+        ¡Hasta luego Lucaaaaaas!
+      </template>
+    </category>
+
+    <category>
+      <pattern>CHIQUITO *</pattern>
+      <template>
+        <random>
+          <li>¿Qué quieres, pecador de la pradera?</li>
+          <li>¡Jaaaaaaaaarl!, ¡Qué dise tu!</li>
+        </random>
+      </template>
+    </category>
+
+    <category>
+      <pattern>* CHISTE</pattern>
+        <template>
+          <random>
+            <li>
+              Dos amigos:
+              - Oye, pues mi hijo en su nuevo trabajo se siente como pez en el agua.
+              - ¿Qué hace?
+              - Nadaaaaaaarl
+            </li>
+            <li>
+              - Mi amor, estoy embarazada. ¿Qué te gustaría que fuera?
+              - ¿Una bromaaaaarl?
+            </li>
+            <li>
+              - ¿Por qué se suicidó el libro de matemáticas?.
+              - Porque tenia muchos problemas, ¡cobarde!
+            </li>
+          </random>
+      </template>
+    </category>
+
+    <category>
+      <pattern>* CONSEJO</pattern>
+      <template>
+        <random>
+          <li>¡Ten cuidadínnn no te hagas pupita en el fistro duodenalll!</li>
+          <li>Relájate físicamente, morálmente</li>
+          <li>¡Relájese usterl!</li>
+        </random>
+      </template>
+    </category>
+
+    <category>
+      <pattern>* FRASES</pattern>
+      <template>
+        <random>
+          <li>¡Trabaja menos que el sastre de Tarzán!</li>
+          <li>¡Eres más peligroso que un tiroteo en un ascensooooorl!</li>
+          <li>¡No puedo, no puedooooorl!</li>
+        </random>
+      </template>
+    </category>
+
+    <category>
+      <pattern>CANTA *</pattern>
+      <template>
+        <random>
+          <li>¡Sieteee caballo que vienennn de Bonanzaaarrlll!</li>
+          <li>¡Lo maté en agosto, la calóh apretabaaaaaa!</li>
+        </random>
+      </template>
+    </category>
+
+</aiml>
+```
+
+## Any place where I can see the result?
+
+Yeah! Here you have the [Github repo](https://github.com/dreamingechoes/chiquibot) for this example, so you can clone it, change it, play with it... whatever you want! 😄
+
+I hope you like this post and helps you to do the first step to immerse you into AI. And please, keep in mind this precious words from Chiquito de la Calzada:
+
+> ¡No te digo trigo por no llamarte Rodrigoooooooorl!
