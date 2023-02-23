@@ -1,23 +1,15 @@
-import Dev from './devto.svg'
-import Facebook from './facebook.svg'
-import Github from './github-icon-1.svg'
+import Github from './github.svg'
 import Gitlab from './gitlab.svg'
 import Linkedin from './linkedin.svg'
-import Mail from './mail.svg'
-import Twitter from './twitter-6.svg'
-import Youtube from './youtube.svg'
-
-// Icons taken from: https://simpleicons.org/
+import Linktree from './linktree.svg'
+import Twitter from './twitter.svg'
 
 const components = {
-  mail: Mail,
   github: Github,
-  facebook: Facebook,
-  youtube: Youtube,
   linkedin: Linkedin,
+  linktree: Linktree,
   twitter: Twitter,
   gitlab: Gitlab,
-  dev: Dev,
 }
 
 const SocialIcon = ({ kind, href, size = 8 }) => {

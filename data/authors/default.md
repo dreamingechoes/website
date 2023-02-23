@@ -2,11 +2,12 @@
 name: Iván González
 avatar: /static/images/avatar.svg
 occupation: Engineering Team Leader
-company: Remote
-twitter: https://twitter.com/dreamingechoes
-gitlab: https://gitlab.com/dreamingechoes
+company: Remote.com
 github: https://github.com/dreamingechoes
-dev: https://dev.to/dreamingechoes
+gitlab: https://gitlab.com/dreamingechoes
+linkedin: https://www.linkedin.com/in/ivan-gonzalez-saiz/
+linktree: https://linktr.ee/dreamingechoes
+twitter: https://twitter.com/dreamingechoes
 ---
 
 👋 Hi! I'm Iván González Sáiz, a senior software engineer with a bachelor's degree in computer science and +12 years of professional experience.
