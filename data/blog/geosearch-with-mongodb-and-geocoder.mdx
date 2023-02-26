@@ -1,0 +1,273 @@
+---
+title: Geosearch with MongoDB and Geocoder
+date: '2015-11-02'
+tags: ['ruby', 'rails', 'mongodb']
+draft: false
+summary: Create a simple geosearch form with MongoDB and Geocoder Rails gem.
+authors: ['default']
+---
+
+Find the perfect shop near you when you are in a hurry and need something is important, so today we're gonna do a geosearch example to help our users and make their lives easier.
+
+## The beginning: the app where your data is
+
+As usual in my related posts about Rails apps, we'll use [rails apps composer](https://github.com/RailsApps/rails_apps_composer) to create our very simple example. We'll have to follow the same steps as always:
+
+```sh
+$ mkdir myapp
+$ cd myapp
+$ rvm use ruby-2.2.2@myapp --ruby-version --create
+$ gem install rails
+$ gem install rails_apps_composer
+$ gem install rvm # (only needed if creating a project-specific rvm gemset)
+$ rails_apps_composer new . -r core
+```
+
+After answering the questions that the gem makes us, we'll have our Rails application. We try to specify the most basic options. In my case I chose that I would generate a Rails application example, based on [bootstrap framework](http://getbootstrap.com/), with only the **home** and **about** views, and due to we're going to use MongoDB, we have to skip ActiveRecord when they ask for.
+
+Then we only need to do a scaffold in order to make the model we need for the example (in my case, Shop). So, with that, and adding some HTML and CSS, we'll finish with something like this:
+
+![screenshot](/static/images/blog/geosearch-with-mongodb-and-geocoder/geocoder-1.jpg)
+
+To use MongoDB instead of MySQL we're going to use [MongoID](https://docs.mongodb.org/ecosystem/tutorial/ruby-mongoid-tutorial/#ruby-mongoid-tutorial). As you could see in his documentation, is very simple to integrate in our Rails application. We only need to add the gem in our Gemfile, do the `bundle install` thing, and execute the mongoid generator in order to get the `mongoid.yml` file with the configuration of our database:
+
+```ruby
+gem 'mongoid'
+```
+
+```sh
+$ bundle install
+$ rails g mongoid:config
+```
+
+The final `mongoid.yml` file will looks something like this:
+
+```yaml
+development:
+  clients:
+    default:
+      database: geosearch_with_mongodb_dev
+      hosts:
+        - localhost:27017
+```
+
+The fields that we'll define for our Shop model are (don't worry, as always, at the end of the post I'll put links to the repo with the final code to the example mounted on Heroku):
+
+```ruby
+field :name, type: String
+field :description, type: String
+field :address, type: String
+field :image_url, type: String
+field :coordinates, :type => Array
+```
+
+I assume that you know how MongoID works (no migrations, fields defined in our models...). Maybe in one future post I'll explain more in detail the particularities of NoSQL databases. Ok, now that we have our simple app with Shop model and some entries, let's do some geosearch!
+
+## Geocoder, the gem that enhance the MongoDB geosearch capabilities
+
+MongoID has out of the box the capability of do geosearchs with our models as you could see in MongoDB [documentation](https://docs.mongodb.org/manual/reference/operator/query/near/), but in order to geolocate our shops and be able to search by locations, we could enhance a little more this capability and do it easier with [Geocoder](https://github.com/alexreisner/geocoder).
+
+Is as simple as add the gem in our Gemfile and follow their documentation:
+
+```ruby
+gem 'geocoder'
+```
+
+```sh
+$ bundle install
+```
+
+After that, we're ready to change our Shop model to add all his functionality. First, we have to include the `Geocoder::Model::Mongoid` module and then call `geocoded_by`:
+
+```ruby
+include Geocoder::Model::Mongoid
+
+geocoded_by :address               # can also be an IP address
+after_validation :geocode          # auto-fetch coordinates
+```
+
+This allows our app to automatically extract the `coordinates` of our model with nothing more than complete the address field. We could do too the inverse thing, completing the `address` field automatically with the `coordinates` we insert. To do this, we have to add this lines in our model:
+
+```ruby
+reverse_geocoded_by :coordinates
+after_validation :reverse_geocode  # auto-fetch address
+```
+
+Now we have to execute the following rake to generate the necessary spatial indices in our database:
+
+```sh
+rake db:mongoid:create_indexes
+```
+
+To avoid unnecessary executions of the automatically filling of the fields, we could set a validation to check if is necessary to do that or not:
+
+```ruby
+after_validation :reverse_geocode, if: ->(obj){ obj.coordinates.present? }
+after_validation :geocode, if: ->(obj){ obj.address.present? }
+```
+
+So, at the end, we'll have a Shop model like this:
+
+```ruby
+class Shop
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  include Geocoder::Model::Mongoid
+
+  field :name, type: String
+  field :description, type: String
+  field :address, type: String
+  field :image_url, type: String
+  field :coordinates, :type => Array
+
+  geocoded_by :address
+  reverse_geocoded_by :coordinates
+  after_validation :reverse_geocode, if: ->(obj){ obj.coordinates.present? }
+  after_validation :geocode, if: ->(obj){ obj.address.present? }
+end
+```
+
+Geocoder has lot of more features than this, you could check it in their documentation, but for the purpose of this post with that we have enough. Next step, do some searches and display the results to the user!
+
+## Searching and drawing some maps with GMapz
+
+Firstly, let's develop an action in our `ApplicationController` to send our search and return some results. Nothing very fancy, as simply as you could see in this block of code:
+
+```ruby
+def search_shops
+ address_coordinates = Geocoder.coordinates(params[:query])
+ shops = Shop.near(address_coordinates, params[:distance], units: :km)
+             .only(:description, :coordinates)
+             .limit(params[:limit])
+
+ render json: { response: shops }
+end
+```
+
+With `Geocoder.coordinates(params[:query])`, Geocoder determines the spatial coordinates of the address that we introduce in our search form. To find shops near that address, we simply use the `near` method that Geocoder gives to our Shop model, passing as parameters of the method the address coordinates, and optionally, the maximum distance that we let, and the units of that distance (e.g., km).
+
+Once the `near` method give the proper results, we only have to return this results as `json` to work with this information.
+
+So, the idea is to send an Ajax request with the corresponding params, and in the success event, draw the shops on a Google Map. For this, we're going to use [GMapz](https://github.com/carloscabo/gmapz), a (work in progress) javascript library made by one of my co-workers, one of the brightest minds I know when it comes to the Frontend world, [Carlos Cabo](https://github.com/carloscabo). Is simple, is easy to use, and is powerful enough to cover practically all the needs that you could have if you need to integrate Google Maps on your site.
+
+For that, I'll use the gem that I had made with his library, ported to a Rails gem (you could see how to gemify a javascript library or any asset on [this post](http://dreamingecho.es/blog/gemify-your-assets-in-less-than-10-minutes/)). You could see the gem [here](https://github.com/carloscabo/gmapz). So, let's add the gem to our Gemfile and do the `bundle install` thing:
+
+```ruby
+gem 'gmapz'
+```
+
+```sh
+$ bundle install
+```
+
+Then, simply add this line to your js manifest file:
+
+```javascript
+//= require gmapz_rails
+```
+
+And we're ready to go. All the documentation about GMapz is [here](http://carloscabo.github.io/gmapz/), please check it if you want to know all the capabilities of this library, but let's see some simple options to prepare our map. In our javascript code, as first step we're going to put this:
+
+```javascript
+GMapz.debug = true
+
+GMapz.pins = {
+  default: {
+    pin: {
+      img: 'http://maps.google.com/mapfiles/ms/micons/purple.png',
+      size: [32.0, 32.0],
+      anchor: [16.0, 32.0],
+    },
+  },
+}
+```
+
+We're enabling debug mode for our maps (this lets put `console.log` messages on the browser console). The second half of the code give us the possibility of customize the image of the pin of the marker (image, size, position...). In order to finish with the configuration, we could specify some aspects such as the type of map, the initializer center point, the zoom level... After complete all the options, we simply need to initialize the GMapz:
+
+```javascript
+var results_map_options = {
+  mapTypeId: 'ROADMAP', // Map type
+  center: [40.337977, -3.709757], // Center of the map when it initializes
+  zoom: 5, // Zoom level at init
+}
+
+var results_map = new GMapz.map(
+  $('#results-map'), // ID of the HTML element where the map will appear
+  results_map_options // Hash of options
+)
+```
+
+The last step to have our map ready to display the results of our searches is to determine how we want to behave when all is properly charged and ready to go. With the piece of code we have here we are binding the `click` event of the search button to execute the `ask_for_shops()` function:
+
+```javascript
+results_map.onReady = function () {
+  $(document).on('click', '#search', function (event) {
+    ask_for_shops()
+  })
+
+  markers_array = $.map(this.markers, function (val, idx) {
+    return [val]
+  })
+}
+```
+
+The code of this function is:
+
+```javascript
+function ask_for_shops() {
+  $.ajax({
+    url: '/search_shops',
+    type: 'json',
+    method: 'get',
+    data: { query: $('#address').val(), distance: $('#distance').val(), limit: $('#limit').val() },
+    success: function (data) {
+      if (data['response'].length == 0) {
+        $('#bs-callout-error').removeClass('hide')
+        $('#message-error').html(
+          'No shops found with the data of the request. Try again with other address. Clue: try "Calle Uria, Oviedo"'
+        )
+      } else {
+        var results = {}
+        var i = 0
+        $('#bs-callout-error').addClass('hide')
+        $.each(data['response'], function (index, element) {
+          results[i] = {
+            lat: element.coordinates[1],
+            lng: element.coordinates[0],
+            iw: element.description,
+          }
+          i += 1
+        })
+        results_map.addLocations(results).centerToMarker(0, 14)
+        $('#distance').val('')
+        $('#limit').val('')
+        $('#address').val('')
+      }
+    },
+    error: function () {
+      $('#bs-callout-error').removeClass('hide')
+      $('#message-error').html(
+        'There has been some error to process the request. Please complete all data.'
+      )
+    },
+  })
+}
+```
+
+As you could see, is simply an ajax request to the action we develop earlier, sending the info we introduce. On `success`, we check the `data` returned. If there are no data returned, we display an error message. In other case, We iterate over the hash returned and we made the hash with the info needed by GMapz to draw the shops. For each of the points to show, GMapz need the latitude, the longitude, and a message to display if we click on the marker.
+
+Finally, for GMapz could display the map in some area of our site, we just have to add a `div` in your HTML with the `id` that we specified when creating the new map:
+
+```html
+<div id="map-wrapper">
+  <div class="map" id="results-map"></div>
+</div>
+```
+
+And that's all folks! Now you can do some searches and see how all works as a charm. Here you have some screenshots of the final result:
+
+![screenshot](/static/images/blog/geosearch-with-mongodb-and-geocoder/geocoder-2.jpg)
+
+## Any place where I can see the result?
+
+Yeah! Here you have the [Github repo](https://github.com/dreamingechoes/geosearch_with_mongodb) for this example, so you can clone it, change it, play with it... whatever you want! 😄

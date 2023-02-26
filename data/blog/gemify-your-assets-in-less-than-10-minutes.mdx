@@ -1,0 +1,213 @@
+---
+title: Gemify your assets in less than 10 minutes
+date: '2015-10-17'
+tags: ['ruby', 'rails', 'gem']
+draft: false
+summary: Learn how to convert your Javascript library or any other asset into a Rails gem.
+authors: ['default']
+---
+
+If you develop a javascript library for some useful purpose and you share it with the community, you are a great person. But besides that, if you translate that into a Rails gem to use in any Rails project, you are a wonderful person. Today we're going to see how we could make a Rails gem in order to have our super fancy javascript library available to add in any gemfile.
+
+## First step, let's do a super fancy javascript library
+
+For this example, the first thing we have to do is our javascript library. Some super simple but funny thing, e.g., a javascript library to add random **Giphy** gifs in our HTML. Because the purpose of this post isn't develop this library, let's pretend that we have developed and looks like this:
+
+```javascript
+/**
+ * Core and general tools
+ */
+;(function ($, undefined) {
+  'use strict'
+
+  // Singleton
+  if (typeof window.RandomGiphyImageRails !== 'undefined') {
+    return
+  }
+
+  //
+  // Module general vars
+  //
+  var v = '1.00 beta',
+    debug = false,
+    data = {
+      api_key: 'dc6zaTOxFJmzC',
+      query: 'happy',
+      element_class: 'giphyme',
+    }
+
+  //
+  // Methods
+  //
+
+  // Adds Giphy gifs into the elements with class data.element_class
+  function giphyme() {
+    var elements = $('.' + data.element_class)
+    $.each(elements, function (key, value) {
+      if (this.debug) console.info(value)
+      updateGiphyImage($(value))
+    })
+  }
+
+  // Return Giphy gif URL string.
+  function updateGiphyImage(element) {
+    $.ajax({
+      method: 'GET',
+      url: 'http://api.giphy.com/v1/gifs/random',
+      data: { api_key: data.api_key, tag: data.query },
+      success: function (response) {
+        if (this.debug) console.info(response.data.image_url)
+        element.html('<img src="' + response.data.image_url + '" alt="Gif via Giphy" />')
+      },
+      error: function () {
+        if (this.debug) console.info('Giphy Api call error.')
+      },
+    })
+  }
+
+  //
+  // Public methods / properties
+  //
+  window.RandomGiphyImageRails = {
+    debug: debug,
+    data: data,
+    giphyme: giphyme,
+  }
+})(jQuery)
+```
+
+With this library, we could do something like this:
+
+```javascript
+$(document).ready(function () {
+  // Set debug mode (for console logs)
+  RandomGiphyImageRails.debug = true
+
+  // Testing api key by default if you don't specify one
+  RandomGiphyImageRails.data.api_key = 'YOUR_GIPHY_API_KEY'
+
+  // Class of the HTML element where you want to put the gif
+  RandomGiphyImageRails.data.element_class = 'giphyme'
+
+  // Query or tag of your random gif
+  RandomGiphyImageRails.data.query = 'nintendo'
+
+  // Executes the random gif thing
+  RandomGiphyImageRails.giphyme()
+})
+```
+
+And then put one or more HTML tags in your views:
+
+```html
+<body>
+  <div class="giphyme"></div>
+</body>
+```
+
+Refresh your page and... voila! :)
+
+## Wow! Awesome! So... let's gemify this jewel!
+
+An asset gem is just an extremely simple engine. **Bundler** makes it simple to create the files and directories necessary for creating a gem. We only have to do the follow steps:
+
+```sh
+$ bundle gem random_giphy_image_rails
+```
+
+This will create basically the following tree:
+
+```
+.
+├── Gemfile
+├── lib
+│   ├── timeago
+│   │   └── rails
+│   │           └── version.rb
+│   └── rails.rb
+├── LICENSE.txt
+├── Rakefile
+├── README.md
+└── random_giphy_image_rails.gemspec
+```
+
+## Turn the gem into an engine
+
+Bundler create the gem as a standard Ruby module, but we want it to be a Rails Engine. So in our `lib/random_giphy_image_rails.rb` file we are going to specify this:
+
+```ruby
+require "random_giphy_image_rails/version"
+
+module RandomGiphyImageRails
+  module Rails
+    class Engine < ::Rails::Engine
+    end
+  end
+end
+```
+
+All we're doing here is declaring the gem as a Rails Engine. This will cause Rails to add its directories to the load path when the gem is required.
+
+Next step: add our javascript library. We're going to create in our gem the directory `vendor`, with directories `stylesheets`, `javascript` and `images` inside, so we finish with something like this:
+
+```
+.
+├── Gemfile
+├── lib
+│   ├── timeago
+│   │   └── rails
+│   │           └── version.rb
+│   └── rails.rb
+├── LICENSE.txt
+├── Rakefile
+├── README.md
+└── random_giphy_image_rails.gemspec
+└── vendor
+        └── assets
+                 ├── images
+                 ├── javascripts
+                 │             └── random_giphy_image_rails.js
+                 └── stylesheets
+```
+
+Make a simple readme file with the gem as documentation, and we're done! Ok no... it remains one last step.
+
+## Push it to GitHub & RubyGems
+
+Create a **GitHub** repository for the gem, stage all of your commits, commit, and push the code to **GitHub**. If you've never published a gem on **RubyGems** before, you'll need to sign up for an account there. Your account settings will contain an API key that should be copied to `~/.gem/credentials`. Publishing your gem is as simple as:
+
+```sh
+$ rake release
+```
+
+Yes now! Finally we're done. From here we can use our newly released Rails gem in any project by simply adding to our Gemfile:
+
+```ruby
+gem 'random_giphy_image_rails'
+```
+
+and then execute:
+
+```sh
+$ bundle
+```
+
+or install it yourself as:
+
+```sh
+$ gem install random_giphy_image_rails
+```
+
+Then, add this into your `application.js` file:
+
+```ruby
+//= require random_giphy_image_rails
+```
+
+Oooooooooooooh yeah!
+
+![Oh yeah!](/static/images/blog/gemify-your-assets-in-less-than-10-minutes/gem.jpg)
+
+## Any place where I can see the result?
+
+Yeah! Here you have the [Github repo](https://github.com/dreamingechoes/random_giphy_image_rails) for this example, so you can clone it, change it, play with it... whatever you want! 😄
