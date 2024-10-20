@@ -23,6 +23,6 @@ twitter: https://twitter.com/dreamingechoes
 🧘 Outside of work, I'm a perpetual learner of emerging technologies. Organizing meetups and conferences allows me to connect with like-minded professionals, and I find fulfillment in mentoring aspiring developers. You can see me capturing moments through photography or strumming on my guitar.
 
 <a href="https://mentorcruise.com/mentor/ivngonzlezsiz/">
-  <img src="https://cdn.mentorcruise.com/img/banner/navy-sm.svg" width="240" alt="MentorCruise">
+  <img src="https://cdn.mentorcruise.com/img/banner/navy-sm.svg" width="240" alt="MentorCruise" />
 </a>
 
