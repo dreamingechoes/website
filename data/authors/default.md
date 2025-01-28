@@ -10,19 +10,37 @@ linktree: https://linktr.ee/dreamingechoes
 twitter: https://twitter.com/dreamingechoes
 ---
 
-👋 Hi folks! I'm Iván, a seasoned software engineer passionate about building outstanding digital solutions. I have a bachelor's degree in computer science and 15 years of professional experience.
+# 👋 Hi folks!
 
-🙋 I've got a T-shaped profile. While my core specialization lies in Backend development, I've also delved into several other exciting domains, including Frontend, DevOps, Mobile Development, and UI/UX. I love taking on complex challenges and creating product-oriented solutions that make a real impact.
+I'm a **Software Engineer & Engineering Team Leader** passionate about **scaling teams, building impactful digital products, and mentoring engineers**. With **15+ years of experience**, I specialize in **backend development** but have also explored **frontend, DevOps, mobile, and UI/UX** to create **holistic, product-oriented solutions**.  
 
-🧑‍💻 Being a team player is in my DNA, and I've been leading excellent teams since 2020. I'm all about empowering fellow engineers, nurturing their growth, and creating a healthy and supportive work environment. Remote work has been my thing since 2016, and I thrive on delivering excellence in every project.
+## 🚀 What I Do  
+🏢 **Engineering Team Leader** at [Remote](https://remote.com) – Leading distributed teams, optimizing architectures, and driving engineering strategy.  
+🧑‍🏫 **Mentor at MentorCruise** – Helping engineers grow in **software development, leadership, and career progression**.  
+🌍 **Tech Community Organizer & Speaker** – Founder of **Elixir Asturias**, co-organizer of **FabadaConf**, and advocate for **DEI & Mental Health in Tech**.  
 
-🧰 My technical toolbox is quite diverse, and I'm proficient in various technologies, such as Elixir, Phoenix Framework, Ruby, Ruby on Rails, HTML, CSS, JavaScript, React, and React Native.
+## 🛠️ My Tech Toolbox  
+🔹 **Backend:** Elixir, Phoenix, Ruby, Rails, Node.js  
+🔹 **Frontend:** JavaScript, TypeScript, React, Next.js  
+🔹 **Databases:** PostgreSQL, MySQL  
+🔹 **DevOps & Cloud:** AWS, Docker, CI/CD  
+🔹 **Currently Learning:** React Native, Design Systems, Erlang, Elm  
 
-✨ Beyond coding, I actively promote diversity in the tech industry and advocate for mental health and accessibility awareness. These topics are close to my heart, and I believe they're essential for creating a more inclusive and supportive community.
+## 💡 My Philosophy on Engineering & Leadership  
+I believe that **great engineering goes beyond writing code**—it’s about **building strong teams, fostering collaboration, and creating solutions that drive real impact**. Since **2020, I've been leading teams**, focusing on **mentorship, career growth, and remote-first best practices**.  
 
-🧘 Outside of work, I'm a perpetual learner of emerging technologies. Organizing meetups and conferences allows me to connect with like-minded professionals, and I find fulfillment in mentoring aspiring developers. You can see me capturing moments through photography or strumming on my guitar.
+## 🎤 Beyond Code  
+✨ **Diversity & Mental Health Advocacy** – Promoting inclusivity in tech through **mentoring, public speaking, and community engagement**.  
+🎵 **Music & Photography Enthusiast** – When I’m not writing code, I’m either **playing guitar or capturing moments through my camera**.  
+🎤 **Public Speaker & Educator** – Sharing knowledge at conferences, meetups, and tech events.  
+
+## 🔗 Let's Connect!  
+📩 **Email:** hi@dreamingecho.es  
+💼 **LinkedIn:** [linkedin.com/in/ivan-gonzalez-saiz](https://linkedin.com/in/ivan-gonzalez-saiz)  
+🎓 **Mentorship:** [Book a session with me on MentorCruise](https://mentorcruise.com/mentor/ivngonzlezsiz/)  
+
+---
 
 <a href="https://mentorcruise.com/mentor/ivngonzlezsiz/">
   <img src="https://cdn.mentorcruise.com/img/banner/navy-sm.svg" width="240" alt="MentorCruise" />
 </a>
-
