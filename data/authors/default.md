@@ -29,7 +29,7 @@ I'm a **Software Engineer & Engineering Team Leader** passionate about **scaling
 ## 💡 My Philosophy on Engineering & Leadership  
 I believe that **great engineering goes beyond writing code**—it’s about **building strong teams, fostering collaboration, and creating solutions that drive real impact**. Since **2020, I've been leading teams**, focusing on **mentorship, career growth, and remote-first best practices**.  
 
-## 🎤 Beyond Code  
+## 😄 Beyond Code  
 ✨ **Diversity & Mental Health Advocacy** – Promoting inclusivity in tech through **mentoring, public speaking, and community engagement**.  
 🎵 **Music & Photography Enthusiast** – When I’m not writing code, I’m either **playing guitar or capturing moments through my camera**.  
 🎤 **Public Speaker & Educator** – Sharing knowledge at conferences, meetups, and tech events.  
