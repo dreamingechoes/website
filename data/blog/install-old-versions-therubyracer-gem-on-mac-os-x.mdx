@@ -1,0 +1,32 @@
+---
+title: Install Old Versions of therubyracer Gem on Mac OS X
+date: '2017-08-19'
+tags: ['ruby', 'macOS', 'troubleshooting']
+draft: false
+summary: Installing older versions of the therubyracer gem on Mac OS X Yosemite can be tricky. Here’s how to fix it.
+authors: ['default']
+---
+
+When attempting to install version `0.10.2` of the `therubyracer` gem on Mac OS X Yosemite, I ran into some issues. After trying various solutions, I found one that worked reliably for me.
+
+Here’s the step-by-step process that solved the problem:
+
+```sh
+brew tap homebrew/dupes
+brew install apple-gcc42
+
+export CC=/usr/local/Cellar/apple-gcc42/4.2.1-5666.3/bin/gcc-4.2
+export CXX=/usr/local/Cellar/apple-gcc42/4.2.1-5666.3/bin/g++-4.2
+export CPP=/usr/local/Cellar/apple-gcc42/4.2.1-5666.3/bin/cpp-4.2
+
+brew uninstall v8
+gem uninstall libv8
+gem install therubyracer -v '0.10.2'
+```
+
+## Where Can I Find This Code?
+
+If you want to quickly reference this solution, check out my [GitHub Gist](https://gist.github.com/dreamingechoes/9b76b7eaf86ff1961804) containing the full set of commands.
+
+Hopefully, this saves you some troubleshooting time! If you run into any other issues, feel free to share them.
+
