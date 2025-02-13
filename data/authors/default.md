@@ -39,9 +39,3 @@ I believe that **great engineering goes beyond writing code**—it’s about **b
 📄 **Resume:** [Check it out here](https://drive.google.com/file/d/1QzH074991QS4YYEOymR3rh5QkXtRewKh/view?usp=sharing)  
 💼 **LinkedIn:** [linkedin.com/in/ivan-gonzalez-saiz](https://linkedin.com/in/ivan-gonzalez-saiz)  
 🎓 **Mentorship:** [Book a session with me on MentorCruise](https://mentorcruise.com/mentor/ivngonzlezsiz/)  
-
----
-
-<a href="https://mentorcruise.com/mentor/ivngonzlezsiz/">
-  <img src="https://cdn.mentorcruise.com/img/banner/navy-sm.svg" width="240" alt="MentorCruise" />
-</a>
