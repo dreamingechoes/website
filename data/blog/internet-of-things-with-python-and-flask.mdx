@@ -1,0 +1,179 @@
+---
+title: Flask and Raspberry Pi for IoT Projects
+date: '2025-02-13'
+tags: ['iot', 'flask', 'raspberry-pi', 'python']
+draft: false
+summary: Learn how to set up a Flask web application on a Raspberry Pi to interact with physical components for an IoT project.
+authors: ['default']
+---
+
+I’m an Internet-of-Things enthusiast—I love working with physical software, Arduino, and Raspberry Pi. Over the years, I’ve experimented with different combinations like Arduino+PHP, Arduino+Rails, Raspberry Pi+Rails, and more.
+
+One interesting approach I recently explored is combining **Python** with **Flask** to create a lightweight IoT solution. Let’s dive into setting up a Flask application on a Raspberry Pi to interact with real-world components!
+
+## What Do You Need?
+
+### Hardware:
+- **Raspberry Pi** (I used an old Raspberry Pi B+)
+- **LED** for interaction
+- **Infrared proximity sensor** for real-world data collection
+
+### Software:
+- Basic **Python** knowledge
+- Some **HTML/CSS/JavaScript** experience
+
+## Setting Up the Raspberry Pi
+
+We’ll use the Raspberry Pi both as a web server and as the interface for interacting with physical elements. Start by installing **Raspbian**—if you’re new to this, check out the [official NOOBS setup guide](https://www.raspberrypi.org/help/noobs-setup/).
+
+Next, install the **RPi.GPIO** library, which should already be included in Raspbian. To ensure it's up to date, run:
+
+```sh
+apt-get update
+apt-get install python-rpi.gpio python3-rpi.gpio
+```
+
+Or, using `pip`:
+
+```sh
+pip install RPi.GPIO
+```
+
+Finally, install Flask:
+
+```sh
+pip install Flask
+```
+
+## Creating the Flask Web App
+
+Start by creating a project directory:
+
+```sh
+mkdir flask-iot-app
+cd flask-iot-app
+```
+
+Create the main application file, `main.py`:
+
+```python
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
+```
+
+Run the application:
+
+```sh
+python main.py
+```
+
+Visit `http://your-raspberrypi-ip:5000` in a browser to see the output.
+
+## Interacting with Hardware
+
+To control an LED and read a sensor, create a new file, `raspi.py`:
+
+```python
+import RPi.GPIO as GPIO
+
+SENSOR_PIN = 22
+LED_PIN = 23
+
+class Raspi:
+    def __init__(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(SENSOR_PIN, GPIO.IN)
+        GPIO.setup(LED_PIN, GPIO.OUT)
+
+    def read_sensor(self):
+        return GPIO.input(SENSOR_PIN)
+
+    def change_led(self, value):
+        GPIO.output(LED_PIN, value)
+```
+
+Modify `main.py` to include routes that control the LED:
+
+```python
+import raspi
+from flask import Flask, render_template
+
+app = Flask(__name__)
+raspi = raspi.Raspi()
+
+@app.route("/")
+def index():
+    value = raspi.read_sensor()
+    return render_template('index.html', sensor_value=value)
+
+@app.route("/change_led_status/<int:status>", methods=['POST'])
+def change_led_status(status):
+    if status == 0:
+        raspi.change_led(False)
+    elif status == 1:
+        raspi.change_led(True)
+    else:
+        return ('Error', 500)
+    return ('', 200)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
+```
+
+## Enhancing the UI
+
+Flask follows a convention where templates should be stored in a `templates` folder and static files (CSS, JS, images) in a `static` folder.
+
+Create an `index.html` template in `templates/`:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Flask IoT App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+<body>
+    <h1>IoT Dashboard</h1>
+    <p>Sensor Value: {{ sensor_value }}</p>
+</body>
+</html>
+```
+
+Create a `static/` folder for Bootstrap and other assets.
+
+### Adding JavaScript for LED Control
+
+Modify the UI to include buttons that trigger the `change_led_status` route:
+
+```javascript
+$(document).ready(function() {
+    $('#set_on').click(function() {
+        $.post('/change_led_status/1');
+    });
+    $('#set_off').click(function() {
+        $.post('/change_led_status/0');
+    });
+});
+```
+
+## Running the Application
+
+Start the server:
+
+```sh
+python main.py
+```
+
+Navigate to `http://your-raspberrypi-ip:5000` and interact with the sensor and LED.
+
+## Where Can I Find the Code?
+
+Check out the full implementation on [GitHub](https://github.com/dreamingechoes/flask-internet-of-things-app). Feel free to experiment with it! 😃
