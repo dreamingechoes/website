@@ -1,0 +1,78 @@
+---
+title: Web Scraping Pokémon Data with Ruby and Nokogiri
+date: '2017-08-19'
+tags: ['ruby', 'web scraping', 'nokogiri', 'pokemon']
+draft: false
+summary: Learn how to scrape Pokémon data from the web using Ruby and Nokogiri.
+authors: ['default']
+---
+
+Web scraping is a useful method to extract information from websites when there’s no API available, or simply for fun—like grabbing random content from the web.
+
+For my next post, I needed data about Pokémon from the first Game Boy game. One of the best sources of this information is [Pokémon Database](http://pokemondb.net), but since it doesn’t offer an API (or at least I couldn’t find one), I used web scraping to get the data I needed.
+
+Since this year marks Pokémon’s 20th Anniversary, I thought some of you might find this interesting—or at least entertaining! 😃
+
+The full documentation for **Nokogiri** is available [here](http://www.nokogiri.org/), but in essence, I’m doing two main things:
+
+- Fetching **HTML** content from a URL using `open-uri`.
+- Searching for specific elements with **CSS** selectors using `css` and `at_css` methods in Nokogiri.
+
+## The Script
+
+Here’s a simple script to scrape Pokémon data:
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'nokogiri'
+require 'open-uri'
+
+base_url = "http://pokemondb.net"
+url_index = "#{base_url}/pokedex/game/firered-leafgreen"
+index = Nokogiri::HTML(open(url_index))
+
+index.css(".infocard-tall").each do |item|
+  begin
+    name = item.at_css(".ent-name").text
+
+    puts "Fetching #{name} info..."
+    url_detail = "#{base_url}#{item.at_css(".ent-name")[:href]}"
+    number = kind = species = height = weight = abilities = nil
+    pokemon_detail = Nokogiri::HTML(open(url_detail))
+
+    number = pokemon_detail.at_css(".vitals-table tr:contains('National')").at_css("td").text
+    kind = pokemon_detail.at_css(".vitals-table tr:contains('Type')").at_css("td").text.split(" ").join(", ")
+    species = pokemon_detail.at_css(".vitals-table tr:contains('Species')").at_css("td").text
+    height = pokemon_detail.at_css(".vitals-table tr:contains('Height')").at_css("td").text
+    weight = pokemon_detail.at_css(".vitals-table tr:contains('Weight')").at_css("td").text
+    abilities = pokemon_detail.at_css(".vitals-table tr:contains('Abilities')").at_css("td")
+  rescue
+    puts "Something went wrong with #{name} :("
+  ensure
+    puts "Pokemon info"
+    puts "Name: #{name}, number: #{number}, kind: #{kind}, species: #{species}, height: #{height}, weight: #{weight}, abilities: #{abilities}"
+  end
+end
+```
+
+## How to Use It
+
+You can tweak this script to extract data from other Pokémon games by changing the **base URL** and adjusting the **CSS selectors** to find the information you need.
+
+To run the script:
+
+1. Save it as a `.rb` file.
+2. Make it executable:
+   ```sh
+   chmod +x script.rb
+   ```
+3. Run it:
+   ```sh
+   ./script.rb
+   ```
+
+## Where Can I Get the Code?
+
+You can find the full script on my [GitHub Gist](https://gist.github.com/dreamingechoes/90f434ce897d200e9dba). Feel free to copy, modify, and experiment with it! 😃
