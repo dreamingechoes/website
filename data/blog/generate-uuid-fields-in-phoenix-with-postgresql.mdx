@@ -1,0 +1,78 @@
+---
+title: Generate UUID fields in Phoenix with Postgresql
+date: '2018-06-29'
+tags: ['elixir', 'ecto', 'postgresql', 'uuid']
+draft: false
+summary: Learn how to create a non-primary key UUID field in an Ecto schema using PostgreSQL's `uuid_generate_v4()` function.
+authors: ['default']
+---
+
+If you need to add a **UUID** field (not as a primary key) to an **Ecto** schema and want PostgreSQL to handle its generation automatically, you can set the default value in your migration using the `uuid_generate_v4()` function.
+
+## Creating the UUID Field in a Migration
+
+Define your migration like this:
+
+```elixir
+defmodule App.Repo.Migrations.AddUuidFieldToUser do
+  use Ecto.Migration
+
+  def change do
+    alter table(:users) do
+      add(:some_new_field, :uuid, default: fragment("uuid_generate_v4()"))
+    end
+  end
+end
+```
+
+## Handling Missing `uuid-ossp` Extension
+
+If your database does not have the `uuid-ossp` module enabled, running the migration may result in this error:
+
+```sh
+** (Postgrex.Error) ERROR 42883 (undefined_function): function uuid_generate_v4() does not exist
+```
+
+To enable it, log into your **PostgreSQL** database and execute:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+```
+
+### Adding the Extension via a Migration
+
+If you don’t have direct access to the database, you can enable the extension through a migration:
+
+```elixir
+defmodule App.Repo.Migrations.AddUuidGenerateV4ExtensionToDatabase do
+  use Ecto.Migration
+
+  def change do
+    execute("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";")
+  end
+end
+```
+
+For more details on the `uuid-ossp` module, check the [PostgreSQL documentation](https://www.postgresql.org/docs/9.4/static/uuid-ossp.html).
+
+## Updating the Schema
+
+Once the migration is applied, update your **Ecto schema** to include the new UUID field:
+
+```elixir
+defmodule App.User do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  schema "users" do
+    ...
+    field(:some_new_field, :binary_id)
+    timestamps()
+  end
+
+  ...
+end
+```
+
+Now your UUID field is automatically generated when inserting new records. 🚀
+
