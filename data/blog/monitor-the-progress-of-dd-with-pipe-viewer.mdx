@@ -1,0 +1,45 @@
+---
+title: Monitoring microSD Image Burning with Pipe Viewer
+date: '2017-08-11'
+tags: ['raspberry-pi', 'linux', 'macos', 'pv', 'dd']
+draft: false
+summary: Learn how to use Pipe Viewer (pv) to monitor the progress of burning images to microSD cards for Raspberry Pi.
+authors: ['default']
+---
+
+As a **Raspberry Pi** fan, I frequently burn different images onto multiple microSD cards to test new distros. The process can be frustrating due to the lack of feedback while writing the image. That’s why I started looking for a solution—and I found **Pipe Viewer (pv)**.
+
+## What is Pipe Viewer?
+
+[Pipe Viewer](https://www.ivarch.com/programs/pv.shtml) is a terminal-based tool that allows you to monitor the progress of data through a pipeline. This is particularly useful when writing large images to microSD cards.
+
+### Installing Pipe Viewer
+
+If you're on **macOS**, install it using Homebrew:
+
+```sh
+brew install pv
+```
+
+For **Linux**, check your package manager. On Debian-based systems:
+
+```sh
+sudo apt install pv
+```
+
+## Burning an Image to a microSD Card with Progress Monitoring
+
+Once your microSD card is inserted and the image is downloaded, use the following command to burn the image while getting real-time progress updates:
+
+```sh
+dd if=/path/to/2017-04-10-raspbian-jessie.img | pv | dd of=/dev/your_disk
+```
+
+Instead of waiting blindly, **pv** will provide feedback like this:
+
+```sh
+87.3MiB 0:07:24 [ 178KiB/s] [ <=>								]
+```
+
+Now you have a simple way to track the progress of image burning! 😃
+
