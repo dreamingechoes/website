@@ -1,0 +1,55 @@
+---
+title: Generating Breadcrumbs with PostgreSQL WITH Queries
+date: '2017-11-28'
+tags: ['postgresql', 'elixir', 'queries', 'breadcrumbs']
+draft: false
+summary: Learn how to use PostgreSQL WITH queries to efficiently generate breadcrumbs in a storage system.
+authors: ['default']
+---
+
+While reading the **PostgreSQL** documentation, I found the [WITH queries](https://www.postgresql.org/docs/9.1/static/queries-with.html) quite interesting. I decided to use them for a common scenario: generating breadcrumbs for the navigation of a storage system.
+
+Instead of making a database request for each element inside the folder tree, we can use a single query to generate the breadcrumb elements efficiently.
+
+## The Folder Relationship
+
+Let’s assume we have the classic relationship between a folder and its parent. We can retrieve the breadcrumb elements using a recursive **WITH query**. Since I primarily work with **Elixir**, here’s how the query looks in **Elixir**:
+
+```elixir
+def get_breadcrumb_elements(folder_id) do
+  query = """
+    WITH RECURSIVE aux AS (
+      SELECT id, name, parent_id
+      FROM folders
+      WHERE id = #{folder_id}
+    UNION ALL
+      SELECT c.id, c.name, c.parent_id
+      FROM aux x, folders c
+      WHERE x.parent_id = c.id AND c.parent_id IS NOT NULL
+    )
+    SELECT id, name FROM aux r ORDER BY id
+  """
+
+  case SQL.query(Repo, query, []) do
+    {:ok, result} -> result.rows
+    {:error, _} -> []
+  end
+end
+```
+
+## Generating Breadcrumbs in HTML
+
+Once we retrieve the breadcrumb elements, we can generate the **HTML** for breadcrumbs like this:
+
+```elixir
+def breadcrumbs(folder_id) do
+  folder_id
+  |> get_breadcrumb_elements()
+  |> Enum.map(fn [_, id, name] ->
+    link(name, to: whatever_route_path(YourApp.Endpoint, :show, id))
+  end)
+end
+```
+
+And there you have it! Your new, optimized breadcrumbs powered by **PostgreSQL WITH queries**. 😃
+
