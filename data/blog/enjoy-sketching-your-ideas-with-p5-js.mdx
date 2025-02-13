@@ -1,0 +1,206 @@
+---
+title: Getting Started with p5.js and Building a T-Rex Game
+date: '2016-08-17'
+tags: ['javascript', 'p5.js', 'game-development']
+draft: false
+summary: An introduction to p5.js, covering basic concepts and building a simple T-Rex game inspired by Chrome's offline game.
+authors: ['default']
+---
+
+A few weeks ago, I started watching a series of tutorials by [Daniel Shiffman](https://twitter.com/shiffman) on genetic algorithms. All the examples were developed using **p5.js**, a JavaScript library I hadn't heard of before. It looked easy and fun to use, so I decided to give it a try!
+
+After a couple of days of experimenting, I wanted to share some basic **p5.js** concepts and a small project: a **T-Rex running game**, inspired by the Chrome offline game.
+
+## What is p5.js?
+
+[p5.js](http://p5js.org/) is a JavaScript library similar to [Processing](https://processing.org/), designed to make coding accessible for artists, designers, and educators. It provides powerful drawing functionalities and allows interaction with elements like webcams, sound, and forms.
+
+One of the best things about **p5.js** is its independence—you don’t need external libraries like **jQuery** to create interactive sketches.
+
+## Setting Up a p5.js Project
+
+To get started, download the **p5.js** files from [here](http://p5js.org/download/) and create a simple HTML file:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>p5.js example</title>
+</head>
+<body>
+    <div id="canvas"></div>
+
+    <script src="p5.min.js"></script>
+    <script src="addons/p5.dom.js"></script>
+    <script src="addons/p5.sound.js"></script>
+</body>
+</html>
+```
+
+In **p5.js**, two essential functions control how sketches behave:
+
+- `setup()`: Initializes the canvas and elements.
+- `draw()`: Runs continuously, updating the canvas.
+
+Here’s a simple example that draws a rectangle:
+
+```javascript
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  background(220);
+  rect(10, 10, 40, 40);
+}
+```
+
+## Creating a Simple Sketch: Random Circles
+
+To explore **p5.js**, let’s create a black canvas with 20 randomly placed white circles:
+
+```javascript
+function setup() {
+    var canvas = createCanvas(720, 400);
+    canvas.parent('canvas');
+    background(0);
+    fill(255);
+    for (var i = 0; i < 20; i++) {
+        var rx = random(720);
+        var ry = random(400);
+        ellipse(rx, ry, 20, 20);
+    }
+}
+```
+
+## Building the T-Rex Running Game
+
+Inspired by Shiffman’s **Flappy Bird** tutorial, I decided to create a version of the **Chrome T-Rex game** using simple shapes.
+
+### Game Objects: Player, Obstacles, and Stars
+
+#### `player.js`
+
+```javascript
+function Player() {
+  this.size = 30;
+  this.y = height - this.size;
+  this.x = 48;
+  this.gravity = 0.98;
+  this.velocity = 0;
+  this.jump_height = 16;
+  this.score = 0;
+
+  this.show = function() {
+    fill(255);
+    rect(this.x, this.y, this.size, this.size);
+    textSize(14);
+    text("SCORE: " + this.score, 20, 30);
+  }
+
+  this.update = function() {
+    this.velocity += this.gravity;
+    this.y += this.velocity;
+    if ((this.y + this.size) > height) {
+      this.y = height - this.size;
+      this.velocity = 0;
+    }
+  }
+
+  this.jump = function() {
+    this.velocity -= this.jump_height;
+  }
+}
+```
+
+#### `obstacle.js`
+
+```javascript
+function Obstacle() {
+  this.x = width;
+  this.height = random(80) + 20;
+  this.width = 30;
+  this.speed = 6;
+
+  this.show = function() {
+    fill(192);
+    rect(this.x, (height - this.height), this.width, this.height);
+  }
+
+  this.update = function() {
+    this.x -= this.speed;
+  }
+}
+```
+
+#### `star.js`
+
+```javascript
+function Star() {
+  this.x = width;
+  this.y = random(300);
+  this.speed = 2;
+
+  this.show = function() {
+    fill(255);
+    ellipse(this.x, this.y, 3, 3);
+  }
+
+  this.update = function() {
+    this.x -= this.speed;
+  }
+}
+```
+
+### Game Logic: `sketch.js`
+
+```javascript
+var player;
+var obstacles = [];
+var stars = [];
+
+function setup() {
+  var canvas = createCanvas(720, 400);
+  canvas.parent('canvas');
+  player = new Player();
+}
+
+function draw() {
+  background(0);
+  player.update();
+  player.show();
+
+  if (frameCount % 80 == 0) {
+    obstacles.push(new Obstacle());
+  }
+  for (var i = obstacles.length - 1; i >= 0; i--) {
+    obstacles[i].update();
+    obstacles[i].show();
+  }
+}
+
+function keyPressed() {
+  if (keyCode == 87) {
+    player.jump();
+  }
+}
+```
+
+## Running the Game
+
+To run the game, include all scripts in your HTML file:
+
+```html
+<script src="p5.min.js"></script>
+<script src="player.js"></script>
+<script src="obstacle.js"></script>
+<script src="star.js"></script>
+<script src="sketch.js"></script>
+```
+
+Open the file in a browser, and you’ll see the T-Rex game in action!
+
+## Where Can I See the Code?
+
+Check out my [p5.js sketches](https://dreamingechoes.github.io/my-p5js-playground/), including the [T-Rex example](https://dreamingechoes.github.io/my-p5js-playground/projects/trexgame.html). The full code is available on [GitHub](https://github.com/dreamingechoes/my-p5js-playground). Feel free to modify and experiment with it! 😃
