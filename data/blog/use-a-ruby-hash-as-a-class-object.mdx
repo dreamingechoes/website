@@ -1,0 +1,37 @@
+---
+title: Using a Ruby Hash Like a Class Object
+date: '2017-08-19'
+tags: ['ruby', 'oop', 'hash']
+draft: false
+summary: A simple trick to use a Ruby hash like a class object, providing dynamic method access.
+authors: ['default']
+---
+
+If you ever need to use a Ruby Hash like a class object, you can achieve this with a simple trick:
+
+```ruby
+class Hashit
+  def initialize(hash)
+    hash.each do |k,v|
+      self.instance_variable_set("@#{k}", v.is_a?(Hash) ? Hashit.new(v) : v)
+      self.class.send(:define_method, k, proc { self.instance_variable_get("@#{k}") })
+      self.class.send(:define_method, "#{k}=", proc { |v| self.instance_variable_set("@#{k}", v) })
+    end
+  end
+end
+
+h = Hashit.new({a: '123r', b: {c: 'sdvs'}})
+
+# h.a => '123r'
+# h.b.c => 'sdvs'
+```
+
+This approach allows you to dynamically create getter and setter methods for hash keys, effectively turning your hash into an object.
+
+## Extending Functionality
+
+While this is a basic implementation, you can enhance the `Hashit` class by adding methods to fit your specific needs.
+
+## Where Can I Find the Code?
+
+You can find the full implementation on [GitHub Gist](https://gist.github.com/dreamingechoes/aec6542f2f5d1ade510b). Feel free to modify and experiment with it! 😃
