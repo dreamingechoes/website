@@ -1,0 +1,75 @@
+---
+title: Simple Pomodoro Timer with Ruby and Gosu
+date: '2016-05-09'
+tags: ['ruby', 'pomodoro', 'gosu', 'time-management']
+draft: false
+summary: A simple Pomodoro timer with a minimal graphical interface built in Ruby using Gosu.
+authors: ['default']
+---
+
+The **Pomodoro Technique** is a time management method developed by Francesco Cirillo in the late 1980s. It uses a timer to break work into intervals—traditionally 25 minutes—separated by short breaks. These intervals are called *pomodoros* (from the Italian word for tomato). The method aims to improve focus and productivity through frequent breaks. *(Wikipedia)*
+
+This is a simple Pomodoro timer with a minimal graphical interface, built in **Ruby** using **Gosu** for fun.
+
+## Installation
+
+Since this gem uses **Gosu** to launch the graphical interface, you’ll need to install Gosu dependencies first.
+
+### Mac OS X
+
+Gosu is built on top of **SDL 2**. Install **Homebrew** and run:
+
+```sh
+brew install sdl2
+```
+
+### Linux
+
+You’ll need to install the following packages (names may vary by distribution):
+
+- `libsdl2-dev`
+- `libsdl2-ttf-dev`
+- `libpango1.0-dev`
+- `libgl1-mesa-dev`
+- `libfreeimage-dev`
+- `libopenal-dev`
+- `libsndfile-dev`
+
+For more details, check [Gosu's Wiki](https://github.com/gosu/gosu/wiki).
+
+### Installing the Gem
+
+Once dependencies are installed, you can install the gem:
+
+```sh
+gem install pomodoro-gui
+```
+
+## Usage
+
+Once installed, you can view available options by running:
+
+```sh
+pomodoro-gui -h
+```
+
+Example output:
+
+```sh
+Usage: pomodoro-gui [options]
+    -r, --rest [REST]                Choose rest time (in minutes)
+    -i, --interval [INTERVAL]        Choose pomodoro length time (in minutes)
+        --version                    Show version
+    -h, --help                       Show this message
+```
+
+To start a Pomodoro session with default values (25-minute work sessions, 5-minute breaks), simply run:
+
+```sh
+pomodoro-gui
+```
+
+## Where Can I Find the Code?
+
+Check out the full source code on [GitHub](https://github.com/dreamingechoes/pomodoro-gui). Feel free to clone, modify, and experiment with it! 😃
+
