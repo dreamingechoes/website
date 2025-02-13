@@ -1,0 +1,80 @@
+---
+title: Quickly Share Your Local Rails App with Ngrok and Pow
+date: '2016-05-10'
+tags: ['rails', 'ngrok', 'pow', 'development']
+draft: false
+summary: Learn how to quickly put your local Rails application online using Ngrok and Pow.
+authors: ['default']
+---
+
+If you need to share the progress of your web application with others or put it online quickly without setting up a server, **Ngrok** can be a great solution.
+
+Last weekend, I had to demo a **Rails** app I was developing, but I didn’t have time to create a new online server and deploy it. Instead, I used **Ngrok**, a magical service a coworker introduced me to.
+
+## What is Ngrok?
+
+**Ngrok** provides a simple way to expose local servers behind NATs and firewalls to the public internet via secure tunnels. In just a few seconds, your web app can be accessible online.
+
+### Setting Up Ngrok
+
+1. **Create an account** on [ngrok.com](https://ngrok.com) to get a tunnel authtoken.
+2. **Download the Ngrok binary** from the official website.
+3. **Configure your authtoken**:
+
+```sh
+./ngrok authtoken YOUR_TUNNEL_AUTHTOKEN
+```
+
+### Starting a Secure Tunnel
+
+To expose your local web application, run:
+
+```sh
+./ngrok http 80
+```
+
+Ngrok will generate an external **URL** (e.g., `abcdefg.ngrok.io`) where your application will be accessible.
+
+To monitor traffic passing through the tunnel, visit:
+
+```sh
+http://localhost:4040
+```
+
+To stop the tunnel, simply press `Ctrl+C`.
+
+## What is Pow?
+
+**Pow** is a zero-config Rack server for Mac OS X, making it easy to manage Rails apps locally. If you’re on Linux, you can use an alternative like [Prax](http://ysbaddaden.github.io/prax).
+
+### Installing Pow
+
+To install **Pow**, run:
+
+```sh
+curl get.pow.cx | sh
+```
+
+Then, set up a Rack app by creating a symlink in `~/.pow`:
+
+```sh
+cd ~/.pow
+ln -s /path/to/some/railsapp
+```
+
+Your app will now be available at:
+
+```sh
+http://railsapp.dev/
+```
+
+## Using Ngrok with Pow
+
+If you have your **Rails** app running with **Pow**, you can make it publicly accessible using **Ngrok** by running:
+
+```sh
+./ngrok http -host-header=railsapp.dev railsapp.dev:80
+```
+
+And that’s it! Now your local **Rails** app is online for sharing and testing. 😃
+
