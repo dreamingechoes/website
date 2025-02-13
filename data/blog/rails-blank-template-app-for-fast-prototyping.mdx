@@ -1,0 +1,53 @@
+---
+title: Rails Blank Template App for Quick Prototyping
+date: '2016-01-09'
+tags: ['rails', 'ruby', 'bootstrap', 'prototyping']
+draft: false
+summary: A simple Rails blank template app for quickly starting new projects with preconfigured features.
+authors: ['default']
+---
+
+If you need to quickly prototype a Rails app for an idea or project, here’s a simple Rails blank template app. You can clone it and start developing right away.
+
+This template uses the **Bootstrap SB Admin Base V2** theme. You can find the Rails gem for this theme [here](https://github.com/dreamingechoes/bootstrap_sb_admin_base_v2).
+
+### Features Included by Default:
+
+- [Devise](https://github.com/plataformatec/devise) with default authentication modules.
+- [BootstrapSBAdminBaseV2](https://github.com/dreamingechoes/bootstrap_sb_admin_base_v2) theme.
+- [SendGrid](https://github.com/stephenb/sendgrid) gem for email delivery.
+- Continuous testing with [Guard](https://github.com/guard/guard).
+- Thin server for lightweight performance.
+- MySQL database.
+- ERB template engine.
+
+A demo user is available for testing:
+- **Email**: `user@example.com`
+- **Password**: `123456789`
+
+## Usage
+
+To start using this template, follow these standard Rails setup steps:
+
+1. Install **Ruby** version 2.2.3 (via [RVM](https://github.com/rvm/rvm), [rbenv](https://github.com/sstephenson/rbenv), or your preferred method).
+
+2. Clone the repository and install dependencies:
+
+```sh
+git clone git@github.com:dreamingechoes/rails-blank-template-app.git YOUR_APP_NAME_HERE
+cd YOUR_APP_NAME_HERE
+bundle install
+rake db:setup
+rake db:seed
+```
+
+3. Start the server and check everything is working:
+
+```sh
+rails s
+```
+
+## Get the Code
+
+You can find the full source code on [GitHub](https://github.com/dreamingechoes/rails-blank-template-app). Feel free to clone it, modify it, and use it as a starting point for your projects! 😃
+
