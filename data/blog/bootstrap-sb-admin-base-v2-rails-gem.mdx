@@ -1,0 +1,89 @@
+---
+title: Bootstrap SB Admin Base V2 for Rails
+date: '2017-08-19'
+tags: ['rails', 'bootstrap', 'admin-template']
+draft: false
+summary: A Rails gem for integrating the Bootstrap-based admin theme SB Admin 2, making asset management easy.
+authors: ['default']
+---
+
+`bootstrap_sb_admin_base_v2` is a **Rails** gem that integrates the Bootstrap-based admin theme **SB Admin 2**. Originally created by [Start Bootstrap](http://startbootstrap.com), this gem adapts the theme for easy integration into Rails applications by managing fonts, images, CSS, and JavaScript assets.
+
+Check out the original Bootstrap admin theme repository [here](https://github.com/BlackrockDigital/startbootstrap-sb-admin-2).
+
+## Installation
+
+Add this line to your `Gemfile`:
+
+```ruby
+gem 'bootstrap_sb_admin_base_v2'
+```
+
+Then run:
+
+```sh
+bundle install
+```
+
+Or install it manually:
+
+```sh
+gem install bootstrap_sb_admin_base_v2
+```
+
+## Usage
+
+### Version 0.2.x and Below
+
+After installing the gem, add these lines to your manifest files:
+
+In `application.js`:
+
+```ruby
+//= require bootstrap_sb_admin_base_v2
+```
+
+In `application.css`:
+
+```ruby
+*= require bootstrap_sb_admin_base_v2
+```
+
+### Version 0.3.x and Above
+
+From version 0.3.x, two dependencies were added: `jquery-rails` and `font-awesome-rails` to keep **jQuery** and **Font Awesome** updated.
+
+Ensure `jquery-rails` is required before `bootstrap_sb_admin_base_v2` in `application.js`:
+
+```ruby
+//= require jquery
+//= require jquery_ujs
+//= require bootstrap_sb_admin_base_v2
+```
+
+And in `application.css`, require `font-awesome-rails`:
+
+```ruby
+*= require font-awesome
+*= require bootstrap_sb_admin_base_v2
+```
+
+### RTL Version
+
+For the RTL version of the template, use this in `application.css` instead:
+
+```ruby
+*= require bootstrap_sb_admin_base_v2_rtl
+```
+
+Check out the RTL adaptation [here](https://github.com/dreamingechoes/sb-admin2-rtl).
+
+With this setup, you can use the **SB Admin 2** Bootstrap template in your Rails application. For full documentation, visit [SB Admin 2](http://startbootstrap.com/template-overviews/sb-admin-2/).
+
+## Where Can I Find the Code?
+
+The gem’s source code is available on [GitHub](https://github.com/dreamingechoes/bootstrap_sb_admin_base_v2). Feel free to clone, modify, and experiment with it! 😃
+
+## Example Usage in a Rails Application
+
+To make testing easier, I created a simple **Rails** template application as a starting point for new projects. Check out [rails-blank-template-app](https://github.com/dreamingechoes/rails-blank-template-app).
