@@ -1,0 +1,164 @@
+---
+title: A dive into database multi-tenancy in Elixir with Ecto
+date: '2018-06-26'
+tags: ['elixir', 'phoenix', 'multi-tenancy', 'ecto']
+draft: false
+summary: A detailed guide on migrating a Phoenix application from a regular database to a multi-tenancy architecture using Ecto.
+authors: ['default']
+---
+
+Some time ago, I had to migrate an application from a regular database to a multi-tenancy one. Instead of relying on existing libraries like [apartmentex](https://github.com/Dania02525/apartmentex), [triplex](https://github.com/ateliware/triplex), or [tenantex](https://github.com/jeffdeville/tenantex), I decided to implement my own multi-tenancy management to keep the dependencies minimal.
+
+## Understanding Ecto's Prefix Option
+
+[Ecto](https://hexdocs.pm/ecto/Ecto.html) provides a **prefix** option for database interactions. In **Postgres**, this specifies the schema where the table is located, while in **MySQL**, it specifies the database.
+
+For example, inserting a user in a standard setup:
+
+```elixir
+case MyAppRepo.insert(%User{email: "user@example.com"}) do
+  {:ok, struct}       -> # Inserted successfully
+  {:error, changeset} -> # Something went wrong
+end
+```
+
+For multi-tenancy, specify the **prefix** option:
+
+```elixir
+case MyAppRepo.insert(%User{email: "user@example.com"}, prefix: "some_tenant") do
+  {:ok, struct}       -> # Inserted successfully
+  {:error, changeset} -> # Something went wrong
+end
+```
+
+## Main Changes for Multi-Tenancy
+
+### Updating Phoenix Scaffolds
+
+Phoenix’s `mix phx.gen.html` generates context functions. A default `create_user` function looks like this:
+
+```elixir
+def create_user(attrs \\ %{}) do
+  %User{}
+  |> User.changeset(attrs)
+  |> Repo.insert()
+end
+```
+
+For multi-tenancy, include the `tenant` parameter:
+
+```elixir
+def create_user(attrs \\ %{}, tenant) do
+  %User{}
+  |> User.changeset(attrs)
+  |> Repo.insert(prefix: tenant)
+end
+```
+
+### Creating a New Tenant
+
+To create a new schema for a tenant in **Postgres**:
+
+```elixir
+def create_schema(repo, tenant) do
+  SQL.query(repo, "CREATE SCHEMA \"#{tenant}\"", [])
+end
+```
+
+### Listing Available Tenants
+
+To list all tenants, query the `information_schema.schemata` table:
+
+```elixir
+def list_tenants(repo, schema_prefix) do
+  query =
+    from(
+      schemata in "schemata",
+      select: schemata.schema_name,
+      where: like(schemata.schema_name, ^"#{schema_prefix}%")
+    )
+
+  repo.all(query, prefix: "information_schema")
+end
+```
+
+To verify:
+
+```sh
+database_dev=# SELECT schema_name FROM information_schema.schemata WHERE schema_name LIKE 'tenant_%';
+```
+
+### Deleting a Tenant
+
+To delete a tenant schema in **Postgres**:
+
+```elixir
+def drop_schema(repo, tenant) do
+  SQL.query(repo, "DROP SCHEMA \"#{tenant}\" CASCADE", [])
+end
+```
+
+### Running Migrations for Tenants
+
+To run migrations on tenant schemas, create a `priv/repo/tenant_migrations` folder. Custom tasks can be created to generate and run migrations for tenants:
+
+Generate a migration:
+
+```sh
+mix app_name.gen.tenant_migration add_users_table
+```
+
+Run migrations for all tenants:
+
+```sh
+mix app_name.ecto.migrate_tenants
+```
+
+Rollback migrations:
+
+```sh
+mix app_name.ecto.rollback_tenants
+```
+
+### Storing the Current Tenant
+
+To persist the current tenant, use [Guardian](https://github.com/ueberauth/guardian). In a session controller:
+
+```elixir
+def create(conn, %{
+      "session" => %{
+        "tenant" => tenant,
+        "email" => email,
+        "password" => password
+      }
+    }) do
+  case Guardian.authenticate_user(email, password) do
+    {:ok, user} ->
+      conn
+      |> Plug.sign_in(user, %{current_tenant: tenant})
+      |> put_flash(:success, gettext("Welcome to AppName!"))
+      |> redirect(to: page_path(conn, :index))
+
+    {:error, message} ->
+      conn
+      |> put_flash(:error, message)
+      |> redirect(to: session_path(conn, :new))
+  end
+end
+```
+
+Later, retrieve the tenant from `conn.assigns.current_tenant`:
+
+```elixir
+Accounts.create_user(user_attrs, conn.assigns.current_tenant)
+```
+
+## Considerations
+
+- Some **dependencies** that interact with the repo may not support propagating the `opts` for multi-tenancy.
+- If developing a library, ensure it allows users to pass repo `opts`.
+
+## Example Multi-Tenancy Phoenix Application
+
+I created a small **Phoenix** application demonstrating these concepts. You can check the full code in [this repo](https://github.com/dreamingechoes/multi_tenancex).
+
