@@ -12,6 +12,12 @@ const projectsData = [
     href: 'https://fabadaconf.com/',
   },
   {
+    title: 'Shoegaze Bot',
+    description: `Bot that sends a new tweet every day with a new shoegaze song.`,
+    imgSrc: '/static/images/projects/shoegaze-bot/bot.jpg',
+    href: 'https://twitter.com/ShoegazeBot_',
+  },
+  {
     title: 'Elixir Asturias',
     description: `Elixir Asturias users group.`,
     imgSrc: '/static/images/projects/elixir-asturias/logo.jpg',
@@ -22,18 +28,6 @@ const projectsData = [
     description: `Organization which aims for a more rich and diverse tech community.`,
     imgSrc: '/static/images/projects/folks-who-code/logo.jpg',
     href: 'https://folkswhocode.org/',
-  },
-  {
-    title: 'Shoegaze Bot',
-    description: `Bot that sends a new tweet every day with a new shoegaze song.`,
-    imgSrc: '/static/images/projects/shoegaze-bot/bot.jpg',
-    href: 'https://twitter.com/ShoegazeBot_',
-  },
-  {
-    title: 'Neil deGrasse Tyson Ipsum',
-    description: `Simple Lorem Ipsum with all the most Neil deGrasse Tyson famous quotes.`,
-    imgSrc: '/static/images/projects/neil-degrasse-tyson-ipsum/tyson-ipsum.jpg',
-    href: 'http://neilipsum.pw',
   },
 ]
 
