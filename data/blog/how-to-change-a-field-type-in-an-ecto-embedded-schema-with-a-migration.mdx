@@ -1,0 +1,142 @@
+---
+title: "How to Change a Field Type in an Ecto Embedded Schema with a Migration"
+date: "2025-02-14"
+tags: ["ecto", "phoenix", "elixir", "migrations", "postgresql"]
+draft: false
+summary: "Changing a field type in an Ecto embedded schema requires both a code update and a database migration. This guide walks through the process, ensuring data consistency and avoiding common pitfalls."
+authors: ["default"]
+---
+
+## Why I’m Writing This?
+
+The other day, I had to change the type of a field in an **Ecto embedded schema** from a string to a list of strings. Sounds simple, right? Well, not quite—because this field already had existing data stored in **PostgreSQL** as JSONB. That meant I had to not only update my **Elixir codebase** but also write a migration to transform the stored data correctly.
+
+Since this is a challenge others will likely encounter, I wanted to document the process, including the reasoning behind each step. If you ever need to change a field type in an embedded schema, this guide will help you do it safely without breaking your existing data.
+
+---
+
+## Understanding the Challenge
+
+Ecto **embedded schemas** ([Ecto.Schema docs](https://hexdocs.pm/ecto/Ecto.Schema.html)) are different from standard schemas because they are stored inside JSONB columns rather than as separate database tables. This makes migrations trickier—there’s no direct `ALTER COLUMN` statement we can run to change the field type.
+
+In my case, the field in question was `tags`, originally defined as a string:
+
+```elixir
+defmodule MyApp.Schema do
+  use Ecto.Schema
+
+  embedded_schema do
+    field :tags, :string
+  end
+end
+```
+
+However, I wanted `tags` to be a **list of strings** instead of a single string. The updated schema looks like this:
+
+```elixir
+defmodule MyApp.Schema do
+  use Ecto.Schema
+
+  embedded_schema do
+    field :tags, {:array, :string}
+  end
+end
+```
+
+The key change here is using `{:array, :string}` as the field type, which tells Ecto to expect a list of strings instead of a single string. You can read more about supported field types in the [Ecto Types documentation](https://hexdocs.pm/ecto/Ecto.Schema.html#module-field-types).
+
+But making this change alone is **not enough**—existing records in the database still have `tags` stored as plain strings, so we need a migration to transform that data.
+
+---
+
+## Writing the Migration to Update Existing Data
+
+Since **embedded schemas are stored as JSONB** in PostgreSQL, we must update the values properly using JSONB functions.
+
+First, generate the migration:
+
+```sh
+mix ecto.gen.migration update_tags_field
+```
+
+Then, open the generated migration file and implement the logic to transform the field.
+
+### **Migration Code:**
+
+```elixir
+defmodule MyApp.Repo.Migrations.UpdateTagsField do
+  use Ecto.Migration
+
+  def up do
+    execute("""
+    UPDATE my_table
+    SET embedded_schema_field = jsonb_set(
+      embedded_schema_field,
+      '{tags}',
+      to_jsonb(string_to_array((embedded_schema_field->>'tags'), ','))
+    )
+    WHERE embedded_schema_field ? 'tags';
+    """)
+  end
+
+  def down do
+    execute("""
+    UPDATE my_table
+    SET embedded_schema_field = jsonb_set(
+      embedded_schema_field,
+      '{tags}',
+      to_jsonb(array_to_string((embedded_schema_field->'tags')::text[], ','))
+    )
+    WHERE embedded_schema_field ? 'tags';
+    """)
+  end
+end
+```
+
+### **Breaking Down the SQL:**
+
+- `string_to_array((embedded_schema_field->>'tags'), ',')`:  
+  - Converts the existing string into an array, splitting by commas.
+- `to_jsonb(...)`:  
+  - Ensures the updated value remains in **JSONB format**.
+- `jsonb_set(...)`:  
+  - Updates only the `tags` key inside the embedded schema field.
+- `WHERE embedded_schema_field ? 'tags'`:  
+  - Ensures we only update records that contain the `tags` field.
+
+For the **rollback (`down/0`)**, we reverse the process by **converting the array back into a comma-separated string**.
+
+If you're unfamiliar with these PostgreSQL functions, you can check out the official [PostgreSQL JSONB functions documentation](https://www.postgresql.org/docs/current/functions-json.html) for more details.
+
+Additionally, the PostgreSQL JSONB data type is quite powerful, and you can learn more about its capabilities in the [JSON Types documentation](https://www.postgresql.org/docs/current/datatype-json.html).
+
+---
+
+## Running and Verifying the Migration
+
+Once the migration is in place, apply it:
+
+```sh
+mix ecto.migrate
+```
+
+Then, verify the results by querying the database:
+
+```sql
+SELECT embedded_schema_field FROM my_table WHERE embedded_schema_field ? 'tags';
+```
+
+Check that `tags` is now stored as an **array** rather than a plain string.
+
+Additionally, if you have any **existing Ecto queries** that previously treated `tags` as a string, you’ll need to update them to work with lists instead. Learn more about working with array fields in queries in the [Ecto Query documentation](https://hexdocs.pm/ecto/Ecto.Query.html).
+
+---
+
+## Conclusion
+
+- **Embedded schemas store data as JSONB, requiring special handling when changing field types.**
+- **Schema updates alone are not enough**—we must also migrate existing data correctly.
+- **PostgreSQL’s `jsonb_set()` function** is a powerful way to update JSONB fields safely.
+- This approach ensures a smooth transition without losing or corrupting data.
+
+If you’ve run into similar challenges with Ecto and JSONB migrations, I’d love to hear how you tackled them!
