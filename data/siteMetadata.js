@@ -18,6 +18,7 @@ const siteMetadata = {
   youtube: '',
   linkedin: 'https://www.linkedin.com/in/ivangonzalezsaiz',
   kofi: 'https://ko-fi.com/dreamingechoes',
+  mentorCruise: 'https://mentorcruise.com/mentor/ivngonzlezsiz/',
   locale: 'en-US',
   analytics: {
     // supports plausible, simpleAnalytics or googleAnalytics
