@@ -12,6 +12,7 @@ import siteMetadata from '@/data/siteMetadata'
 
 const editUrl = (fileName) => `${siteMetadata.siteRepo}/blob/master/data/blog/${fileName}`
 const kofiUrl = () => `${siteMetadata.kofi}`
+const mentorCruiseUrl = () => `${siteMetadata.mentorCruise}`
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
