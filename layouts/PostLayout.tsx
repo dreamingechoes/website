@@ -102,6 +102,8 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                 <Link href={editUrl(fileName)}>{'View on GitHub'}</Link>
                 <span className="mr-2 ml-2">·</span>
                 <Link href={kofiUrl()}>{'Buy me a coffee'}</Link>
+                <span className="mr-2 ml-2">·</span>
+                <Link href={mentorCruiseUrl()}>{'Request a mentoring session'}</Link>
               </div>
               <Comments frontMatter={frontMatter} />
             </div>
