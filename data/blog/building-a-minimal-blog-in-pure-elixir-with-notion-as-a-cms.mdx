@@ -1,0 +1,377 @@
+---
+title: "Building a Minimal Blog in Pure Elixir with Notion as a CMS"
+date: '2025-02-16'
+tags: ['elixir', 'notion', 'blog', 'minimalistic', 'proof-of-concept']
+draft: false
+summary: "A proof of concept for a simple blog using pure Elixir, with Notion as a CMS and only three dependencies: Cowboy, HTTPoison, and Jason."
+authors: ['default']
+---
+
+## Why This Idea?
+
+The other day, while tweaking my website (built with React and Next.js), I wondered: *What if I built something simpler?* No Phoenix, no traditional database—just pure Elixir and some lightweight dependencies.
+
+Then it hit me: **What if I used Notion as the CMS for a minimalistic blog?** It sounded like a fun experiment, even though I knew the Notion API wouldn't be the fastest option. But hey, it's all about having fun and exploring ideas, right?
+
+## First Steps: Creating the Elixir App
+
+We’ll start by generating a new Elixir application using `mix` and adding only three dependencies:
+
+- [`cowboy`](https://hexdocs.pm/cowboy/readme.html) – lightweight web server.
+- [`jason`](https://hexdocs.pm/jason/readme.html) – JSON encoding/decoding.
+- [`httpoison`](https://hexdocs.pm/httpoison/) – HTTP client for interacting with Notion’s API.
+
+Run:
+
+```sh
+mix new notion_blog --sup
+cd notion_blog
+```
+
+Then add these dependencies in `mix.exs`:
+
+```elixir
+defp deps do
+  [
+    {:cowboy, "~> 2.9"},
+    {:plug_cowboy, "~> 2.6"},
+    {:httpoison, "~> 2.1"},
+    {:jason, "~> 1.4"}
+  ]
+end
+```
+
+Run `mix deps.get` to fetch them.
+
+## Creating a Basic Elixir Web Server
+
+Since we’re keeping things minimal, we’ll use `Plug.Router` instead of a full-fledged framework like Phoenix. `Plug` is a lightweight Elixir library for building web applications, and it integrates well with `Cowboy`, a small and efficient HTTP server.
+
+### Setting Up the Router
+
+First, create a module `NotionBlog.Router` to define our basic routes:
+
+```elixir
+defmodule NotionBlog.Router do
+  use Plug.Router
+
+  plug(:match)
+  plug(:dispatch)
+
+  get "/" do
+    send_resp(conn, 200, "<h1>Welcome to the Notion-powered Blog!</h1>")
+  end
+end
+```
+
+Here’s a breakdown of what’s happening:
+
+1. **`use Plug.Router`** – This module provides a DSL for defining routes.
+2. **`plug(:match)`** – This matches incoming requests to the correct route.
+3. **`plug(:dispatch)`** – This executes the matched route.
+4. **`get "/"`** – Defines a simple GET route for the home page that returns a basic HTML response.
+5. **`send_resp(conn, status_code, body)`** – Sends an HTTP response.
+
+### Integrating with Plug and Cowboy
+
+Now, we need to set up the application to run this router. Modify `lib/notion_blog/application.ex` to supervise the HTTP server:
+
+```elixir
+defmodule NotionBlog.Application do
+  use Application
+
+  def start(_type, _args) do
+    children = [
+      {Plug.Cowboy, scheme: :http, plug: NotionBlog.Router, options: [port: 4000]}
+    ]
+
+    opts = [strategy: :one_for_one, name: NotionBlog.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
+end
+```
+
+### Explanation
+
+- `Plug.Cowboy` starts an HTTP server using Cowboy, listening on port `4000`.
+- The `plug: NotionBlog.Router` part tells Cowboy to use our router to handle incoming requests.
+- The `Supervisor` ensures that the web server is supervised and restarted if it crashes.
+
+### Running the Web Server
+
+Now, start the application:
+
+```sh
+mix run --no-halt
+```
+
+You should see output indicating that the web server is running on port 4000. Open a browser and visit:
+
+```plaintext
+http://localhost:4000
+```
+
+You should see:
+
+```plaintext
+Welcome to the Notion-powered Blog!
+```
+
+This means the web server is correctly handling HTTP requests.
+
+### Enhancements and Best Practices
+
+- Learn more about Plug.Router: [Official Documentation](https://hexdocs.pm/plug/Plug.Router.html).
+- Consider logging: Use `Logger` to track incoming requests for debugging.
+- Optimize for production: Configure `Cowboy` for better concurrency handling.
+
+## Setting Up Notion as Our CMS
+
+To use Notion as a CMS for our blog, we need to set up a Notion database and configure our Elixir application to fetch content from it using Notion's API.
+
+### Creating a Notion Database
+
+1. **Go to Notion** – Open your Notion workspace and create a new database.
+2. **Add the required fields** – Ensure the database contains the following columns:
+   - `Title` (Text) – The article title.
+   - `Date` (Date) – The publication date.
+   - `Body` (Text) – The article content.
+3. **Share the database** – Click on `Share` and add your Notion integration, granting it access to the database.
+4. **Copy the database ID** – Extract the database ID from the URL (the part after `notion.so/` and before the `?` parameter).
+
+![Notion database example](https://awesomescreenshot.s3.amazonaws.com/image/6146217/52973796-1d782e4993dfe1fd5c245717f77483eb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJSCJQ2NM3XLFPVKA%2F20250216%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250216T103849Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&X-Amz-Signature=5314caaf0ac76c048376c7ded1ad561edfc1dbe800cfd3a1a6cba6697ae12565)
+
+### Getting an API Key
+
+1. **Create a Notion integration** – Go to [Notion API Integrations](https://www.notion.so/my-integrations) and create a new integration.
+2. **Copy the API key** – Once created, Notion will provide you with a secret API key.
+3. **Store it in the application configuration** – Add the API key and database ID to `config/config.exs`:
+
+```elixir
+config :notion_blog,
+  notion_api_url: "https://api.notion.com/v1",
+  notion_api_token: System.get_env("NOTION_API_KEY"),
+  notion_api_version: "2022-06-28",
+  notion_database_id: System.get_env("NOTION_DATABASE_ID")
+```
+
+### Fetching Articles from Notion
+
+To retrieve articles dynamically, we will use the [Notion API](https://developers.notion.com/reference/intro), which provides a way to interact with Notion databases programmatically. By leveraging Notion's API, we can query our blog database, fetch content, and display it in our Elixir application.
+
+We need to define a module to interact with the Notion API. Using `HTTPoison`, we can send HTTP requests to query the database and retrieve articles. This will involve:
+
+1. **Making a GET request to the Notion API** to fetch data from our specified database.
+2. **Parsing the API response** to extract article titles, dates, and body content.
+3. **Handling authentication and request headers** to ensure proper authorization when communicating with the API.
+
+#### Notion API Client
+
+To interact with Notion's API efficiently, we will create a dedicated module that handles API requests using `HTTPoison`. This module will be responsible for querying our Notion database, retrieving article data, and handling API responses.
+
+##### Setting Up the Client
+
+Create a module named `NotionBlog.Notion.Client`, which will serve as a high-level wrapper around the Notion API. It will include functions for retrieving the database content and fetching specific articles.
+
+```elixir
+defmodule NotionBlog.Notion.Client do
+  use HTTPoison.Base
+
+  @notion_api_url Application.get_env(:notion_blog, :notion_api_url)
+  @database_id Application.get_env(:notion_blog, :notion_database_id)
+
+  def process_request_url(path), do: "#{@notion_api_url}#{path}"
+
+  def process_request_headers(headers) do
+    [
+      {"Authorization", "Bearer #{Application.get_env(:notion_blog, :notion_api_token)}"},
+      {"Notion-Version", Application.get_env(:notion_blog, :notion_api_version)},
+      {"Content-Type", "application/json"}
+    ] ++ headers
+  end
+end
+```
+
+##### Querying the Notion Database
+
+The function `query_database/0` fetches all blog posts stored in Notion.
+
+```elixir
+def query_database do
+  path = "/databases/#{@database_id}/query"
+
+  with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- HTTPoison.post(process_request_url(path), "{}", process_request_headers([])) do
+    {:ok, Jason.decode!(body)}
+  else
+    _ -> {:error, "Failed to fetch articles"}
+  end
+end
+```
+
+##### Fetching a Single Article
+
+The function `get_article/1` retrieves an article by its ID.
+
+```elixir
+def get_article(article_id) do
+  path = "/pages/#{article_id}"
+
+  with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- HTTPoison.get(process_request_url(path), process_request_headers([])) do
+    {:ok, Jason.decode!(body)}
+  else
+    _ -> {:error, "Article not found"}
+  end
+end
+```
+
+##### Explanation
+
+- `query_database/0` sends a `POST` request to query all articles from the Notion database.
+- `get_article/1` sends a `GET` request to fetch a specific article.
+- Both functions return decoded JSON responses or an error tuple if something goes wrong.
+
+This client allows us to seamlessly retrieve and process articles from Notion, enabling our Elixir application to function as a dynamic blog powered by Notion's database.
+
+### Testing the API Connection
+
+Before integrating the client into the application, test it in an `iex` session:
+
+```elixir
+iex -S mix
+NotionBlog.Notion.Client.query_database()
+```
+
+If everything is set up correctly, you should see JSON data returned from Notion containing your stored articles. Now that we have a way to retrieve articles, we can move on to rendering them in our Elixir web application!
+
+### Fetching and Rendering Blog Articles
+
+With Notion set up as our CMS, we now need to fetch blog articles from its API and render them in our Elixir web application.
+
+#### Updating the Router to Render HTML
+
+To display blog articles dynamically, we modify our router to fetch articles from Notion and render them using EEx templates.
+
+```elixir
+defmodule NotionBlog.Router do
+  use Plug.Router
+
+  plug(:match)
+  plug(:dispatch)
+
+  @template_dir Path.expand("./templates", __DIR__)
+
+  get "/blog" do
+    with {:ok, %{"results" => articles}} <- NotionBlog.Notion.Client.query_database() do
+      render(conn, "blog.html", title: "Blog", articles: articles)
+    else
+      _ -> send_resp(conn, 500, "Error fetching articles")
+    end
+  end
+
+  get "/blog/:id" do
+    with {:ok, article} <- NotionBlog.Notion.Client.get_page(id) do
+      render(conn, "article.html", title: article["title"], article: article)
+    else
+      _ -> send_resp(conn, 404, "Article not found")
+    end
+  end
+
+  defp render(conn, template, assigns) do
+    body = @template_dir |> Path.join(template) |> EEx.eval_file(assigns: assigns)
+    send_resp(conn, 200, body)
+  end
+end
+```
+
+### Explanation
+
+- **`get "/blog"`**: Fetches all articles from the Notion database and renders them using `blog.html.eex`.
+- **`get "/blog/:id"`**: Fetches an individual article by its ID and renders it using `article.html.eex`.
+- **`render/3` function**: Loads and evaluates an EEx template, passing the necessary assigns.
+
+### Example `article.html.eex`
+
+This template renders an individual blog post in a simple yet structured format:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @title %></title>
+</head>
+<body>
+  <h1><%= @article["title"] %></h1>
+  <p><strong>Date:</strong> <%= @article["date"] %></p>
+  <div><%= @article["body"] %></div>
+</body>
+</html>
+```
+
+### Example `blog.html.eex`
+
+This template lists all articles with links to individual blog pages:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blog</title>
+</head>
+<body>
+  <h1>Blog Articles</h1>
+  <ul>
+    <% for article <- @articles do %>
+      <li>
+        <a href="/blog/<%= article["id"] %>"><%= article["title"] %></a>
+      </li>
+    <% end %>
+  </ul>
+</body>
+</html>
+```
+
+### Testing the Routes
+
+Start the server:
+
+```sh
+mix run --no-halt
+```
+
+Visit:
+
+- `http://localhost:4000/blog` to see the list of articles.
+- `http://localhost:4000/blog/:id` to view a specific article.
+
+This ensures that our application correctly fetches and renders blog content from Notion dynamically!
+
+## Conclusion
+
+![NotionBlog Home](https://awesomescreenshot.s3.amazonaws.com/image/6146217/52973726-0dd644004233ff79995e70deef1f4ad5.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJSCJQ2NM3XLFPVKA%2F20250216%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250216T104139Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&X-Amz-Signature=53efe8da9f97ce9221eecbf543540d637b16a4e28b011146bfed0c91e5ab86af)
+
+And there you have it—a minimalistic blog built-in **pure Elixir**, using **Notion as a CMS**, with just three dependencies. This project demonstrates how simple it can be to serve and manage blog content without needing a traditional database or a full-fledged web framework like Phoenix.
+
+![NotionBlog Article Detail](https://awesomescreenshot.s3.amazonaws.com/image/6146217/52973730-427a0dd0273e7329b37990c81c701013.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJSCJQ2NM3XLFPVKA%2F20250216%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250216T104208Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&X-Amz-Signature=dfc5e5cfa9f3ecd9625a35f49c284180f3e2c082277a8e3011315da8031a1e0e)
+
+### Possible Improvements & Follow-Up Exercises
+
+This proof of concept is a great starting point, but there are several ways to expand and improve upon it. Here are some ideas for follow-up exercises to make the project more robust and feature-rich:
+
+1. **Add Pagination** – Right now, all blog posts are fetched at once. Implementing pagination can improve performance and usability.
+2. **Implement Caching** – Since Notion API requests can be slow, consider adding a caching layer using ETS or an in-memory store like Redis.
+3. **Enhance Markdown Rendering** – Notion stores text content in blocks. Implementing a way to parse and render Markdown-like formatting would improve the reading experience.
+4. **Search & Filtering** – Add search functionality to filter blog posts based on keywords, categories, or tags.
+5. **Form for Creating & Updating Articles** – Instead of manually adding content via Notion, build a web form that allows users to create and edit articles directly from the UI and update them in Notion via the API.
+6. **Authentication & Authorization** – Restrict the ability to create, update, or delete articles to authenticated users.
+7. **Better Error Handling & Logging** – Improve error messages and log API failures for easier debugging.
+8. **Deploy the App** – Deploy the blog to a cloud service like Fly.io, Gigalixir, or DigitalOcean to make it publicly accessible.
+
+### Final Thoughts
+
+This project was a fun way to explore how to use Elixir in a lightweight, functional way while leveraging Notion as a content management system. Whether you want to expand on this idea or use it as inspiration for a different project, there’s plenty of room for experimentation.
+
+🚀 **Now it’s your turn—take it further and have fun building!**
+
+### GitHub Repository
+
+You can find the full source code for this project on GitHub: [Notion Blog Repository](https://github.com/dreamingechoes/notion_blog)
