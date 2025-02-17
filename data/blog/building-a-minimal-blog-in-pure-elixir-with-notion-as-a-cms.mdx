@@ -125,6 +125,8 @@ This means the web server is correctly handling HTTP requests.
 - Consider logging: Use `Logger` to track incoming requests for debugging.
 - Optimize for production: Configure `Cowboy` for better concurrency handling.
 
+---
+
 ## Setting Up Notion as Our CMS
 
 To use Notion as a CMS for our blog, we need to set up a Notion database and configure our Elixir application to fetch content from it using Notion's API.
@@ -138,8 +140,6 @@ To use Notion as a CMS for our blog, we need to set up a Notion database and con
    - `Body` (Text) – The article content.
 3. **Share the database** – Click on `Share` and add your Notion integration, granting it access to the database.
 4. **Copy the database ID** – Extract the database ID from the URL (the part after `notion.so/` and before the `?` parameter).
-
-![Notion database example](https://awesomescreenshot.s3.amazonaws.com/image/6146217/52973796-1d782e4993dfe1fd5c245717f77483eb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJSCJQ2NM3XLFPVKA%2F20250216%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250216T103849Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&X-Amz-Signature=5314caaf0ac76c048376c7ded1ad561edfc1dbe800cfd3a1a6cba6697ae12565)
 
 ### Getting an API Key
 
@@ -345,22 +345,26 @@ Visit:
 
 This ensures that our application correctly fetches and renders blog content from Notion dynamically!
 
+---
+
 ## Conclusion
 
-![NotionBlog Home](https://awesomescreenshot.s3.amazonaws.com/image/6146217/52973726-0dd644004233ff79995e70deef1f4ad5.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJSCJQ2NM3XLFPVKA%2F20250216%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250216T104139Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&X-Amz-Signature=53efe8da9f97ce9221eecbf543540d637b16a4e28b011146bfed0c91e5ab86af)
+And there you have it—a minimalistic blog built in pure Elixir, using Notion as a CMS, with just three dependencies. This project demonstrates how simple it can be to serve and manage blog content without needing a traditional database or a full-fledged web framework like Phoenix.
 
-And there you have it—a minimalistic blog built-in **pure Elixir**, using **Notion as a CMS**, with just three dependencies. This project demonstrates how simple it can be to serve and manage blog content without needing a traditional database or a full-fledged web framework like Phoenix.
+---
 
-![NotionBlog Article Detail](https://awesomescreenshot.s3.amazonaws.com/image/6146217/52973730-427a0dd0273e7329b37990c81c701013.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJSCJQ2NM3XLFPVKA%2F20250216%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250216T104208Z&X-Amz-Expires=28800&X-Amz-SignedHeaders=host&X-Amz-Signature=dfc5e5cfa9f3ecd9625a35f49c284180f3e2c082277a8e3011315da8031a1e0e)
+## Demo
+
+[Watch the demo video!](https://www.awesomescreenshot.com/video/36653857?key=55cdc56e1f2432b0e2acd1e559771fd8).
 
 ### Possible Improvements & Follow-Up Exercises
 
 This proof of concept is a great starting point, but there are several ways to expand and improve upon it. Here are some ideas for follow-up exercises to make the project more robust and feature-rich:
 
-1. **Add Pagination** – Right now, all blog posts are fetched at once. Implementing pagination can improve performance and usability.
+1. **Add Pagination** — All blog posts are fetched at once. Implementing pagination can improve performance and usability.
 2. **Implement Caching** – Since Notion API requests can be slow, consider adding a caching layer using ETS or an in-memory store like Redis.
 3. **Enhance Markdown Rendering** – Notion stores text content in blocks. Implementing a way to parse and render Markdown-like formatting would improve the reading experience.
-4. **Search & Filtering** – Add search functionality to filter blog posts based on keywords, categories, or tags.
+4. **Search & Filtering**—Add search functionality to filter blog posts by keywords, categories, or tags.
 5. **Form for Creating & Updating Articles** – Instead of manually adding content via Notion, build a web form that allows users to create and edit articles directly from the UI and update them in Notion via the API.
 6. **Authentication & Authorization** – Restrict the ability to create, update, or delete articles to authenticated users.
 7. **Better Error Handling & Logging** – Improve error messages and log API failures for easier debugging.
