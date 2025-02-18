@@ -1,7 +1,7 @@
 const contactData = [
   {
     title: 'MentorCruise',
-    description: `Level up your skills with tailored mentoring—book a session with me on Mentor Cruise.`,
+    description: `Level up your skills with personal mentoring—book a session with me on Mentor Cruise.`,
     imgSrc: '/static/images/contact/mentorcruise.png',
     href: 'https://mentorcruise.com/mentor/ivngonzlezsiz/',
   },
