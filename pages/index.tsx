@@ -41,7 +41,7 @@ export default function Home() {
             <strong className="underline underline-offset-4 decoration-4 decoration-yellow-300">
               Iván
             </strong>
-            , a software engineer from the north of Spain, committed to promoting{' '}
+            , an engineering team leader from the north of Spain, committed to promoting{' '}
             <strong className="underline underline-offset-4 decoration-4 decoration-rose-300">
               diversity
             </strong>{' '}
@@ -50,7 +50,7 @@ export default function Home() {
               mental health
             </strong>{' '}
             awareness in the tech community. I'm dedicated to fostering a culture of{' '}
-            <strong className="underline underline-offset-4 decoration-4 decoration-blue-300">
+            <strong className="underline underline-offset-4 decoration-4 decoration-purple-300">
               inclusivity
             </strong>{' '}
             and{' '}
