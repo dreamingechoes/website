@@ -138,6 +138,7 @@ defmodule PhoenixLiveViewAiFiltersPoc.Projects.Services.BuildProjectFilters do
 
 - Specifies `gpt-4-turbo` as the AI model for processing queries.
 - You can experiment with different OpenAI models (`gpt-4`, `gpt-3.5-turbo`) based on performance needs.
+
 🔗 **[OpenAI GPT Models Documentation](https://platform.openai.com/docs/models/gpt-4)**
 
 ##### **2️⃣ Defining the System Prompt for AI**
@@ -358,8 +359,6 @@ defmodule PhoenixLiveViewAiFiltersPoc.Projects.Finders.ListProjects do
 end
 ```
 
----
-
 ### **Breaking Down the Ecto Query**
 
 This module **takes AI-generated filters** and applies them dynamically to an **Ecto query**. Let’s analyze the code step by step.
@@ -375,6 +374,7 @@ defmodule PhoenixLiveViewAiFiltersPoc.Projects.Finders.ListProjects do
 
 🔹 **Why use `import Ecto.Query`?**
 This allows us to use **`from/2`**, **`where/3`**, and other **Ecto Query API functions** directly.
+
 🔗 [Ecto Query Documentation](https://hexdocs.pm/ecto/Ecto.Query.html)
 
 🔹 **Why use `alias PhoenixLiveViewAiFiltersPoc.Projects.Project`?**
@@ -403,6 +403,7 @@ end
 👉 **Why use `from(project in Project)` instead of `Project` directly?**
 
 Using **`from/2`** allows us to modify the query **dynamically before executing it**.
+
 🔗 [More about `from/2` in Ecto Queries](https://hexdocs.pm/ecto/Ecto.Query.html#from/2)
 
 #### **3️⃣ Applying Filters Dynamically (`apply_filters/2`)**
@@ -491,7 +492,7 @@ We modify our **LiveView template** to:
 
 Here’s the updated `index.html.heex` file:
 
-```heex
+```html
 <.header>
   Listing Projects
   <:actions>
@@ -562,7 +563,7 @@ Here’s the updated `index.html.heex` file:
 
 #### **1️⃣ Search Bar (User Input)**
 
-```heex
+```html
 <.form :let={f} for={%{}} as={:search} phx-submit="trigger-search" class="flex gap-2">
   <.input
     class="mt-2"
@@ -583,7 +584,7 @@ Here’s the updated `index.html.heex` file:
 
 #### **2️⃣ Displaying Active Filters**
 
-```heex
+```html
 <%= if !is_nil(@filters) do %>
   <div class="flex gap-2 items-center pt-4 text-sm">
     <%= for {filter, value} <- @filters do %>
@@ -601,7 +602,7 @@ Here’s the updated `index.html.heex` file:
 
 #### **3️⃣ Displaying Filtered Project Results**
 
-```heex
+```html
 <.table
   id="projects"
   rows={@streams.projects}
