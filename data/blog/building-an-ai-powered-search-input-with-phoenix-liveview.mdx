@@ -1,5 +1,5 @@
 ---
-title: "Building an AI-Powered Search Input With Phoenix LiveView"
+title: "Creating an AI-Powered Search Input With Phoenix LiveView"
 date: "2025-02-23"
 tags: ['elixir', 'phoenix', 'liveview', 'openai', 'ai-filters']
 draft: false
@@ -9,7 +9,7 @@ authors: ['default']
 
 ## **Rethinking Search: AI as a User Experience Improvement**
 
-When we think about AI-powered applications, we often imagine complex machine learning models, autonomous systems, or advanced recommendation engines. However, AI doesn’t have to be limited to large-scale, highly complex solutions—it can also be used to enhance everyday user experiences in **simple yet impactful ways**.
+When we think about AI-powered applications, we often imagine complex machine-learning models, autonomous systems, or advanced recommendation engines. However, AI doesn’t have to be limited to large-scale, highly complex solutions—it can also be used to enhance everyday user experiences in **simple yet impactful ways**.
 
 One of the most frustrating experiences in modern web applications is **searching for data efficiently**. Whether users are searching through **projects, tasks, orders, or customer records**, they often have to navigate through tedious and rigid filtering options.
 
@@ -120,17 +120,7 @@ end
 
 #### **Breaking Down the AI Filter Service**
 
-##### **1️⃣ Setting Up the Module and AI Model**
-
-```elixir
-defmodule PhoenixLiveViewAiFiltersPoc.Projects.Services.BuildProjectFilters do
-  @moduledoc """
-  Converts natural language queries into structured filters for project search.
-  """
-```
-
-- `@moduledoc` → Provides a high-level description of what this module does.
-- Module follows Elixir’s naming convention under `PhoenixLiveViewAiFiltersPoc.Projects.Services`.
+##### **1️⃣ Setting Up the AI Model**
 
 ```elixir
   @model "gpt-4-turbo"
@@ -184,6 +174,7 @@ defmodule PhoenixLiveViewAiFiltersPoc.Projects.Services.BuildProjectFilters do
 - `call/1` accepts a user query and sends it to OpenAI.
 - Provides **system instructions** (`@role_content`) and user input (`query`).
 - Uses **chat_completion** for structured output.
+
 🔗 **[OpenAI API - Chat Completions](https://platform.openai.com/docs/guides/gpt)**
 
 ##### **4️⃣ Processing the AI Response**
