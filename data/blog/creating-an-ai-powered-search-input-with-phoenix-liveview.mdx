@@ -1,9 +1,9 @@
 ---
-title: "Creating an AI-Powered Search Input With Phoenix LiveView"
-date: "2025-02-23"
+title: 'Creating an AI-Powered Search Input With Phoenix LiveView'
+date: '2025-02-23'
 tags: ['elixir', 'phoenix', 'liveview', 'openai', 'ai-filters']
 draft: false
-summary: "Learn how to integrate OpenAI with Phoenix LiveView to build an intelligent search bar that dynamically translates user queries into structured filters."
+summary: 'Learn how to integrate OpenAI with Phoenix LiveView to build an intelligent search bar that dynamically translates user queries into structured filters.'
 authors: ['default']
 ---
 
@@ -28,11 +28,11 @@ What if, instead of requiring users to **manually configure filters**, they coul
 
 Imagine a search bar that allows users to type queries like:
 
-- *"Show me active internal projects."*
-- *"Find all projects with a target date in March."*
-- *"List small or medium projects that are archived."*
-- *"Muestra los proyectos internos activos."* (Spanish)
-- *"Afficher tous les projets archivés."* (French)
+- _"Show me active internal projects."_
+- _"Find all projects with a target date in March."_
+- _"List small or medium projects that are archived."_
+- _"Muestra los proyectos internos activos."_ (Spanish)
+- _"Afficher tous les projets archivés."_ (French)
 
 Instead of **forcing the user** to understand the structure of the database, **manually select filters**, or **use specific keywords**, our system will **interpret their intent** and convert it into structured filters automatically—**regardless of the language they use**.
 
@@ -40,7 +40,7 @@ This is exactly what we’ll build in this article:
 
 ✅ A **smart search input in Phoenix LiveView** that allows users to search **naturally**.  
 ✅ An **integration with OpenAI’s GPT API** to **translate user queries into structured filters**.  
-✅ A **dynamic system** that works seamlessly in **multiple languages** without extra configuration.  
+✅ A **dynamic system** that works seamlessly in **multiple languages** without extra configuration.
 
 ## **How We’ll Build This**
 
@@ -59,7 +59,7 @@ By the end of this guide, you’ll have a **fully functional AI-powered search b
 🔹 **Improves User Experience** – No more **confusing filter interfaces**. Users just **type what they need**.  
 🔹 **Supports Multiple Languages** – Works with **English, Spanish, French**, and many more **without extra effort**.  
 🔹 **AI-Driven, But Simple** – We’re **not building a chatbot** or a **complex AI assistant**. We’re just using **AI to enhance a common UI component—search**.  
-🔹 **Real-Time and Efficient** – Thanks to **Phoenix LiveView**, the search will be **instant**, giving users an **interactive experience without page reloads**.  
+🔹 **Real-Time and Efficient** – Thanks to **Phoenix LiveView**, the search will be **instant**, giving users an **interactive experience without page reloads**.
 
 ## **Building the AI-Powered Filter Generation Service**
 
@@ -68,8 +68,8 @@ At the core of our intelligent search system is a service module that interacts 
 ### **What This Service Does**
 
 ✅ Accepts user queries as free-text input.  
-✅ Sends them to OpenAI’s GPT-4 model with a detailed prompt explaining how the response should be structured.    
-✅ Extracts the AI-generated JSON filters and makes them usable in our Ecto queries.  
+✅ Sends them to OpenAI’s GPT-4 model with a detailed prompt explaining how the response should be structured.  
+✅ Extracts the AI-generated JSON filters and makes them usable in our Ecto queries.
 
 ### **Defining the OpenAI Request Service**
 
@@ -197,7 +197,7 @@ end
 ✅ **Scalable** – Works with any number of filters, just update `@role_content`.  
 ✅ **Multi-language Support** – AI automatically detects and interprets queries in English, Spanish, French, and more.  
 ✅ **Future-proof** – Can be extended with new filters (e.g., categories, tags).  
-✅ **Fails Safely** – If OpenAI fails, we don’t break the app—just return an empty filter set.  
+✅ **Fails Safely** – If OpenAI fails, we don’t break the app—just return an empty filter set.
 
 This module is responsible for transforming a user’s natural language search query into structured filters. The next section will break down how we integrate this with **Phoenix LiveView** and dynamically update search results in real-time.
 
@@ -307,7 +307,7 @@ end
 ✅ **Real-Time Search Updates** – **LiveView updates dynamically** without reloading the page.  
 ✅ **AI-Powered Queries** – Users **don’t need to learn filter structures**—they just type **naturally**.  
 ✅ **Multi-Language Support** – Works with **English, Spanish, French**, and more!  
-✅ **Resilient Design** – If OpenAI fails, the app still **functions without breaking**.  
+✅ **Resilient Design** – If OpenAI fails, the app still **functions without breaking**.
 
 This completes the **LiveView integration** for **AI-powered search**! 🚀 In the next section, we will explore **how to dynamically filter projects using Ecto queries**.
 
@@ -321,7 +321,7 @@ Now that we have AI-generated filters from OpenAI, we need to apply them dynamic
 
 ✅ Convert AI-generated filters into **Ecto query conditions**.  
 ✅ Dynamically apply these conditions based on what the **user searched for**.  
-✅ Return **only the relevant projects** that match the search criteria.  
+✅ Return **only the relevant projects** that match the search criteria.
 
 To achieve this, we create a **dynamic Ecto query module** that processes the filters and returns a **filtered list of projects**.
 
@@ -425,7 +425,7 @@ defp apply_filter({:status, value}, query), do: where(query, [p], p.status == ^v
 ```
 
 ✅ **Checks if the filters map contains a `:status` key**.  
-✅ **Adds `WHERE status = 'some_value'` to the query**.  
+✅ **Adds `WHERE status = 'some_value'` to the query**.
 
 🔗 [More about `where/3` in Ecto](https://hexdocs.pm/ecto/Ecto.Query.html#where/3)
 
@@ -445,7 +445,7 @@ defp apply_filter({:target_date, [start_date, end_date]}, query),
 ```
 
 ✅ **Handles date range filtering** (e.g., `"Show projects from March to May"`).  
-✅ **Ensures that the project’s `target_date` falls within the specified range**.  
+✅ **Ensures that the project’s `target_date` falls within the specified range**.
 
 👉 **Why use `[start_date, end_date]` instead of a single value?**
 
@@ -457,7 +457,7 @@ defp apply_filter({:target_date, [start_date, end_date]}, query),
 ✅ **Dynamic Query Construction** – No need for **hardcoded conditions**; filters apply **dynamically**.  
 ✅ **AI-Driven Search Logic** – Users don’t need to manually pick filters, **AI does it for them**.  
 ✅ **Optimized SQL Queries** – Uses **Ecto’s `where/3`** for **efficient filtering**.  
-✅ **Supports Date Ranges** – Users can search by **month, year, or exact date**.  
+✅ **Supports Date Ranges** – Users can search by **month, year, or exact date**.
 
 This module ensures that **AI-generated filters** are **efficiently applied** to our **database queries**, giving users a **seamless and intelligent search experience**.
 
@@ -471,7 +471,7 @@ Now that we have successfully applied AI-generated filters to Ecto queries, we n
 
 ✅ Update the **LiveView template** to show **filtered project results**.  
 ✅ Display **applied filters** in the UI so users can **see what’s being used**.  
-✅ Ensure the **search bar updates results in real-time**.  
+✅ Ensure the **search bar updates results in real-time**.
 
 ### **Updating the LiveView Template**
 
@@ -569,7 +569,7 @@ Here’s the updated `index.html.heex` file:
 
 ✅ **Creates a search form** using `phx-submit="trigger-search"`, which triggers the **LiveView event** when the form is submitted.  
 ✅ The **input field** (`@query`) holds the **user's search text**.  
-✅ Pressing the search button **submits the query**, passing it to OpenAI to generate filters.  
+✅ Pressing the search button **submits the query**, passing it to OpenAI to generate filters.
 
 🔗 [More about handling form inputs in LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#phx-submit)
 
@@ -577,19 +577,21 @@ Here’s the updated `index.html.heex` file:
 
 ```html
 <%= if !is_nil(@filters) do %>
-  <div class="flex gap-2 items-center pt-4 text-sm">
-    <%= for {filter, value} <- @filters do %>
-      <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-        <b><%= filter %></b>: <%= value %>
-      </span>
-    <% end %>
-  </div>
+<div class="flex gap-2 items-center pt-4 text-sm">
+  <%= for {filter, value} <- @filters do %>
+  <span
+    class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+  >
+    <b><%= filter %></b>: <%= value %>
+  </span>
+  <% end %>
+</div>
 <% end %>
 ```
 
 ✅ **Dynamically displays the filters** generated by **OpenAI**.  
 ✅ Each filter is shown as a **badge**, making it **clear what is currently being used**.  
-✅ Users can **reset filters** using the reset button.  
+✅ Users can **reset filters** using the reset button.
 
 #### **3️⃣ Displaying Filtered Project Results**
 
@@ -609,14 +611,14 @@ Here’s the updated `index.html.heex` file:
 
 ✅ Uses **LiveView’s** `@streams` to dynamically update the **table**.  
 ✅ Clicking a **project** redirects to its **details page** via `JS.navigate/1`.  
-✅ **Data is updated in real-time** as **AI-generated filters** are applied.  
+✅ **Data is updated in real-time** as **AI-generated filters** are applied.
 
 ### **Why This Works Well**
 
 ✅ **Instant UI Updates** – Users see results **immediately after searching**.  
 ✅ **Clear Filter Visibility** – Shows **exactly which filters AI has applied**.  
 ✅ **Scalable & Maintainable** – Works seamlessly with **any number of filters**.  
-✅ **Interactive & User-Friendly** – **LiveView** handles everything **dynamically**.  
+✅ **Interactive & User-Friendly** – **LiveView** handles everything **dynamically**.
 
 This ensures an **enhanced search experience** by seamlessly integrating **AI-generated filters** into a **dynamic, real-time UI**. 🚀
 
@@ -626,14 +628,14 @@ We've successfully built a **real-time, AI-powered search experience** using:
 
 ✅ **Phoenix LiveView** for instant UI updates.  
 ✅ **OpenAI** for intelligent, natural-language-driven filtering.  
-✅ **Ecto** for applying AI-generated filters dynamically to our database queries.  
+✅ **Ecto** for applying AI-generated filters dynamically to our database queries.
 
 ### **What Makes This Approach Powerful?**
 
 💡 **Intuitive User Experience** – Users no longer need to manually select filters; they just type naturally.  
 💡 **Multilingual Search Support** – The AI understands and processes queries in any language.  
 💡 **Dynamic and Scalable** – The filtering system is flexible and can be expanded with more data sources.  
-💡 **No Page Reloads** – Thanks to **LiveView**, search results update in real time.  
+💡 **No Page Reloads** – Thanks to **LiveView**, search results update in real time.
 
 By eliminating the **cognitive load** of traditional filtering interfaces, we've created a **smart, user-friendly, and efficient** way for users to find what they need faster.
 
@@ -646,10 +648,10 @@ By eliminating the **cognitive load** of traditional filtering interfaces, we've
 - **ETS (Erlang Term Storage)** – [ETS Docs](https://www.erlang.org/doc/man/ets.html)
 - **Redis** – [Redis Caching Docs](https://redis.io/docs/manual/keyspace/)
 
-👉 **How This Helps:**  
+👉 **How This Helps:**
 
-✅ Reduces redundant OpenAI requests for the same query.   
-✅ Speeds up search results for repeated queries.  
+✅ Reduces redundant OpenAI requests for the same query.  
+✅ Speeds up search results for repeated queries.
 
 ### **2️⃣ Improve AI Query Understanding**
 
@@ -657,10 +659,10 @@ By eliminating the **cognitive load** of traditional filtering interfaces, we've
 - Provide the AI with **example queries** and expected outputs.
 - Validate **AI-generated filters** before applying them.
 
-👉 **How This Helps:** 
+👉 **How This Helps:**
 
 ✅ Ensures **higher accuracy** when converting user queries into filters.  
-✅ Prevents **misinterpretation** of ambiguous search terms.  
+✅ Prevents **misinterpretation** of ambiguous search terms.
 
 ### **3️⃣ Support Additional Data Sources**
 
@@ -668,12 +670,12 @@ Right now, we **filter projects** based on user queries. What if we extended thi
 
 ✅ **Users & Team Members** – _"Show me all active developers in the team."_  
 ✅ **Tasks & Tickets** – _"Find high-priority tasks assigned to Ivan."_  
-✅ **Invoices & Transactions** – _"List all invoices from last quarter."_  
+✅ **Invoices & Transactions** – _"List all invoices from last quarter."_
 
-👉 **How This Helps:** 
+👉 **How This Helps:**
 
 ✅ Makes the **search bar more versatile** across different business domains.  
-✅ Provides **consistent AI-powered filtering** across multiple models.  
+✅ Provides **consistent AI-powered filtering** across multiple models.
 
 ### **4️⃣ Enhance Search with Semantic Understanding**
 
@@ -681,12 +683,12 @@ Instead of just **matching keywords**, train a **custom AI model** to:
 
 ✅ **Understand contextual search queries**.  
 ✅ **Recognize synonyms and variations** of search terms.  
-✅ **Handle comparative queries** (e.g., _"projects bigger than X"_).  
+✅ **Handle comparative queries** (e.g., _"projects bigger than X"_).
 
-👉 **How This Helps:** 
+👉 **How This Helps:**
 
 ✅ Creates a **smarter and more human-like** search experience.  
-✅ Reduces the need for **exact keyword matches**.  
+✅ Reduces the need for **exact keyword matches**.
 
 ## **📌 Full Code and Repository**
 
@@ -701,4 +703,4 @@ Check out the complete working code on **GitHub**:
 
 🔹 **What other use cases can you think of?**  
 🔹 **How would you fine-tune the AI’s responses?**  
-🔹 **Could you integrate this with voice input** for an even better experience?  
+🔹 **Could you integrate this with voice input** for an even better experience?
