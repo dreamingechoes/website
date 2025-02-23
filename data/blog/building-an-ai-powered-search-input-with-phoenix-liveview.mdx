@@ -1,0 +1,708 @@
+---
+title: "Building an AI-Powered Search Input With Phoenix LiveView"
+date: "2025-02-23"
+tags: ['elixir', 'phoenix', 'liveview', 'openai', 'ai-filters']
+draft: false
+summary: "Learn how to integrate OpenAI with Phoenix LiveView to build an intelligent search bar that dynamically translates user queries into structured filters."
+authors: ['default']
+---
+
+## **Rethinking Search: AI as a User Experience Improvement**
+
+When we think about AI-powered applications, we often imagine complex machine learning models, autonomous systems, or advanced recommendation engines. However, AI doesn’t have to be limited to large-scale, highly complex solutions—it can also be used to enhance everyday user experiences in **simple yet impactful ways**.
+
+One of the most frustrating experiences in modern web applications is **searching for data efficiently**. Whether users are searching through **projects, tasks, orders, or customer records**, they often have to navigate through tedious and rigid filtering options.
+
+### **Think about how typical search filters work in most applications today**
+
+- Users are presented with a **series of dropdowns, checkboxes, or date pickers**.
+- They need to **manually select multiple filters**, such as status, date range, or category.
+- If they **don’t configure the filters correctly**, they might get **zero results** or **irrelevant results**.
+- Searching in **multiple languages**? That’s usually **not supported** without explicitly choosing a language filter.
+
+All of this adds **cognitive load** to the user and makes the search more **frustrating** than it needs to be.
+
+## **What If We Made Search Smarter?**
+
+What if, instead of requiring users to **manually configure filters**, they could just **describe what they’re looking for using plain language**?
+
+Imagine a search bar that allows users to type queries like:
+
+- *"Show me active internal projects."*
+- *"Find all projects with a target date in March."*
+- *"List small or medium projects that are archived."*
+- *"Muestra los proyectos internos activos."* (Spanish)
+- *"Afficher tous les projets archivés."* (French)
+
+Instead of **forcing the user** to understand the structure of the database, **manually select filters**, or **use specific keywords**, our system will **interpret their intent** and convert it into structured filters automatically—**regardless of the language they use**.
+
+This is exactly what we’ll build in this article:
+
+✅ A **smart search input in Phoenix LiveView** that allows users to search **naturally**.  
+✅ An **integration with OpenAI’s GPT API** to **translate user queries into structured filters**.  
+✅ A **dynamic system** that works seamlessly in **multiple languages** without extra configuration.  
+
+## **How We’ll Build This**
+
+To achieve this, we’ll leverage:
+
+- **[Phoenix LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html)** – to create a **real-time search interface** with instant feedback.
+- **[Ecto](https://hexdocs.pm/ecto/Ecto.html)** – to dynamically **apply AI-generated filters** to our database queries.
+- **[OpenAI API](https://platform.openai.com/docs/)** – to convert **natural language queries** into structured **JSON filters** that our backend can understand.
+
+By the end of this guide, you’ll have a **fully functional AI-powered search bar** that eliminates the complexity of manual filtering and allows users to search in a way that **feels natural**.
+
+📌 **Important Note:** The following **code snippets** are **examples** meant to explain how this system works. If you want the **full working implementation**, you can find it in the **GitHub repository** at the end of the article.
+
+## **Why This Approach Matters**
+
+🔹 **Improves User Experience** – No more **confusing filter interfaces**. Users just **type what they need**.  
+🔹 **Supports Multiple Languages** – Works with **English, Spanish, French**, and many more **without extra effort**.  
+🔹 **AI-Driven, But Simple** – We’re **not building a chatbot** or a **complex AI assistant**. We’re just using **AI to enhance a common UI component—search**.  
+🔹 **Real-Time and Efficient** – Thanks to **Phoenix LiveView**, the search will be **instant**, giving users an **interactive experience without page reloads**.  
+
+## **Building the AI-Powered Filter Generation Service**
+
+At the core of our intelligent search system is a service module that interacts with OpenAI’s API. This service translates natural language queries into structured filters, which can then be used in our database queries.
+
+### **What This Service Does**
+
+✅ Accepts user queries as free-text input.  
+✅ Sends them to OpenAI’s GPT-4 model with a detailed prompt explaining how the response should be structured.    
+✅ Extracts the AI-generated JSON filters and makes them usable in our Ecto queries.  
+
+### **Defining the OpenAI Request Service**
+
+Here’s the implementation of our Elixir service module that makes a request to OpenAI and processes the response:
+
+```elixir
+defmodule PhoenixLiveViewAiFiltersPoc.Projects.Services.BuildProjectFilters do
+  @moduledoc """
+  Converts natural language queries into structured filters for project search.
+  """
+
+  @model "gpt-4-turbo"
+  @role_content """
+  Generate a JSON object with project filters based on the user's query.
+
+  ## Filtering Options:
+  - `code`: Project code.
+  - `name`: Project name.
+  - `status`: Project status (`active`, `done`, `archived`, `deleted`, `draft`).
+  - `type`: Project type (`internal`, `external`).
+  - `target_date`: Project target date (use today's date as a reference: #{Date.utc_today()}).
+
+  ## Instructions:
+  - Return **only a valid JSON object**—no extra text, comments, or markdown.
+  - If dates are referenced, use a range if appropriate.
+  - Ensure correct enum values for status and type.
+  - The system supports multiple languages, so interpret queries accordingly.
+  """
+
+  @spec call(String.t()) :: map()
+  def call(query) do
+    OpenAI.chat_completion(
+      model: @model,
+      messages: [
+        %{role: "system", content: @role_content},
+        %{role: "user", content: query}
+      ]
+    )
+    |> case do
+      {:ok, %{choices: choices}} ->
+        {:ok, Jason.decode!(List.first(choices)["message"]["content"], keys: :atoms!)}
+      {:error, _reason} ->
+        {:error, %{}}
+    end
+  end
+end
+```
+
+#### **Breaking Down the AI Filter Service**
+
+##### **1️⃣ Setting Up the Module and AI Model**
+
+```elixir
+defmodule PhoenixLiveViewAiFiltersPoc.Projects.Services.BuildProjectFilters do
+  @moduledoc """
+  Converts natural language queries into structured filters for project search.
+  """
+```
+
+- `@moduledoc` → Provides a high-level description of what this module does.
+- Module follows Elixir’s naming convention under `PhoenixLiveViewAiFiltersPoc.Projects.Services`.
+
+```elixir
+  @model "gpt-4-turbo"
+```
+
+- Specifies `gpt-4-turbo` as the AI model for processing queries.
+- You can experiment with different OpenAI models (`gpt-4`, `gpt-3.5-turbo`) based on performance needs.
+🔗 **[OpenAI GPT Models Documentation](https://platform.openai.com/docs/models/gpt-4)**
+
+##### **2️⃣ Defining the System Prompt for AI**
+
+```elixir
+  @role_content """
+  Generate a JSON object with project filters based on the user's query.
+
+  ## Filtering Options:
+  - `code`: Project code.
+  - `name`: Project name.
+  - `status`: Project status (`active`, `done`, `archived`, `deleted`, `draft`).
+  - `type`: Project type (`internal`, `external`).
+  - `target_date`: Project target date (use today's date as a reference: #{Date.utc_today()}).
+
+  ## Instructions:
+  - Return **only a valid JSON object**—no extra text, comments, or markdown.
+  - If dates are referenced, use a range if appropriate.
+  - Ensure correct enum values for status and type.
+  - The system supports multiple languages, so interpret queries accordingly.
+  """
+```
+
+- Clearly defines **expected output** (a JSON object containing filters).
+- Restricts AI response to **JSON only** (no extra text or comments).
+- Ensures AI understands multi-language input.
+- Uses `Date.utc_today()` to dynamically adjust references to the current date.
+
+##### **3️⃣ Making the API Call to OpenAI**
+
+```elixir
+  @spec call(String.t()) :: map()
+  def call(query) do
+    OpenAI.chat_completion(
+      model: @model,
+      messages: [
+        %{role: "system", content: @role_content},
+        %{role: "user", content: query}
+      ]
+    )
+```
+
+- `call/1` accepts a user query and sends it to OpenAI.
+- Provides **system instructions** (`@role_content`) and user input (`query`).
+- Uses **chat_completion** for structured output.
+🔗 **[OpenAI API - Chat Completions](https://platform.openai.com/docs/guides/gpt)**
+
+##### **4️⃣ Processing the AI Response**
+
+```elixir
+    |> case do
+      {:ok, %{choices: choices}} ->
+        {:ok, Jason.decode!(List.first(choices)["message"]["content"], keys: :atoms!)}
+      {:error, _reason} ->
+        {:error, %{}}
+    end
+```
+
+- If the API call succeeds, it decodes the **first response choice** into a structured Elixir map.
+- Uses `Jason.decode!/2` to **convert JSON to Elixir atoms**.
+- If the API request fails, it **returns an empty map instead of breaking the app**.
+
+### **Why This Approach Works Well**
+
+✅ **Scalable** – Works with any number of filters, just update `@role_content`.  
+✅ **Multi-language Support** – AI automatically detects and interprets queries in English, Spanish, French, and more.  
+✅ **Future-proof** – Can be extended with new filters (e.g., categories, tags).  
+✅ **Fails Safely** – If OpenAI fails, we don’t break the app—just return an empty filter set.  
+
+This module is responsible for transforming a user’s natural language search query into structured filters. The next section will break down how we integrate this with **Phoenix LiveView** and dynamically update search results in real-time.
+
+## **Breaking Down the LiveView Integration**
+
+This **LiveView module** is responsible for managing the **search bar UI**, interacting with **OpenAI’s AI-powered filter service**, and updating the **project list dynamically**.
+
+Let’s go through the code step by step:
+
+### **1️⃣ Setting Up the LiveView Component**
+
+```elixir
+defmodule PhoenixLiveViewAiFiltersPocWeb.ProjectLive.Index do
+  use PhoenixLiveViewAiFiltersPocWeb, :live_view
+```
+
+This defines a **LiveView module** that will handle **real-time user interactions**.
+
+- **LiveView** enables **dynamic updates** without requiring a full-page reload.
+
+🔗 **[Phoenix LiveView Documentation](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html)**
+
+### **2️⃣ Importing Dependencies**
+
+```elixir
+alias PhoenixLiveViewAiFiltersPoc.Projects
+alias PhoenixLiveViewAiFiltersPoc.Projects.Services.BuildProjectFilters
+```
+
+- `Projects` → Handles **fetching project data** from the database.
+- `BuildProjectFilters` → Calls **OpenAI to convert user queries into structured filters**.
+
+### **3️⃣ Initializing the LiveView State (`mount/3`)**
+
+```elixir
+@impl true
+def mount(_params, _session, socket) do
+  {:ok, assign(socket, filters: %{}, query: "", projects: fetch_projects(%{}))}
+end
+```
+
+#### **What is happening here?**
+
+- `mount/3` is called when the LiveView **is first rendered**.
+- Initializes the **component’s state** by assigning:
+  - `filters: %{}` → No filters applied initially.
+  - `query: ""` → Empty search input.
+  - `projects: fetch_projects(%{})` → Loads **all projects initially**.
+
+👉 **Why is this important?**
+
+- The page **loads with all projects displayed**.
+- Filters are **empty until the user enters a query**.
+
+🔗 **[More about `mount/3` in LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:mount/3)**
+
+### **4️⃣ Handling the User's Search Query (`handle_event/3`)**
+
+```elixir
+@impl true
+def handle_event("trigger-search", %{"search" => %{"query" => query}}, socket) do
+  filters = case BuildProjectFilters.call(query) do
+    {:ok, filters} -> filters
+    _ -> %{}
+  end
+  {:noreply, assign(socket, :filters, filters, :projects, fetch_projects(filters))}
+end
+```
+
+#### **What does this function do?**
+
+- **Listens** for a `"trigger-search"` event, triggered when the user **submits the search form**.
+- Extracts the **query** from the search input.
+- Calls `BuildProjectFilters.call(query)`, which **converts the query into AI-generated filters**.
+- Updates the **LiveView state** (`filters` and `projects`) based on the **AI response**.
+
+#### **Error Handling**
+
+- If OpenAI **fails** or **returns an empty response**, we fall back to an **empty filter set (`%{}`)** to **ensure the app doesn’t break**.
+
+👉 **Why use `assign(socket, ...)`?**
+
+- **LiveView’s `assign/3` function** updates state **efficiently**, ensuring that only the necessary **parts of the UI re-render**, making updates **fast**.
+
+🔗 **[More about `handle_event/3` in LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:handle_event/3)**
+
+### **5️⃣ Fetching Filtered Projects from the Database (`fetch_projects/1`)**
+
+```elixir
+defp fetch_projects(filters) do
+  Projects.list_projects(filters)
+end
+```
+
+#### **What does this function do?**
+
+- Retrieves **projects** from the database based on the **applied filters**.
+- Calls `Projects.list_projects(filters)`, which will later be **modified to handle AI-generated filters**.
+
+👉 **Why is this in a separate function?**
+
+- Keeping it **separate makes it reusable**.
+- We can **reuse `fetch_projects/1`** in other parts of the app, if needed.
+
+### **Why This Approach Works Well**
+
+✅ **Real-Time Search Updates** – **LiveView updates dynamically** without reloading the page.  
+✅ **AI-Powered Queries** – Users **don’t need to learn filter structures**—they just type **naturally**.  
+✅ **Multi-Language Support** – Works with **English, Spanish, French**, and more!  
+✅ **Resilient Design** – If OpenAI fails, the app still **functions without breaking**.  
+
+This completes the **LiveView integration** for **AI-powered search**! 🚀 In the next section, we will explore **how to dynamically filter projects using Ecto queries**.
+
+🔜 **Next: Applying AI-Generated Filters to Ecto Queries**
+
+## **Filtering Projects with Ecto**
+
+Now that we have AI-generated filters from OpenAI, we need to apply them dynamically to an **Ecto query** to retrieve matching records from the database.
+
+### **What We Need to Do:**
+
+✅ Convert AI-generated filters into **Ecto query conditions**.  
+✅ Dynamically apply these conditions based on what the **user searched for**.  
+✅ Return **only the relevant projects** that match the search criteria.  
+
+To achieve this, we create a **dynamic Ecto query module** that processes the filters and returns a **filtered list of projects**.
+
+### **Building the Dynamic Ecto Query**
+
+Here’s the **Ecto-based implementation** that applies AI-generated filters dynamically:
+
+```elixir
+defmodule PhoenixLiveViewAiFiltersPoc.Projects.Finders.ListProjects do
+  import Ecto.Query
+  alias PhoenixLiveViewAiFiltersPoc.Projects.Project
+  alias PhoenixLiveViewAiFiltersPoc.Repo
+
+  def find(filters \ %{}) do
+    from(project in Project)
+    |> apply_filters(filters)
+    |> Repo.all()
+  end
+
+  defp apply_filters(query, filters), do: Enum.reduce(filters, query, &apply_filter/2)
+
+  defp apply_filter({:status, value}, query), do: where(query, [p], p.status == ^value)
+  defp apply_filter({:type, value}, query), do: where(query, [p], p.type == ^value)
+  defp apply_filter({:target_date, [start_date, end_date]}, query),
+    do: where(query, [p], p.target_date >= ^start_date and p.target_date <= ^end_date)
+end
+```
+
+---
+
+### **Breaking Down the Ecto Query**
+
+This module **takes AI-generated filters** and applies them dynamically to an **Ecto query**. Let’s analyze the code step by step.
+
+#### **1️⃣ Defining the Module and Imports**
+
+```elixir
+defmodule PhoenixLiveViewAiFiltersPoc.Projects.Finders.ListProjects do
+  import Ecto.Query
+  alias PhoenixLiveViewAiFiltersPoc.Projects.Project
+  alias PhoenixLiveViewAiFiltersPoc.Repo
+```
+
+🔹 **Why use `import Ecto.Query`?**
+This allows us to use **`from/2`**, **`where/3`**, and other **Ecto Query API functions** directly.
+🔗 [Ecto Query Documentation](https://hexdocs.pm/ecto/Ecto.Query.html)
+
+🔹 **Why use `alias PhoenixLiveViewAiFiltersPoc.Projects.Project`?**
+This lets us reference `Project` **directly** instead of writing `PhoenixLiveViewAiFiltersPoc.Projects.Project` every time.
+
+🔹 **Why use `alias PhoenixLiveViewAiFiltersPoc.Repo`?**
+It allows us to call `Repo.all(query)` **without needing to specify the full module path**.
+
+#### **2️⃣ The `find/1` Function - Entry Point**
+
+```elixir
+def find(filters \ %{}) do
+  from(project in Project)
+  |> apply_filters(filters)
+  |> Repo.all()
+end
+```
+
+🔹 **What does this function do?**
+
+- **`filters \ %{}`** → If no filters are provided, it defaults to an **empty map** (returns all projects).
+- **`from(project in Project)`** → This is an **Ecto query struct** that represents an **SQL query**.
+- **`apply_filters(filters)`** → **Dynamically applies filters** to the query.
+- **`Repo.all(query)`** → Executes the final **SQL query** and returns the results.
+
+👉 **Why use `from(project in Project)` instead of `Project` directly?**
+
+Using **`from/2`** allows us to modify the query **dynamically before executing it**.
+🔗 [More about `from/2` in Ecto Queries](https://hexdocs.pm/ecto/Ecto.Query.html#from/2)
+
+#### **3️⃣ Applying Filters Dynamically (`apply_filters/2`)**
+
+```elixir
+defp apply_filters(query, filters), do: Enum.reduce(filters, query, &apply_filter/2)
+```
+
+🔹 **What does this do?**
+
+- **`filters`** is a **map** of AI-generated **filter conditions**.
+- **`Enum.reduce/3`** iterates through each **filter** and modifies the query **accordingly**.
+- It calls **`apply_filter/2`** for each filter, adding a **WHERE condition dynamically**.
+
+👉 **Why use `Enum.reduce/3`?**
+
+This allows us to **build queries dynamically**, adding conditions **only when filters exist**.
+Without this, we’d have to **hardcode conditions**, making the query **less flexible**.
+
+#### **4️⃣ Handling Individual Filters (`apply_filter/2`)**
+
+Now let’s break down how we apply **each filter condition dynamically**.
+
+##### **Filtering by Status**
+
+```elixir
+defp apply_filter({:status, value}, query), do: where(query, [p], p.status == ^value)
+```
+
+✅ **Checks if the filters map contains a `:status` key**.  
+✅ **Adds `WHERE status = 'some_value'` to the query**.  
+
+🔗 [More about `where/3` in Ecto](https://hexdocs.pm/ecto/Ecto.Query.html#where/3)
+
+##### **Filtering by Type**
+
+```elixir
+defp apply_filter({:type, value}, query), do: where(query, [p], p.type == ^value)
+```
+
+✅ **Works the same way as `status`**, but filters by **project type** (e.g., `internal` vs. `external`).
+
+##### **Filtering by Date Range**
+
+```elixir
+defp apply_filter({:target_date, [start_date, end_date]}, query),
+  do: where(query, [p], p.target_date >= ^start_date and p.target_date <= ^end_date)
+```
+
+✅ **Handles date range filtering** (e.g., `"Show projects from March to May"`).  
+✅ **Ensures that the project’s `target_date` falls within the specified range**.  
+
+👉 **Why use `[start_date, end_date]` instead of a single value?**
+
+- This allows AI-generated filters to specify both an **exact date** and a **range**.
+- If AI detects a **specific month**, it can return the **full month range** instead of a **single date**.
+
+### **Why This Approach Works Well**
+
+✅ **Dynamic Query Construction** – No need for **hardcoded conditions**; filters apply **dynamically**.  
+✅ **AI-Driven Search Logic** – Users don’t need to manually pick filters, **AI does it for them**.  
+✅ **Optimized SQL Queries** – Uses **Ecto’s `where/3`** for **efficient filtering**.  
+✅ **Supports Date Ranges** – Users can search by **month, year, or exact date**.  
+
+This module ensures that **AI-generated filters** are **efficiently applied** to our **database queries**, giving users a **seamless and intelligent search experience**.
+
+With our **Ecto-powered filtering system** in place, we can now move on to dynamically **displaying the filtered results in Phoenix LiveView**. 🚀
+
+## **Displaying Results in LiveView**
+
+Now that we have successfully applied AI-generated filters to Ecto queries, we need to display the filtered results dynamically in **Phoenix LiveView**.
+
+### **What We Need to Do**
+
+✅ Update the **LiveView template** to show **filtered project results**.  
+✅ Display **applied filters** in the UI so users can **see what’s being used**.  
+✅ Ensure the **search bar updates results in real-time**.  
+
+### **Updating the LiveView Template**
+
+We modify our **LiveView template** to:
+
+- Provide a **search input** for users to type queries.
+- Show **active filters applied** by AI.
+- Display the **filtered list of projects** dynamically.
+
+Here’s the updated `index.html.heex` file:
+
+```heex
+<.header>
+  Listing Projects
+  <:actions>
+    <.link patch={~p"/projects/new"}>
+      <.button>New Project</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<div class="flex gap-2 items-center pt-4 text-sm">
+  <.form :let={f} for={%{}} as={:search} phx-submit="trigger-search" class="flex gap-2">
+    <.input
+      class="mt-2"
+      field={f[:query]}
+      value={@query}
+      placeholder="Search for projects..."
+      size="48"
+    />
+    <.button class="mt-2"><.icon name="hero-sparkles" class="w-4 h-4" /></.button>
+  </.form>
+
+  <%= if !is_nil(@filters) do %>
+    <.button phx-click="reset-search" class="mt-2">
+      <.icon name="hero-arrow-path" class="w-4 h-4" />
+    </.button>
+  <% end %>
+</div>
+
+<%= if !is_nil(@filters) do %>
+  <div class="flex gap-2 items-center pt-4 text-sm">
+    <%= for {filter, value} <- @filters do %>
+      <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+        <b><%= filter %></b>: <%= value %>
+      </span>
+    <% end %>
+  </div>
+<% end %>
+
+<.table
+  id="projects"
+  rows={@streams.projects}
+  row_click={fn {_id, project} -> JS.navigate(~p"/projects/#{project}") end}
+>
+  <:col :let={{_id, project}} label="Name"><%= project.name %></:col>
+  <:col :let={{_id, project}} label="Code"><%= project.code %></:col>
+  <:col :let={{_id, project}} label="Status"><%= project.status %></:col>
+  <:col :let={{_id, project}} label="Type"><%= project.type %></:col>
+  <:col :let={{_id, project}} label="Estimation"><%= project.estimation %></:col>
+  <:col :let={{_id, project}} label="Target date"><%= project.target_date %></:col>
+  <:action :let={{_id, project}}>
+    <div class="sr-only">
+      <.link navigate={~p"/projects/#{project}"}>Show</.link>
+    </div>
+    <.link patch={~p"/projects/#{project}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, project}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: project.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+```
+
+### **Breaking Down the LiveView Template**
+
+#### **1️⃣ Search Bar (User Input)**
+
+```heex
+<.form :let={f} for={%{}} as={:search} phx-submit="trigger-search" class="flex gap-2">
+  <.input
+    class="mt-2"
+    field={f[:query]}
+    value={@query}
+    placeholder="Search for projects..."
+    size="48"
+  />
+  <.button class="mt-2"><.icon name="hero-sparkles" class="w-4 h-4" /></.button>
+</.form>
+```
+
+✅ **Creates a search form** using `phx-submit="trigger-search"`, which triggers the **LiveView event** when the form is submitted.  
+✅ The **input field** (`@query`) holds the **user's search text**.  
+✅ Pressing the search button **submits the query**, passing it to OpenAI to generate filters.  
+
+🔗 [More about handling form inputs in LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#phx-submit)
+
+#### **2️⃣ Displaying Active Filters**
+
+```heex
+<%= if !is_nil(@filters) do %>
+  <div class="flex gap-2 items-center pt-4 text-sm">
+    <%= for {filter, value} <- @filters do %>
+      <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+        <b><%= filter %></b>: <%= value %>
+      </span>
+    <% end %>
+  </div>
+<% end %>
+```
+
+✅ **Dynamically displays the filters** generated by **OpenAI**.  
+✅ Each filter is shown as a **badge**, making it **clear what is currently being used**.  
+✅ Users can **reset filters** using the reset button.  
+
+#### **3️⃣ Displaying Filtered Project Results**
+
+```heex
+<.table
+  id="projects"
+  rows={@streams.projects}
+  row_click={fn {_id, project} -> JS.navigate(~p"/projects/#{project}") end}
+>
+  <:col :let={{_id, project}} label="Name"><%= project.name %></:col>
+  <:col :let={{_id, project}} label="Code"><%= project.code %></:col>
+  <:col :let={{_id, project}} label="Status"><%= project.status %></:col>
+  <:col :let={{_id, project}} label="Type"><%= project.type %></:col>
+  <:col :let={{_id, project}} label="Estimation"><%= project.estimation %></:col>
+  <:col :let={{_id, project}} label="Target date"><%= project.target_date %></:col>
+```
+
+✅ Uses **LiveView’s** `@streams` to dynamically update the **table**.  
+✅ Clicking a **project** redirects to its **details page** via `JS.navigate/1`.  
+✅ **Data is updated in real-time** as **AI-generated filters** are applied.  
+
+### **Why This Works Well**
+
+✅ **Instant UI Updates** – Users see results **immediately after searching**.  
+✅ **Clear Filter Visibility** – Shows **exactly which filters AI has applied**.  
+✅ **Scalable & Maintainable** – Works seamlessly with **any number of filters**.  
+✅ **Interactive & User-Friendly** – **LiveView** handles everything **dynamically**.  
+
+This ensures an **enhanced search experience** by seamlessly integrating **AI-generated filters** into a **dynamic, real-time UI**. 🚀
+
+## **Final Thoughts**
+
+We've successfully built a **real-time, AI-powered search experience** using:
+
+✅ **Phoenix LiveView** for instant UI updates.  
+✅ **OpenAI** for intelligent, natural-language-driven filtering.  
+✅ **Ecto** for applying AI-generated filters dynamically to our database queries.  
+
+### **What Makes This Approach Powerful?**
+
+💡 **Intuitive User Experience** – Users no longer need to manually select filters; they just type naturally.  
+💡 **Multilingual Search Support** – The AI understands and processes queries in any language.  
+💡 **Dynamic and Scalable** – The filtering system is flexible and can be expanded with more data sources.  
+💡 **No Page Reloads** – Thanks to **LiveView**, search results update in real time.  
+
+By eliminating the **cognitive load** of traditional filtering interfaces, we've created a **smart, user-friendly, and efficient** way for users to find what they need faster.
+
+## **🚀 Next Steps: Taking It Further**
+
+### **1️⃣ Implement Caching for Performance Optimization**
+
+**OpenAI API calls** add network latency and can be costly over time. Consider caching AI-generated filters using:
+
+- **ETS (Erlang Term Storage)** – [ETS Docs](https://www.erlang.org/doc/man/ets.html)
+- **Redis** – [Redis Caching Docs](https://redis.io/docs/manual/keyspace/)
+
+👉 **How This Helps:**
+✅ Reduces redundant OpenAI requests for the same query.  
+✅ Speeds up search results for repeated queries.  
+
+### **2️⃣ Improve AI Query Understanding**
+
+- Fine-tune the **AI prompt** to handle edge cases better.
+- Provide the AI with **example queries** and expected outputs.
+- Validate **AI-generated filters** before applying them.
+
+👉 **How This Helps:**
+✅ Ensures **higher accuracy** when converting user queries into filters.  
+✅ Prevents **misinterpretation** of ambiguous search terms.  
+
+### **3️⃣ Support Additional Data Sources**
+
+Right now, we **filter projects** based on user queries. What if we extended this to more datasets, such as:
+
+✅ **Users & Team Members** – _"Show me all active developers in the team."_  
+✅ **Tasks & Tickets** – _"Find high-priority tasks assigned to Ivan."_  
+✅ **Invoices & Transactions** – _"List all invoices from last quarter."_  
+
+👉 **How This Helps:**
+✅ Makes the **search bar more versatile** across different business domains.  
+✅ Provides **consistent AI-powered filtering** across multiple models.  
+
+### **4️⃣ Enhance Search with Semantic Understanding**
+
+Instead of just **matching keywords**, train a **custom AI model** to:
+
+✅ **Understand contextual search queries**.  
+✅ **Recognize synonyms and variations** of search terms.  
+✅ **Handle comparative queries** (e.g., _"projects bigger than X"_).  
+
+👉 **How This Helps:**
+✅ Creates a **smarter and more human-like** search experience.  
+✅ Reduces the need for **exact keyword matches**.  
+
+## **📌 Full Code and Repository**
+
+Want to explore the **full implementation** of this AI-powered search bar?
+Check out the complete working code on **GitHub**:
+
+🔗 **GitHub Repository:** [GitHub Repository](https://github.com/dreamingechoes/phoenix_live_view_ai_filters_poc)
+
+## **✨ Final Challenge: Try It in Your Own Project!**
+
+🚀 Now that you've seen how to build an **AI-powered search bar**, try implementing it in your own **Phoenix LiveView** project!
+
+🔹 **What other use cases can you think of?**  
+🔹 **How would you fine-tune the AI’s responses?**  
+🔹 **Could you integrate this with voice input** for an even better experience?  
