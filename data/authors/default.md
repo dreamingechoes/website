@@ -20,11 +20,11 @@ I'm Iván (he/him), pronounced [ee-bahn](https://www.spanishdict.com/pronunciati
 🌍 **Tech Community Organizer & Speaker** – Founder of **Elixir Asturias**, co-organizer of **FabadaConf**, and advocate for **DEI & Mental Health in Tech**.  
 
 ## 🛠️ My Tech Toolbox  
-🔹 **Backend:** Elixir, Phoenix, Ruby, Rails, Node.js  
-🔹 **Frontend:** JavaScript, TypeScript, React, Next.js  
-🔹 **Databases:** PostgreSQL, MySQL  
-🔹 **DevOps & Cloud:** AWS, Docker, CI/CD  
-🔹 **Currently Learning:** React Native, Design Systems, Erlang, Elm  
+⚫ **Backend:** Elixir, Phoenix, Ruby, Rails, Node.js  
+⚫ **Frontend:** JavaScript, TypeScript, React, Next.js  
+⚫ **Databases:** PostgreSQL, MySQL  
+⚫ **DevOps & Cloud:** AWS, Docker, CI/CD  
+⚫ **Currently Learning:** React Native, Design Systems, Erlang, Elm  
 
 ## 💡 My Philosophy on Engineering & Leadership  
 I believe that **great engineering goes beyond writing code**—it’s about **building strong teams, fostering collaboration, and creating solutions that drive real impact**. Since **2020, I've been leading teams**, focusing on **mentorship, career growth, and remote-first best practices**.  
