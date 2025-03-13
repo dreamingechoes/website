@@ -37,5 +37,5 @@ I believe that **great engineering goes beyond writing code**—it’s about **b
 ## 🔗 Let's Connect!  
 📩 **Email:** hi@dreamingecho.es  
 💼 **LinkedIn:** [linkedin.com/in/ivan-gonzalez-saiz](https://linkedin.com/in/ivan-gonzalez-saiz)  
-📄 **Resume:** [Check it out here](https://drive.google.com/file/d/1qEyG1hSF9D-u7NoMJpIaaohVpo7IuXQk/view?usp=sharing)  
+📄 **Resume:** [Check it out here](https://drive.google.com/file/d/1RwSJcuciMdYsIo0kt45i2ip4s5vBPwl2/view?usp=sharing)  
 🎓 **Mentorship:** [Book a session with me on MentorCruise](https://mentorcruise.com/mentor/ivngonzlezsiz/)  
