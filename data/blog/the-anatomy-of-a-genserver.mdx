@@ -7,8 +7,6 @@ summary: A deep dive into how GenServer works in Elixir, using a practical cachi
 authors: ['default']
 ---
 
-## Introduction
-
 If you've spent more than a few days working with [Elixir](https://elixir-lang.org/), chances are you've encountered the term [`GenServer`](https://hexdocs.pm/elixir/GenServer.html). It’s one of the most foundational abstractions in the language — a key component of the [OTP (Open Telecom Platform)](https://erlang.org/doc/design_principles/users_guide.html), the battle-tested set of libraries and principles originally developed in Erlang for building robust, concurrent, and fault-tolerant systems.
 
 At its core, a GenServer is just a **long-running process** that maintains state and handles incoming messages. But that simplicity is deceiving: it's also the engine behind many powerful patterns — from in-memory caches and rate-limiters to job queues, connection pools, and more.
