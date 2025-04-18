@@ -12,7 +12,7 @@ twitter: https://twitter.com/dreamingechoes
 
 # 👋 Hi folks!
 
-I'm Iván (he/him), pronounced [ee-bahn](https://www.spanishdict.com/pronunciation/iv%C3%A1n). I'm a **Software Engineer & Engineering Team Leader** passionate about **scaling teams, building impactful digital products, and mentoring engineers**. With **15+ years of experience**, I specialize in **backend development** but have also explored **frontend, DevOps, mobile, and UI/UX** to create **holistic, product-oriented solutions**.  
+I'm Iván (he/him), pronounced [ee-bahn](https://www.spanishdict.com/pronunciation/iv%C3%A1n). I'm a **Software Engineer** passionate about **building impactful digital products, and mentoring engineers**. With **15+ years of experience**, I specialize in **backend development** but have also explored **frontend, DevOps, mobile, and UI/UX** to create **holistic, product-oriented solutions**.  
 
 ## 🚀 What I Do  
 🏢 **Engineering Team Leader** at [Remote](https://remote.com) – Leading distributed teams, optimizing architectures, and driving engineering strategy.  
