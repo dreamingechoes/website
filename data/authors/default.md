@@ -1,7 +1,7 @@
 ---
 name: Iván González
 avatar: /static/images/avatar.svg
-occupation: Senior Software Engineer & Engineering Lead
+occupation: Senior Software Engineer
 company: 
 github: https://github.com/dreamingechoes
 gitlab: https://gitlab.com/dreamingechoes
