@@ -15,7 +15,7 @@ twitter: https://twitter.com/dreamingechoes
 I'm Iván (he/him), pronounced [ee-bahn](https://www.spanishdict.com/pronunciation/iv%C3%A1n). I'm a **Software Engineer** passionate about **building impactful digital products, and mentoring engineers**. With **15+ years of experience**, I specialize in **backend development** but have also explored **frontend, DevOps, mobile, and UI/UX** to create **holistic, product-oriented solutions**.  
 
 ## 🚀 What I Do  
-🏢 **Engineering Team Leader** at [Remote](https://remote.com) – Leading distributed teams, optimizing architectures, and driving engineering strategy.  
+🏢 **Senior Software Engineer & Engineering Lead** – Leading distributed teams, optimizing architectures, and driving engineering strategy.  
 🧑‍🏫 **Mentor at MentorCruise** – Helping engineers grow in **software development, leadership, and career progression**.  
 🌍 **Tech Community Organizer & Speaker** – Founder of **Elixir Asturias**, co-organizer of **FabadaConf**, and advocate for **DEI & Mental Health in Tech**.  
 
@@ -37,5 +37,5 @@ I believe that **great engineering goes beyond writing code**—it’s about **b
 ## 🔗 Let's Connect!  
 📩 **Email:** hi@dreamingecho.es  
 💼 **LinkedIn:** [linkedin.com/in/ivan-gonzalez-saiz](https://linkedin.com/in/ivan-gonzalez-saiz)  
-📄 **Resume:** [Check it out here](https://drive.google.com/file/d/1RwSJcuciMdYsIo0kt45i2ip4s5vBPwl2/view?usp=sharing)  
+📄 **Resume:** [Check it out here](https://drive.google.com/file/d/1bYpMnn7eR-xq28iASsJBxAf4zrWPFZNa/view?usp=sharing)  
 🎓 **Mentorship:** [Book a session with me on MentorCruise](https://mentorcruise.com/mentor/ivngonzlezsiz/)  
