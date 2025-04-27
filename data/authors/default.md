@@ -1,8 +1,8 @@
 ---
 name: Iván González
 avatar: /static/images/avatar.svg
-occupation: Engineering Team Leader
-company: Remote.com
+occupation: Senior Software Engineer & Engineering Lead
+company: 
 github: https://github.com/dreamingechoes
 gitlab: https://gitlab.com/dreamingechoes
 linkedin: https://www.linkedin.com/in/ivan-gonzalez-saiz/
