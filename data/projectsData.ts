@@ -1,7 +1,7 @@
 const projectsData = [
   {
     title: 'Awesome Mental Health',
-    description: `A curated list of awesome articles, websites and resources about mental health in the software industry.`,
+    description: `A curated list of awesome articles, websites, and resources about mental health in the software industry.`,
     imgSrc: '/static/images/projects/awesome-mental-health/logo.jpg',
     href: 'https://dreamingechoes.github.io/awesome-mental-health/',
   },
@@ -10,6 +10,12 @@ const projectsData = [
     description: `Annual software engineering conference located in Gijón, Asturias.`,
     imgSrc: '/static/images/projects/fabada-conf/logo.jpg',
     href: 'https://fabadaconf.com/',
+  },
+  {
+    title: 'Neilipsum',
+    description: `Lorem ipsum single page application with Neil deGrasse Tyson quotes.`,
+    imgSrc: '/static/images/projects/neil-degrasse-tyson-ipsum/neilipsum.png',
+    href: 'https://neilipsum.pw',
   },
   {
     title: 'Shoegaze Bot',
@@ -25,7 +31,7 @@ const projectsData = [
   },
   {
     title: 'Folks Who Code',
-    description: `Organization which aims for a more rich and diverse tech community.`,
+    description: `Organization which aims for a richer and diverse tech community.`,
     imgSrc: '/static/images/projects/folks-who-code/logo.jpg',
     href: 'https://folkswhocode.org/',
   },
