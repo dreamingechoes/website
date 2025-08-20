@@ -17,6 +17,14 @@ module.exports = {
     'next',
     'next/core-web-vitals',
   ],
+  overrides: [
+    {
+      files: ['next-env.d.ts'],
+      rules: {
+        '@typescript-eslint/triple-slash-reference': 'off',
+      },
+    },
+  ],
   rules: {
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',

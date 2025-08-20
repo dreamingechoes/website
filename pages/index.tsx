@@ -21,9 +21,9 @@ export default function Home() {
           <Image
             src="/static/images/avatar.svg"
             alt="avatar"
-            width="192px"
-            height="192px"
-            className="w-48 h-48 rounded-full"
+            width={192}
+            height={192}
+            className="mx-auto w-48 h-48 rounded-full"
           />
           <h1 className="xl:text-3xl text-1xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100">
             Iván González Sáiz

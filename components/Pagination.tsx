@@ -18,8 +18,11 @@ export default function Pagination({ totalPages, currentPage }: Props) {
           </button>
         )}
         {prevPage && (
-          <Link href={currentPage - 1 === 1 ? `/blog/` : `/blog/page/${currentPage - 1}`}>
-            <button>Previous</button>
+          <Link
+            href={currentPage - 1 === 1 ? `/blog/` : `/blog/page/${currentPage - 1}`}
+            className="text-primary-500 hover:text-primary-600"
+          >
+            Previous
           </Link>
         )}
         <span>
@@ -31,8 +34,11 @@ export default function Pagination({ totalPages, currentPage }: Props) {
           </button>
         )}
         {nextPage && (
-          <Link href={`/blog/page/${currentPage + 1}`}>
-            <button>Next</button>
+          <Link
+            href={`/blog/page/${currentPage + 1}`}
+            className="text-primary-500 hover:text-primary-600"
+          >
+            Next
           </Link>
         )}
       </nav>
