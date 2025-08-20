@@ -13,19 +13,21 @@
   },
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.58",
+    "@mdx-js/esbuild": "^2.3.0",
+    "@mdx-js/mdx": "^2.3.0",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",
+    "@types/node": "^24.3.0",
     "@vercel/analytics": "^0.1.10",
     "autoprefixer": "^10.4.0",
-    "esbuild": "^0.25.9",
+    "esbuild": "^0.14.54",
     "github-slugger": "^1.3.0",
     "gray-matter": "^4.0.2",
     "image-size": "1.0.0",
-    "mdx-bundler": "^10.1.1",
+    "mdx-bundler": "^9.0.0",
     "next": "^15.5.0",
     "next-themes": "^0.0.14",
     "postcss": "^8.4.5",
-    "preact": "^10.6.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "reading-time": "1.3.0",
@@ -64,7 +66,7 @@
     "prettier": "2.2.1",
     "socket.io": "^4.1.3",
     "socket.io-client": "^4.1.3",
-    "typescript": "^4.3.5"
+    "typescript": "^5.9.2"
   },
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [

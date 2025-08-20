@@ -1,11 +1,17 @@
 body {
-  border-top: solid 5px #4E2A8E;
+  border-top: solid 5px #4e2a8e;
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Nunito', sans-serif;
   font-weight: 800;
 }
-.header-title, .mobile-nav {
+.header-title,
+.mobile-nav {
   font-family: 'Nunito', sans-serif;
   font-weight: 800;
   font-size: xx-large;

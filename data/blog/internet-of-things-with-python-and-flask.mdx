@@ -14,11 +14,13 @@ One interesting approach I recently explored is combining **Python** with **Flas
 ## What Do You Need?
 
 ### Hardware:
+
 - **Raspberry Pi** (I used an old Raspberry Pi B+)
 - **LED** for interaction
 - **Infrared proximity sensor** for real-world data collection
 
 ### Software:
+
 - Basic **Python** knowledge
 - Some **HTML/CSS/JavaScript** experience
 
@@ -136,14 +138,14 @@ Create an `index.html` template in `templates/`:
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Flask IoT App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-</head>
-<body>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+  </head>
+  <body>
     <h1>IoT Dashboard</h1>
     <p>Sensor Value: {{ sensor_value }}</p>
-</body>
+  </body>
 </html>
 ```
 
@@ -154,14 +156,14 @@ Create a `static/` folder for Bootstrap and other assets.
 Modify the UI to include buttons that trigger the `change_led_status` route:
 
 ```javascript
-$(document).ready(function() {
-    $('#set_on').click(function() {
-        $.post('/change_led_status/1');
-    });
-    $('#set_off').click(function() {
-        $.post('/change_led_status/0');
-    });
-});
+$(document).ready(function () {
+  $('#set_on').click(function () {
+    $.post('/change_led_status/1')
+  })
+  $('#set_off').click(function () {
+    $.post('/change_led_status/0')
+  })
+})
 ```
 
 ## Running the Application

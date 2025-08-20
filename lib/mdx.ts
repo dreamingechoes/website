@@ -1,25 +1,25 @@
+import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
+import { PostFrontMatter } from 'types/PostFrontMatter'
+import { Toc } from 'types/Toc'
 import { bundleMDX } from 'mdx-bundler'
 import fs from 'fs'
+import getAllFilesRecursively from './utils/files'
 import matter from 'gray-matter'
 import path from 'path'
 import readingTime from 'reading-time'
-import getAllFilesRecursively from './utils/files'
-import { PostFrontMatter } from 'types/PostFrontMatter'
-import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
-import { Toc } from 'types/Toc'
-// Remark packages
-import remarkGfm from 'remark-gfm'
-import remarkFootnotes from 'remark-footnotes'
-import remarkMath from 'remark-math'
-import remarkCodeTitles from './remark-code-title'
-import remarkTocHeadings from './remark-toc-headings'
-import remarkImgToJsx from './remark-img-to-jsx'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeCitation from 'rehype-citation'
+import rehypeKatex from 'rehype-katex'
+import rehypePrismPlus from 'rehype-prism-plus'
 // Rehype packages
 import rehypeSlug from 'rehype-slug'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypeKatex from 'rehype-katex'
-import rehypeCitation from 'rehype-citation'
-import rehypePrismPlus from 'rehype-prism-plus'
+import remarkCodeTitles from './remark-code-title'
+import remarkFootnotes from 'remark-footnotes'
+// Remark packages
+import remarkGfm from 'remark-gfm'
+import remarkImgToJsx from './remark-img-to-jsx'
+import remarkMath from 'remark-math'
+import remarkTocHeadings from './remark-toc-headings'
 
 const root = process.cwd()
 
@@ -62,10 +62,11 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
     source,
     // mdx imports can be automatically source from the components directory
     cwd: path.join(root, 'components'),
-    xdmOptions(options) {
+    mdxOptions(options) {
       // this is the recommended way to add custom remark/rehype plugins:
       // The syntax might look weird, but it protects you in case we add/remove
       // plugins in the future.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       options.remarkPlugins = [
         ...(options.remarkPlugins ?? []),
         [remarkTocHeadings, { exportRef: toc }],
@@ -74,7 +75,8 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
         [remarkFootnotes, { inlineNotes: true }],
         remarkMath,
         remarkImgToJsx,
-      ]
+      ] as any[]
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       options.rehypePlugins = [
         ...(options.rehypePlugins ?? []),
         rehypeSlug,
@@ -85,7 +87,7 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
           { bibliography: frontmatter?.bibliography, path: path.join(root, 'data') },
         ],
         [rehypePrismPlus, { ignoreMissing: true }],
-      ]
+      ] as any[]
       return options
     },
     esbuildOptions: (options) => {

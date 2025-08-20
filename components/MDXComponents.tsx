@@ -1,18 +1,20 @@
 /* eslint-disable react/display-name */
 import React, { useMemo } from 'react'
-import { ComponentMap, getMDXComponent } from 'mdx-bundler/client'
-import Image from './Image'
-import CustomLink from './Link'
-import TOCInline from './TOCInline'
-import Pre from './Pre'
+
 import { BlogNewsletterForm } from './NewsletterForm'
+import CustomLink from './Link'
+import Image from './Image'
+import Pre from './Pre'
+import TOCInline from './TOCInline'
+import { getMDXComponent } from 'mdx-bundler/client'
 
 const Wrapper: React.ComponentType<{ layout: string }> = ({ layout, ...rest }) => {
   const Layout = require(`../layouts/${layout}`).default
   return <Layout {...rest} />
 }
 
-export const MDXComponents: ComponentMap = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const MDXComponents: Record<string, React.ComponentType<any>> = {
   Image,
   //@ts-ignore
   TOCInline,

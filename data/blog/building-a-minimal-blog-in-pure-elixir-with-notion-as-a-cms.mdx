@@ -1,15 +1,15 @@
 ---
-title: "Building a Minimal Blog in Pure Elixir with Notion as a CMS"
+title: 'Building a Minimal Blog in Pure Elixir with Notion as a CMS'
 date: '2025-02-17'
 tags: ['elixir', 'notion', 'blog']
 draft: false
-summary: "A proof of concept for a simple blog using pure Elixir, with Notion as a CMS and only three dependencies: Cowboy, HTTPoison, and Jason."
+summary: 'A proof of concept for a simple blog using pure Elixir, with Notion as a CMS and only three dependencies: Cowboy, HTTPoison, and Jason.'
 authors: ['default']
 ---
 
 ## Why This Idea?
 
-The other day, while tweaking my website (built with React and Next.js), I wondered: *What if I built something simpler?* No Phoenix, no traditional database—just pure Elixir and some lightweight dependencies.
+The other day, while tweaking my website (built with React and Next.js), I wondered: _What if I built something simpler?_ No Phoenix, no traditional database—just pure Elixir and some lightweight dependencies.
 
 Then it hit me: **What if I used Notion as the CMS for a minimalistic blog?** It sounded like a fun experiment, even though I knew the Notion API wouldn't be the fastest option. But hey, it's all about having fun and exploring ideas, right?
 
@@ -294,14 +294,14 @@ This template renders an individual blog post in a simple yet structured format:
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= @title %></title>
-</head>
-<body>
-  <h1><%= @article["title"] %></h1>
-  <p><strong>Date:</strong> <%= @article["date"] %></p>
-  <div><%= @article["body"] %></div>
-</body>
+  <head>
+    <title><%= @title %></title>
+  </head>
+  <body>
+    <h1><%= @article["title"] %></h1>
+    <p><strong>Date:</strong> <%= @article["date"] %></p>
+    <div><%= @article["body"] %></div>
+  </body>
 </html>
 ```
 

@@ -1,10 +1,10 @@
 ---
-title: "How to Change a Field Type in an Ecto Embedded Schema with a Migration"
-date: "2025-02-14"
-tags: ["ecto", "phoenix", "elixir", "migrations", "postgresql"]
+title: 'How to Change a Field Type in an Ecto Embedded Schema with a Migration'
+date: '2025-02-14'
+tags: ['ecto', 'phoenix', 'elixir', 'migrations', 'postgresql']
 draft: false
-summary: "Changing a field type in an Ecto embedded schema requires both a code update and a database migration. This guide walks through the process, ensuring data consistency and avoiding common pitfalls."
-authors: ["default"]
+summary: 'Changing a field type in an Ecto embedded schema requires both a code update and a database migration. This guide walks through the process, ensuring data consistency and avoiding common pitfalls.'
+authors: ['default']
 ---
 
 ## Why I’m Writing This?
@@ -95,13 +95,13 @@ end
 
 ### **Breaking Down the SQL:**
 
-- `string_to_array((embedded_schema_field->>'tags'), ',')`:  
+- `string_to_array((embedded_schema_field->>'tags'), ',')`:
   - Converts the existing string into an array, splitting by commas.
-- `to_jsonb(...)`:  
+- `to_jsonb(...)`:
   - Ensures the updated value remains in **JSONB format**.
-- `jsonb_set(...)`:  
+- `jsonb_set(...)`:
   - Updates only the `tags` key inside the embedded schema field.
-- `WHERE embedded_schema_field ? 'tags'`:  
+- `WHERE embedded_schema_field ? 'tags'`:
   - Ensures we only update records that contain the `tags` field.
 
 For the **rollback (`down/0`)**, we reverse the process by **converting the array back into a comma-separated string**.

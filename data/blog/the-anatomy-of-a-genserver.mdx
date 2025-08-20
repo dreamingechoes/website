@@ -13,9 +13,10 @@ At its core, a GenServer is just a **long-running process** that maintains state
 
 GenServers are used everywhere in Elixir projects, whether you're building a distributed system with [Phoenix](https://www.phoenixframework.org/), managing background tasks with [`Oban`](https://hexdocs.pm/oban), or implementing custom supervision trees for high-reliability services.
 
-So why do they feel a bit *magical* at first?
+So why do they feel a bit _magical_ at first?
 
 Because under the hood, GenServers rely on several layers of OTP abstractions:
+
 - They're **processes** spawned and managed by the BEAM VM.
 - They follow a **generic server pattern**, where you define how to respond to calls (`handle_call/3`), casts (`handle_cast/2`), and other messages (`handle_info/2`).
 - They're **fully integrated into supervision trees**, giving you crash recovery and fault isolation almost for free.
@@ -48,13 +49,14 @@ Let’s get started.
 
 ## What Is a GenServer?
 
-A [`GenServer`](https://hexdocs.pm/elixir/GenServer.html) (short for *generic server*) is one of the core abstractions in Elixir's [OTP](https://hexdocs.pm/elixir/1.15/Process.html#module-the-open-telecom-platform) toolkit. At a high level, it's just a **process with a message-handling loop and internal state** — but under the hood, it provides powerful features like synchronous calls, asynchronous casts, timeouts, and integration with supervision trees.
+A [`GenServer`](https://hexdocs.pm/elixir/GenServer.html) (short for _generic server_) is one of the core abstractions in Elixir's [OTP](https://hexdocs.pm/elixir/1.15/Process.html#module-the-open-telecom-platform) toolkit. At a high level, it's just a **process with a message-handling loop and internal state** — but under the hood, it provides powerful features like synchronous calls, asynchronous casts, timeouts, and integration with supervision trees.
 
-It abstracts the common *client-server pattern* in concurrent systems: one process (the server) maintains some internal state and responds to requests (from clients) in a controlled and safe manner.
+It abstracts the common _client-server pattern_ in concurrent systems: one process (the server) maintains some internal state and responds to requests (from clients) in a controlled and safe manner.
 
 ### Why is this useful?
 
 In the BEAM VM, everything runs in lightweight processes that communicate via message passing. A GenServer makes it easy to implement a long-lived process that can:
+
 - Maintain internal state (counters, maps, queues, etc.)
 - Coordinate or throttle access to resources
 - Handle periodic tasks or timeouts
@@ -201,6 +203,7 @@ end
 ```
 
 This is a complete and production-friendly GenServer:
+
 - ✅ Clean public API with `fetch/1` and `cache/2`
 - ✅ Safe in-memory state
 - ✅ Periodic stats with `handle_info/2`
@@ -236,6 +239,7 @@ end
 ```
 
 This callback initializes the GenServer’s state. Here, we:
+
 - Set the initial state to an empty map
 - Schedule a periodic message (`:log_stats`) to self every 60 seconds
 
@@ -288,6 +292,7 @@ end
 Handles out-of-band messages, such as scheduled timers or raw messages sent to the process.
 
 Here, we:
+
 - Print the number of cached queries every 60 seconds
 - Reschedule the next log message
 
@@ -300,7 +305,7 @@ defp maybe_evict(state) when map_size(state) >= @max_cache_size do
 end
 ```
 
-Helper function to enforce the cache limit. If the state map has reached the maximum size, we evict the oldest entry. This is a basic eviction strategy — a true [LRU cache](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)) would be more robust.
+Helper function to enforce the cache limit. If the state map has reached the maximum size, we evict the oldest entry. This is a basic eviction strategy — a true [LRU cache](<https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)>) would be more robust.
 
 ## Live Updates with `handle_info/2`
 
@@ -476,6 +481,7 @@ end
 ```
 
 Use this approach when:
+
 - The state is not huge
 - You can tolerate some minor delay in writing/loading
 - You want full control over the format and path
@@ -487,6 +493,7 @@ Use this approach when:
 Elixir 1.8 introduced [`:persistent_term`](https://hexdocs.pm/elixir/:persistent_term.html) — a key-value storage for long-lived, read-heavy data. It’s global and extremely fast for reads, but **very slow for writes** and **not thread-safe for concurrent writes**.
 
 It’s ideal for:
+
 - Static configurations
 - System-wide reference data that changes infrequently
 
@@ -497,6 +504,7 @@ Not ideal for dynamic GenServer state, but worth knowing about.
 ETS gives you in-memory storage that lives **outside the GenServer process** and can survive if your GenServer crashes (as long as the ETS owner process stays alive).
 
 You can use ETS either:
+
 - Directly in the GenServer module
 - As a shared table owned by another process
 
@@ -524,6 +532,7 @@ end
 If you want **true persistence with optional replication**, [Mnesia](https://www.erlang.org/doc/apps/mnesia/) is Erlang’s built-in distributed database. It integrates well with OTP and supports transactional reads/writes.
 
 Use it if:
+
 - You need durable state across restarts
 - You need cluster-wide consistency
 - You’re okay with more complexity and learning curve
@@ -532,12 +541,12 @@ Use it if:
 
 The right approach depends on your needs:
 
-| Strategy         | Pros                           | Cons                             |
-|------------------|--------------------------------|----------------------------------|
-| File storage     | Simple, flexible               | Manual serialization needed      |
-| `:persistent_term` | Blazing fast reads             | Global, not for frequent writes  |
-| ETS              | Fast, concurrent, in-memory    | Not durable by default           |
-| Mnesia           | Persistent + distributed       | Complex setup, Erlang-specific   |
+| Strategy           | Pros                        | Cons                            |
+| ------------------ | --------------------------- | ------------------------------- |
+| File storage       | Simple, flexible            | Manual serialization needed     |
+| `:persistent_term` | Blazing fast reads          | Global, not for frequent writes |
+| ETS                | Fast, concurrent, in-memory | Not durable by default          |
+| Mnesia             | Persistent + distributed    | Complex setup, Erlang-specific  |
 
 For many real-time apps, **ETS + occasional disk backups** strike a good balance between performance and reliability.
 
@@ -547,7 +556,7 @@ Next, let’s see how to make sure your GenServer is supervised properly so it g
 
 One of the most powerful features of Elixir and the BEAM VM is its built-in supervision model. Supervisors are processes designed to **monitor other processes**, restarting them if they crash. This is where your GenServer fits into a broader fault-tolerant architecture.
 
-By placing your GenServer under a **supervision tree**, you ensure it gets restarted automatically in case of failure — a key principle of OTP: *let it crash, and recover fast*.
+By placing your GenServer under a **supervision tree**, you ensure it gets restarted automatically in case of failure — a key principle of OTP: _let it crash, and recover fast_.
 
 ### Adding your GenServer to a Supervisor
 
@@ -596,7 +605,7 @@ The three most common strategies are:
 
 - `:one_for_one` – Restart only the crashed child (default and most common)
 - `:one_for_all` – Restart all children if any one crashes (used when children are tightly coupled)
-- `:rest_for_one` – Restart the crashed process and any processes started *after* it
+- `:rest_for_one` – Restart the crashed process and any processes started _after_ it
 
 For most GenServers, `:one_for_one` is appropriate.
 
@@ -680,6 +689,7 @@ end
 ### 4. Avoid race conditions
 
 GenServers process messages sequentially, but tests run concurrently. Use tools like:
+
 - `:timer.sleep/1` (cautiously)
 - `call` instead of `cast` when timing matters
 - [`Mox`](https://hexdocs.pm/mox/Mox.html) to stub dependencies if needed
@@ -692,38 +702,44 @@ Elixir provides multiple abstractions for managing state and concurrency — eac
 
 Here’s a comparison to help guide your decision:
 
-| Abstraction | Use Case |
-|-------------|----------|
-| [`GenServer`](https://hexdocs.pm/elixir/GenServer.html) | Stateful, concurrent logic with message passing and fault tolerance |
-| [`Agent`](https://hexdocs.pm/elixir/Agent.html)     | Simpler state holder with no message pattern matching needed |
-| [`Task`](https://hexdocs.pm/elixir/Task.html)      | Short-lived concurrent operations (e.g., fire-and-forget, async work) |
+| Abstraction                                             | Use Case                                                              |
+| ------------------------------------------------------- | --------------------------------------------------------------------- |
+| [`GenServer`](https://hexdocs.pm/elixir/GenServer.html) | Stateful, concurrent logic with message passing and fault tolerance   |
+| [`Agent`](https://hexdocs.pm/elixir/Agent.html)         | Simpler state holder with no message pattern matching needed          |
+| [`Task`](https://hexdocs.pm/elixir/Task.html)           | Short-lived concurrent operations (e.g., fire-and-forget, async work) |
 
 ### 🧠 When to use `GenServer`
+
 - You need long-lived, persistent state
 - You want to coordinate messages between processes
 - You need fine-grained control over how and when messages are handled
 - You require integration with a supervision tree
 
 Examples:
+
 - In-memory cache with eviction
 - Background queue processor
 - Stateful protocol handler (e.g. socket or channel connection)
 
 ### 🧱 When to use `Agent`
+
 - You want a lightweight abstraction over shared state
 - You don’t need to match on complex messages or implement custom logic per message
 
 Examples:
+
 - Tracking a counter or metric
 - Simple stateful configuration store
 - Small shared cache with minimal mutation logic
 
 ### ⚡ When to use `Task`
+
 - You want to run something concurrently or in the background
 - You don’t need to hold state between requests
 - You’re okay with the task completing and going away
 
 Examples:
+
 - Fetching remote data asynchronously
 - Offloading heavy computation
 - Scheduling one-off background jobs
@@ -743,6 +759,7 @@ Each tool fits a specific use case. Choosing the right one keeps your architectu
 By now, you’ve seen how GenServer isn’t just a theoretical construct — it’s a versatile, production-ready abstraction that underpins many core patterns in Elixir applications.
 
 We’ve covered everything from:
+
 - ✅ Setting up a GenServer with real-world use cases
 - 🧠 Understanding the message handling lifecycle (`call`, `cast`, `info`)
 - 🔄 Adding observability with Telemetry
@@ -754,6 +771,7 @@ We’ve covered everything from:
 What may have started as a mysterious behavior is now a flexible, reliable mechanism for building concurrent services, long-lived stateful processes, and internal systems that can crash and recover — the OTP way.
 
 ### Final tips
+
 - Don’t start with GenServer unless you **need** message handling or persistent state.
 - Don’t fear crashing: supervisors are built to help you recover fast.
 - Don’t overcomplicate: keep state and responsibilities minimal where possible.
