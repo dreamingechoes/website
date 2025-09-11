@@ -18,7 +18,6 @@
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",
     "@types/node": "^24.3.0",
-    "@vercel/analytics": "^0.1.10",
     "autoprefixer": "^10.4.0",
     "esbuild": "^0.14.54",
     "github-slugger": "^1.3.0",
@@ -40,7 +39,7 @@
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
     "sharp": "^0.34.3",
-    "smoothscroll-polyfill": "^0.4.4",
+    "socket.io-client": "^4.8.1",
     "tailwindcss": "^3.0.2",
     "unist-util-visit": "^4.0.0"
   },
@@ -64,8 +63,6 @@
     "lint-staged": "^11.0.0",
     "next-remote-watch": "^1.0.0",
     "prettier": "2.2.1",
-    "socket.io": "^4.1.3",
-    "socket.io-client": "^4.1.3",
     "typescript": "^5.9.2"
   },
   "lint-staged": {

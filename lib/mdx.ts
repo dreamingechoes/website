@@ -99,16 +99,38 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
     },
   })
 
-  return {
-    mdxSource: code,
-    toc,
-    frontMatter: {
-      readingTime: readingTime(code),
-      slug: slug || null,
-      fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
-      ...frontmatter,
-      date: frontmatter.date ? new Date(frontmatter.date).toISOString() : null,
-    },
+  const safe = (value) => (value === undefined ? null : value)
+  if (type === 'authors') {
+    const authorFrontMatter = {}
+    Object.keys(frontmatter).forEach((key) => {
+      authorFrontMatter[key] = safe(frontmatter[key])
+    })
+    return {
+      mdxSource: code,
+      toc,
+      frontMatter: {
+        ...authorFrontMatter,
+        slug: slug || null,
+        fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
+      },
+    }
+  } else {
+    const { title, summary, tags, authors, draft, date } = frontmatter
+    return {
+      mdxSource: code,
+      toc,
+      frontMatter: {
+        readingTime: readingTime(code),
+        slug: slug || null,
+        fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
+        title: safe(title),
+        summary: safe(summary),
+        tags: safe(tags),
+        authors: safe(authors),
+        draft: safe(draft),
+        date: date ? new Date(date).toISOString() : null,
+      },
+    }
   }
 }
 
@@ -117,12 +139,11 @@ export async function getAllFilesFrontMatter(folder: 'blog') {
 
   const files = getAllFilesRecursively(prefixPaths)
 
+  const safe = (value) => (value === undefined ? null : value)
   const allFrontMatter: PostFrontMatter[] = []
 
   files.forEach((file: string) => {
-    // Replace is needed to work on Windows
     const fileName = file.slice(prefixPaths.length + 1).replace(/\\/g, '/')
-    // Remove Unexpected File
     if (path.extname(fileName) !== '.md' && path.extname(fileName) !== '.mdx') {
       return
     }
@@ -130,10 +151,17 @@ export async function getAllFilesFrontMatter(folder: 'blog') {
     const matterFile = matter(source)
     const frontmatter = matterFile.data as AuthorFrontMatter | PostFrontMatter
     if ('draft' in frontmatter && frontmatter.draft !== true) {
+      // Only include necessary fields and sanitize them
       allFrontMatter.push({
-        ...frontmatter,
-        slug: formatSlug(fileName),
+        title: safe(frontmatter.title),
+        summary: safe(frontmatter.summary),
+        tags: safe(frontmatter.tags),
+        authors: safe(frontmatter.authors),
+        draft: safe(frontmatter.draft),
+        slug: safe(formatSlug(fileName)),
         date: frontmatter.date ? new Date(frontmatter.date).toISOString() : null,
+        fileName: safe(fileName),
+        cover: safe(frontmatter.cover), // If cover exists in frontmatter
       })
     }
   })

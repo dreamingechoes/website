@@ -24,6 +24,7 @@ export default function Home() {
             width={192}
             height={192}
             className="mx-auto w-48 h-48 rounded-full"
+            loading="lazy"
           />
           <h1 className="xl:text-3xl text-1xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100">
             Iván González Sáiz

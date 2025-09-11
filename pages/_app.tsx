@@ -14,6 +14,7 @@ const isDevelopment = process.env.NODE_ENV === 'development'
 const isSocket = process.env.SOCKET
 
 export default function App({ Component, pageProps }: AppProps) {
+  const isProduction = process.env.NODE_ENV === 'production'
   return (
     <>
       <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme}>
@@ -22,19 +23,14 @@ export default function App({ Component, pageProps }: AppProps) {
             <meta content="width=device-width, initial-scale=1" name="viewport" />
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-            <link
-              href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;800&display=swap"
-              rel="stylesheet"
-            ></link>
           </>
         </Head>
         {isDevelopment && isSocket && <ClientReload />}
-        <Analytics />
+        {isProduction && <Analytics />}
         <LayoutWrapper>
           <Component {...pageProps} />
         </LayoutWrapper>
       </ThemeProvider>
-      <Analytics />
     </>
   )
 }
