@@ -1,4 +1,6 @@
 import '@/css/tailwind.css'
+import '@/css/katex.min.css'
+import '@/css/fonts.css'
 import '@/css/prism.css'
 import '@/css/styles.css'
 
@@ -19,11 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme}>
         <Head>
-          <>
-            <meta content="width=device-width, initial-scale=1" name="viewport" />
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-          </>
+          <meta content="width=device-width, initial-scale=1" name="viewport" />
         </Head>
         {isDevelopment && isSocket && <ClientReload />}
         {isProduction && <Analytics />}
