@@ -1,7 +1,7 @@
 ---
-name: Iván González
+name: Iván González Sáiz
 avatar: /static/images/avatar.svg
-occupation: Senior Software Engineer
+occupation: Engineering Lead
 company:
 github: https://github.com/dreamingechoes
 gitlab: https://gitlab.com/dreamingechoes
@@ -12,7 +12,7 @@ twitter: https://twitter.com/dreamingechoes
 
 # 👋 Hi folks
 
-I'm Iván (he/him), pronounced [ee-bahn](https://www.spanishdict.com/pronunciation/iv%C3%A1n). I'm a **Software Engineer** passionate about **building impactful digital products, and mentoring engineers**. With **15+ years of experience**, I specialize in **backend development** but have also explored **frontend, DevOps, mobile, and UI/UX** to create **holistic, product-oriented solutions**.
+I'm Iván (he/him/his), pronounced [ee-bahn](https://www.spanishdict.com/pronunciation/iv%C3%A1n). I'm a **Senior Software Engineer** and **Engineering Lead** passionate about **building impactful digital products, and mentoring engineers**. With **15+ years of experience**, I specialize in **backend development** but have also explored **frontend, DevOps, mobile, and UI/UX** to create **holistic, product-oriented solutions**.
 
 ## 🚀 What I Do
 
@@ -26,7 +26,7 @@ I'm Iván (he/him), pronounced [ee-bahn](https://www.spanishdict.com/pronunciati
 🔘 **Frontend:** JavaScript, TypeScript, React, Next.js  
 🔘 **Databases:** PostgreSQL, MySQL  
 🔘 **DevOps & Cloud:** AWS, Docker, CI/CD  
-🔘 **Currently Learning:** React Native, Design Systems, Erlang, Elm
+🔘 **Currently Learning:** Rust, Go, Erlang, Elm
 
 ## 💡 My Philosophy on Engineering & Leadership
 
