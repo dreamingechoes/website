@@ -34,19 +34,6 @@ By the end, you'll not only understand the anatomy of a GenServer — you’ll b
 
 Let’s get started.
 
-## Table of Contents
-
-- [What Is a GenServer?](#what-is-a-genserver)
-- [Building a SearchCache GenServer](#building-a-searchcache-genserver)
-- [Breaking Down the GenServer Anatomy](#breaking-down-the-genserver-anatomy)
-- [Live Updates with `handle_info/2`](#live-updates-with-handle_info2)
-- [Rate-Limiting and Throttling with GenServer](#rate-limiting-and-throttling-with-genserver)
-- [Persisting State Across Restarts](#persisting-state-across-restarts)
-- [Supervising Your GenServer](#supervising-your-genserver)
-- [Testing GenServers Effectively](#testing-genservers-effectively)
-- [GenServer vs Agent vs Task](#genserver-vs-agent-vs-task-when-to-use-what)
-- [Conclusion](#conclusion-mastering-genserver-in-practice)
-
 ## What Is a GenServer?
 
 A [`GenServer`](https://hexdocs.pm/elixir/GenServer.html) (short for _generic server_) is one of the core abstractions in Elixir's [OTP](https://hexdocs.pm/elixir/1.15/Process.html#module-the-open-telecom-platform) toolkit. At a high level, it's just a **process with a message-handling loop and internal state** — but under the hood, it provides powerful features like synchronous calls, asynchronous casts, timeouts, and integration with supervision trees.
