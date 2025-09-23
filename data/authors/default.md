@@ -22,11 +22,11 @@ I'm Iván (he/him/his), pronounced [ee-bahn](https://www.spanishdict.com/pronunc
 
 ## 🛠️ My Tech Toolbox
 
-🔘 **Backend:** Elixir, Phoenix, Ruby, Rails, Node.js  
-🔘 **Frontend:** JavaScript, TypeScript, React, Next.js  
-🔘 **Databases:** PostgreSQL, MySQL  
-🔘 **DevOps & Cloud:** AWS, Docker, CI/CD  
-🔘 **Currently Learning:** Rust, Go, Erlang, Elm
+- **Backend:** Elixir, Phoenix, Ruby, Rails, Node.js
+- **Frontend:** JavaScript, TypeScript, React, Next.js
+- **Databases:** PostgreSQL, MySQL
+- **DevOps & Cloud:** AWS, Docker, CI/CD
+- **Currently Learning:** Rust, Go, Erlang, Elm
 
 ## 💡 My Philosophy on Engineering & Leadership
 
