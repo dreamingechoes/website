@@ -18,10 +18,17 @@ export default function CV() {
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm p-6">
             <h2 className="text-lg font-semibold">Professional Resume</h2>
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-              Comprehensive overview of my professional experience, technical skills, and others.
+              Here’s my journey as a <b>Senior Software Engineer</b> and <b>Engineering Lead</b>.
+              Over the years, I’ve tackled complex technical challenges, mentored people, and
+              strong, supportive, and healthy teams that deliver.
+            </p>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              What drives me is the mix of problem-solving and collaboration, writing reliable code
+              while creating an environment where people can do their best work. This page brings
+              together the skills, projects, and experiences that have shaped my career so far.
             </p>
             <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-              Last updated: May 2025 • PDF format • 3 pages
+              Last updated: September 2025 • PDF format • 3 pages
             </p>
             <div className="mt-4 flex gap-3">
               <a
@@ -46,11 +53,59 @@ export default function CV() {
             <div className="p-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg">
               <h3 className="font-semibold">Experience</h3>
               <ul className="mt-3 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                <li>15+ years in software engineering</li>
-                <li>Led and scaled remote teams up to 8 engineers</li>
-                <li>Specialized in Elixir, Phoenix, and distributed systems</li>
+                <li>Over 15 years in software engineering</li>
+                <li>Led and scaled remote teams</li>
+                <li>
+                  Specialized in{' '}
+                  <a
+                    href="https://elixir-lang.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    Elixir
+                  </a>
+                  ,{' '}
+                  <a
+                    href="https://phoenixframework.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    Phoenix
+                  </a>
+                  , and distributed systems
+                </li>
                 <li>Built and scaled HR and EdTech platforms from scratch</li>
-                <li>Engineering leadership at Remote, Factorial HR & Lingokids</li>
+                <li>
+                  Engineering leadership at{' '}
+                  <a
+                    href="https://remote.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    Remote
+                  </a>
+                  ,{' '}
+                  <a
+                    href="https://factorialhr.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    Factorial HR
+                  </a>{' '}
+                  &{' '}
+                  <a
+                    href="https://lingokids.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    Lingokids
+                  </a>
+                </li>
               </ul>
             </div>
 
@@ -59,8 +114,55 @@ export default function CV() {
               <ul className="mt-3 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
                 <li>Computer Science Engineering — Oviedo University</li>
                 <li>AI Expert Program — U.N.E.D.</li>
-                <li>Mentor at MentorCruise & Coding Coach</li>
-                <li>Co-founder of Folks Who Code, FabadaConf & Elixir Asturias</li>
+                <li>
+                  Mentor at{' '}
+                  <a
+                    href="https://mentorcruise.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    MentorCruise
+                  </a>{' '}
+                  &{' '}
+                  <a
+                    href="https://codingcoach.io/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    Coding Coach
+                  </a>
+                </li>
+                <li>
+                  Co-founder of{' '}
+                  <a
+                    href="https://folkswhocode.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    Folks Who Code
+                  </a>
+                  ,{' '}
+                  <a
+                    href="https://www.fabadaconf.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    FabadaConf
+                  </a>{' '}
+                  &{' '}
+                  <a
+                    href="https://elixirasturias.github.io/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline"
+                  >
+                    Elixir Asturias
+                  </a>
+                </li>
                 <li>Advocate for DEI, mental health & inclusive tech communities</li>
               </ul>
             </div>

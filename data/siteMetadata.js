@@ -3,7 +3,7 @@ const siteMetadata = {
   author: 'Iván González',
   headerTitle: 'dreamingechoes',
   description:
-    'My name is Iván González, and I am a Software Engineer from the north of Spain, interested in all kinds of technologies.',
+    'My name is Iván, a senior software engineer and engineering lead from the north of Spain, committed to promoting diversity and mental health awareness in the tech community.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://dreamingecho.es',
