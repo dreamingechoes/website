@@ -34,7 +34,7 @@ export default function CV() {
               <a
                 href={siteMetadata.resume || '/static/resume.pdf'}
                 download
-                className="inline-flex items-center px-3 py-2 bg-black text-white rounded hover:opacity-90"
+                className="inline px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg shadow focus:outline-none focus:shadow-outline-purple hover:bg-purple-700 dark:hover:bg-purple-500"
               >
                 Download PDF
               </a>
@@ -42,7 +42,7 @@ export default function CV() {
                 href={siteMetadata.resume || '/static/resume.pdf'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-3 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                className="inline px-4 py-2 text-sm font-medium leading-5 transition-colors duration-150 bg-stone-50 border border-transparent rounded-lg shadow focus:outline-none focus:shadow-outline-stone hover:bg-stone-200 dark:hover:bg-stone-100 dark:hover:text-gray-800 text-gray-700"
               >
                 View Online
               </a>
