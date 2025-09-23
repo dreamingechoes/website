@@ -42,7 +42,7 @@ export default function Home() {
             <strong className="underline underline-offset-4 decoration-4 decoration-yellow-300">
               Iván
             </strong>
-            , a <strong>senior software engineer</strong> and <strong>engineering lead</strong> from
+            , a <strong>Senior Software Engineer</strong> and <strong>Engineering Lead</strong> from
             the north of Spain, committed to promoting{' '}
             <strong className="underline underline-offset-4 decoration-4 decoration-rose-300">
               diversity
