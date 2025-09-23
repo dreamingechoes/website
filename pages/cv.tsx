@@ -24,7 +24,7 @@ export default function CV() {
             </p>
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               What drives me is the mix of problem-solving and collaboration, writing reliable code
-              while creating an environment where people can do their best work. This page brings
+              while creating an environment where people can do their best work. This resume brings
               together the skills, projects, and experiences that have shaped my career so far.
             </p>
             <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
