@@ -16,7 +16,12 @@ export default function CV() {
         </div>
         <div className="container py-12">
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm p-6">
-            <h2 className="text-lg font-semibold">Professional Resume</h2>
+            <h2 className="text-lg font-semibold flex items-center">
+              Professional Resume
+              <span className="ml-2 px-2 py-1 text-xs font-medium text-white bg-green-600 rounded-full font-semibold">
+                Open to Work
+              </span>
+            </h2>
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               Here’s my journey as a <b>Senior Software Engineer</b> and <b>Engineering Lead</b>.
               Over the years, I’ve tackled complex technical challenges, mentored people, and built
