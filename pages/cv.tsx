@@ -126,7 +126,7 @@ export default function CV() {
                   </a>{' '}
                   &{' '}
                   <a
-                    href="https://codingcoach.io/"
+                    href="https://www.linkedin.com/company/coding-coach/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary-500 hover:underline"
