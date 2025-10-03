@@ -12,22 +12,10 @@ twitter: https://twitter.com/dreamingechoes
 
 # 👋 Hi folks
 
-I'm Iván (he/him/his), pronounced [ee-bahn](https://www.spanishdict.com/pronunciation/iv%C3%A1n). I'm a **Senior Software Engineer** and **Engineering Lead** passionate about **building impactful digital products, and mentoring engineers**. With over **15 years of experience**, I specialize in **backend development** but have also explored **frontend, DevOps, mobile, and UI/UX** to create **holistic, product-oriented solutions**.
+I'm Iván (he/him/his), pronounced [ee-bahn](https://www.spanishdict.com/pronunciation/iv%C3%A1n). I’m a **Senior Software Engineer** and **Engineering Lead** with a passion for building impactful digital products and mentoring engineers. Over the past 15+ years, I’ve specialized in backend development while also diving into frontend, DevOps, mobile, and UI/UX to deliver holistic, product-oriented solutions.
 
-## What I’m Working On
+These days I lead distributed teams, shape engineering strategy, and refine system architectures. I also mentor on [MentorCruise](https://mentorcruise.com/), helping engineers grow in software development, leadership, and career progression. In the community, I founded [Elixir Asturias](https://elixirasturias.github.io/), co-organize [FabadaConf](https://fabadaconf.com/), and frequently speak about diversity, equity, inclusion, and mental health in tech, causes I advocate for through mentoring, talks, and ongoing engagement.
 
-🏢 **Senior Software Engineer & Engineering Lead** – Leading distributed teams, optimizing architectures, and driving engineering strategy.  
-🧑‍🏫 **Mentor at MentorCruise** – Helping engineers grow in **software development, leadership, and career progression**.  
-🌍 **Tech Community Organizer & Speaker** – Founder of **Elixir Asturias**, co-organizer of **FabadaConf**, and advocate for **DEI & Mental Health in Tech**.
+Outside of code, you’ll likely find me playing guitar or behind a camera, and I regularly share knowledge at conferences, meetups, and other tech events.
 
-## Beyond Code
-
-✨ **Diversity & Mental Health Advocacy** – Promoting inclusivity in tech through **mentoring, public speaking, and community engagement**.  
-🎵 **Music & Photography Enthusiast** – When I’m not writing code, I’m either **playing guitar** or **capturing moments through my camera**.  
-🎤 **Public Speaker & Educator** – Sharing knowledge at conferences, meetups, and tech events.
-
-## Let's Connect!
-
-📩 **Email:** [hi@dreamingecho.es](mailto:hi@dreamingecho.es)  
-💼 **LinkedIn:** [linkedin.com/in/ivan-gonzalez-saiz](https://linkedin.com/in/ivan-gonzalez-saiz)  
-🎓 **Mentorship:** [Book a session with me on MentorCruise](https://mentorcruise.com/mentor/ivngonzlezsiz/)
+If you’d like to connect, email me at [hi@dreamingecho.es](mailto:hi@dreamingecho.es), find me on [LinkedIn](https://linkedin.com/in/ivan-gonzalez-saiz), or book a mentorship session with me on [MentorCruise](https://mentorcruise.com/mentor/ivngonzlezsiz/).
