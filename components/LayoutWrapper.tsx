@@ -7,12 +7,22 @@ import SectionContainer from './SectionContainer'
 import ThemeSwitch from './ThemeSwitch'
 import headerNavLinks from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
+import { useRouter } from 'next/router'
 
 interface Props {
   children: ReactNode
 }
 
 const LayoutWrapper = ({ children }: Props) => {
+  const router = useRouter()
+
+  const getActiveLinkClass = (href: string) => {
+    const basePath = `/${router.pathname.split('/')[1]}` // Extract the first part of the path
+    const hrefPath = `/${href.split('/')[1]}` // Extract the first part of the href
+
+    return basePath == hrefPath ? 'decoration-4 decoration-primary-500 underline' : ''
+  }
+
   return (
     <SectionContainer>
       <div className="flex flex-col justify-between h-screen">
@@ -39,7 +49,9 @@ const LayoutWrapper = ({ children }: Props) => {
                 <Link
                   key={link.title}
                   href={link.href}
-                  className="p-1 font-medium text-gray-900 sm:p-4 dark:text-gray-100 hover:underline underline-offset-4 hover:decoration-4 decoration-yellow-300"
+                  className={`p-1 font-medium text-gray-900 sm:p-4 dark:text-gray-100 hover:underline underline-offset-4 hover:decoration-4 decoration-yellow-300 ${getActiveLinkClass(
+                    link.href
+                  )}`}
                 >
                   {link.title}
                 </Link>
