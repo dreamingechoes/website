@@ -88,7 +88,7 @@ export default function SeriesDetail({ series }: InferGetStaticPropsType<typeof 
               return (
                 <li
                   key={post.slug}
-                  className="p-6 border border-gray-200 rounded-lg dark:border-gray-700 bg-white/70 dark:bg-gray-900/40 backdrop-blur"
+                  className="p-6 border-2 border-gray-200 rounded-md dark:border-gray-700 bg-white/70 dark:bg-gray-900/40 backdrop-blur"
                 >
                   <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:items-baseline sm:justify-between">
                     <div className="inline-flex self-start items-center px-2.5 py-1 text-xs font-semibold tracking-wide uppercase rounded-md text-primary-700 bg-primary-100/70 dark:bg-primary-900/40 dark:text-primary-300">

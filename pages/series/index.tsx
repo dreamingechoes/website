@@ -43,7 +43,7 @@ export default function SeriesIndex({ series }: InferGetStaticPropsType<typeof g
             <div className="flex flex-wrap -m-4">
               {series.map((item) => (
                 <div key={item.slug} className="w-full p-4 md:w-1/2" style={{ maxWidth: '544px' }}>
-                  <article className="flex h-full flex-col rounded-xl border border-gray-200 bg-white/80 p-6 shadow-sm transition-shadow dark:border-gray-700 dark:bg-gray-900/40 backdrop-blur-sm">
+                  <article className="flex h-full flex-col border-2 border-gray-200 rounded-md border-opacity-60 dark:border-gray-700 bg-white/80 p-6 shadow-sm transition-shadow dark:border-gray-700 dark:bg-gray-900/40 backdrop-blur-sm">
                     <div className="flex-1 space-y-3 text-left">
                       <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">
                         <Layers className="w-4 h-4" aria-hidden="true" />

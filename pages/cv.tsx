@@ -18,7 +18,7 @@ export default function CV() {
         </div>
 
         <div className="container py-12">
-          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6">
+          <div className="bg-white dark:bg-gray-900 border-2 border-gray-200 rounded-md border-opacity-60 dark:border-gray-700 p-6">
             <h2 className="text-lg font-semibold flex items-center">
               Professional Resume
               <span className="ml-2 px-2 py-1 text-xs font-medium text-white bg-green-600 rounded-full font-semibold">
@@ -59,7 +59,7 @@ export default function CV() {
             </div>
           </div>
 
-          <div className="mt-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6">
+          <div className="mt-8 bg-white dark:bg-gray-900 border-2 border-gray-200 rounded-md border-opacity-60 dark:border-gray-700 dark:border-gray-700 p-6">
             <h2 className="text-lg font-semibold">Leadership Style</h2>
             <p className="mt-2  text-gray-500 dark:text-gray-400">
               I lead with people-first clarity and technical depth. Over the years, I've learned
@@ -245,7 +245,7 @@ export default function CV() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg">
+            <div className="p-6 bg-white dark:bg-gray-900 border-2 border-gray-200 rounded-md border-opacity-60 dark:border-gray-700">
               <h3 className="font-semibold">Experience</h3>
               <ul className="mt-3 space-y-2">
                 <li className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
@@ -319,7 +319,7 @@ export default function CV() {
               </ul>
             </div>
 
-            <div className="p-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg">
+            <div className="p-6 bg-white dark:bg-gray-900 border-2 border-gray-200 rounded-md border-opacity-60 dark:border-gray-700">
               <h3 className="font-semibold">Education & Community</h3>
               <ul className="mt-3 space-y-2">
                 <li className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
