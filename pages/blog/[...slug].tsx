@@ -56,8 +56,8 @@ export const getStaticProps: GetStaticProps<{
   const postSlug =
     typeof post.frontMatter.slug === 'string'
       ? post.frontMatter.slug
-      : Array.isArray(post.frontMatter.slug)
-      ? post.frontMatter.slug.join('/')
+      : Array.isArray(post.frontMatter.slug) && (post.frontMatter.slug as string[]).length > 0
+      ? (post.frontMatter.slug as string[]).join('/')
       : ''
   const seriesContext = seriesSlug ? buildSeriesContext(allPosts, seriesSlug, postSlug) : null
 
