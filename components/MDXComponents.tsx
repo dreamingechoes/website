@@ -1,3 +1,4 @@
+import { H2, H3, H4, H5, ListItem, OrderedList, UnorderedList } from './mdx/Typography'
 /* eslint-disable react/display-name */
 import React, { useMemo } from 'react'
 
@@ -13,12 +14,23 @@ const Wrapper: React.ComponentType<{ layout: string }> = ({ layout, ...rest }) =
   return <Layout {...rest} />
 }
 
+const MDXLink: React.FC<React.ComponentProps<typeof CustomLink>> = (props) => (
+  <CustomLink withExternalIcon {...props} />
+)
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const MDXComponents: Record<string, React.ComponentType<any>> = {
   Image,
   //@ts-ignore
   TOCInline,
-  a: CustomLink,
+  a: MDXLink,
+  h2: H2,
+  h3: H3,
+  h4: H4,
+  h5: H5,
+  ul: UnorderedList,
+  ol: OrderedList,
+  li: ListItem,
   pre: Pre,
   wrapper: Wrapper,
   //@ts-ignore
