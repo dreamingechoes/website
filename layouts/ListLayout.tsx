@@ -1,9 +1,11 @@
-import Link from '@/components/Link'
-import Tag from '@/components/Tag'
 import { ComponentProps, useState } from 'react'
+
+import Link from '@/components/Link'
 import Pagination from '@/components/Pagination'
-import formatDate from '@/lib/utils/formatDate'
 import { PostFrontMatter } from 'types/PostFrontMatter'
+import Tag from '@/components/Tag'
+import formatDate from '@/lib/utils/formatDate'
+import { getSeriesMeta } from '@/lib/series'
 interface Props {
   posts: PostFrontMatter[]
   title: string
@@ -56,7 +58,8 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
         <ul>
           {!filteredBlogPosts.length && 'No posts found.'}
           {displayPosts.map((frontMatter) => {
-            const { slug, date, title, summary, tags } = frontMatter
+            const { slug, date, title, summary, tags, series } = frontMatter
+            const seriesMeta = series?.slug ? getSeriesMeta(series.slug) : null
             return (
               <li key={slug} className="py-4">
                 <article className="space-y-2 xl:grid xl:grid-cols-4 xl:space-y-0 xl:items-baseline">
@@ -78,6 +81,17 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
                           <Tag key={tag} text={tag} />
                         ))}
                       </div>
+                      {seriesMeta && (
+                        <div className="mt-2 text-sm text-primary-600 dark:text-primary-400">
+                          Part{typeof series?.order === 'number' ? ` ${series.order}` : ''} of{' '}
+                          <Link
+                            href={`/series/${seriesMeta.slug}`}
+                            className="font-medium hover:underline"
+                          >
+                            {seriesMeta.title}
+                          </Link>
+                        </div>
+                      )}
                     </div>
                     <div className="prose text-gray-500 max-w-none dark:text-gray-400">
                       {summary}

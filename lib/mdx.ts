@@ -1,5 +1,6 @@
+import { PostFrontMatter, SeriesReference } from 'types/PostFrontMatter'
+
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
-import { PostFrontMatter } from 'types/PostFrontMatter'
 import { Toc } from 'types/Toc'
 import { bundleMDX } from 'mdx-bundler'
 import fs from 'fs'
@@ -22,6 +23,28 @@ import remarkMath from 'remark-math'
 import remarkTocHeadings from './remark-toc-headings'
 
 const root = process.cwd()
+
+const parseSeriesReference = (value: unknown): SeriesReference | null => {
+  if (!value || typeof value !== 'object') {
+    return null
+  }
+
+  const { slug, order } = value as { slug?: unknown; order?: unknown }
+  if (typeof slug !== 'string' || slug.trim().length === 0) {
+    return null
+  }
+
+  const ref: SeriesReference = { slug: slug.trim() }
+
+  if (order !== undefined) {
+    const parsedOrder = Number(order)
+    if (!Number.isNaN(parsedOrder)) {
+      ref.order = parsedOrder
+    }
+  }
+
+  return ref
+}
 
 export function getFiles(type: 'blog' | 'authors') {
   const prefixPaths = path.join(root, 'data', type)
@@ -115,7 +138,8 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
       },
     }
   } else {
-    const { title, summary, tags, authors, draft, date } = frontmatter
+    const { title, summary, tags, authors, draft, date, series } = frontmatter
+    const normalizedSeries = parseSeriesReference(series)
     return {
       mdxSource: code,
       toc,
@@ -129,6 +153,7 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
         authors: safe(authors),
         draft: safe(draft),
         date: date ? new Date(date).toISOString() : null,
+        series: normalizedSeries,
       },
     }
   }
@@ -151,6 +176,7 @@ export async function getAllFilesFrontMatter(folder: 'blog') {
     const matterFile = matter(source)
     const frontmatter = matterFile.data as AuthorFrontMatter | PostFrontMatter
     if ('draft' in frontmatter && frontmatter.draft !== true) {
+      const normalizedSeries = parseSeriesReference((frontmatter as PostFrontMatter).series)
       // Only include necessary fields and sanitize them
       allFrontMatter.push({
         title: safe(frontmatter.title),
@@ -162,6 +188,7 @@ export async function getAllFilesFrontMatter(folder: 'blog') {
         date: frontmatter.date ? new Date(frontmatter.date).toISOString() : null,
         fileName: safe(fileName),
         cover: safe(frontmatter.cover), // If cover exists in frontmatter
+        series: normalizedSeries,
       })
     }
   })

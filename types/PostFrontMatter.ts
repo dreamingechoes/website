@@ -1,3 +1,8 @@
+export type SeriesReference = {
+  slug: string
+  order?: number
+}
+
 export type PostFrontMatter = {
   title: string
   date: string
@@ -11,4 +16,5 @@ export type PostFrontMatter = {
   slug: string
   fileName: string
   cover?: string
+  series?: SeriesReference | null
 }

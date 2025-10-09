@@ -7,6 +7,7 @@ import PageTitle from '@/components/PageTitle'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 import { ReactNode } from 'react'
 import SectionContainer from '@/components/SectionContainer'
+import { SeriesContext } from '@/lib/series'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 
@@ -26,11 +27,31 @@ interface Props {
   authorDetails: AuthorFrontMatter[]
   next?: { slug: string; title: string }
   prev?: { slug: string; title: string }
+  seriesContext?: SeriesContext | null
   children: ReactNode
 }
 
-export default function PostLayout({ frontMatter, authorDetails, next, prev, children }: Props) {
+export default function PostLayout({
+  frontMatter,
+  authorDetails,
+  next,
+  prev,
+  seriesContext,
+  children,
+}: Props) {
   const { slug, fileName, date, title, tags } = frontMatter
+  const seriesDetails = seriesContext && seriesContext.currentIndex !== -1 ? seriesContext : null
+  const previousInSeries =
+    seriesDetails && seriesDetails.currentIndex > 0
+      ? seriesDetails.posts[seriesDetails.currentIndex - 1]
+      : null
+
+  const nextInSeries =
+    seriesDetails &&
+    seriesDetails.currentIndex > -1 &&
+    seriesDetails.currentIndex < seriesDetails.posts.length - 1
+      ? seriesDetails.posts[seriesDetails.currentIndex + 1]
+      : null
 
   return (
     <SectionContainer>
@@ -110,6 +131,63 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
             </div>
             <footer>
               <div className="text-sm font-medium leading-5 divide-gray-200 xl:divide-y dark:divide-gray-700 xl:col-start-1 xl:row-start-2">
+                {seriesDetails && (
+                  <div className="py-4 xl:py-8">
+                    <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
+                      Series
+                    </h2>
+                    <div className="mt-1 space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                      <p>
+                        You&apos;re reading part {seriesDetails.currentIndex + 1} of{' '}
+                        {seriesDetails.posts.length} in{' '}
+                        <Link
+                          href={`/series/${seriesDetails.meta.slug}`}
+                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                        >
+                          {seriesDetails.meta.title}
+                        </Link>
+                        .
+                      </p>
+                      {seriesDetails.meta.summary && (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {seriesDetails.meta.summary}
+                        </p>
+                      )}
+                      <div className="space-y-2">
+                        {previousInSeries && (
+                          <div>
+                            <span className="font-semibold text-gray-700 dark:text-gray-200">
+                              Previous in series
+                            </span>
+                            <div>
+                              <Link
+                                href={`/blog/${previousInSeries.slug}`}
+                                className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                              >
+                                {previousInSeries.title}
+                              </Link>
+                            </div>
+                          </div>
+                        )}
+                        {nextInSeries && (
+                          <div>
+                            <span className="font-semibold text-gray-700 dark:text-gray-200">
+                              Next in series
+                            </span>
+                            <div>
+                              <Link
+                                href={`/blog/${nextInSeries.slug}`}
+                                className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                              >
+                                {nextInSeries.title}
+                              </Link>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
                 {tags && (
                   <div className="py-4 xl:py-8">
                     <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">

@@ -2,19 +2,25 @@ import { ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
-type CustomLinkProps = (React.ComponentProps<typeof Link> &
-  React.AnchorHTMLAttributes<HTMLAnchorElement>) & {
+type NextLinkProps = React.ComponentProps<typeof Link>
+
+type CustomLinkProps = (Omit<NextLinkProps, 'href'> &
+  React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    href?: NextLinkProps['href'] | null
+  }) & {
   withExternalIcon?: boolean
 }
 
-const CustomLink = ({
-  href = '',
-  children,
-  withExternalIcon = false,
-  ...rest
-}: CustomLinkProps) => {
-  const isInternalLink = href.startsWith('/')
-  const isAnchorLink = href.startsWith('#')
+const CustomLink = ({ href, children, withExternalIcon = false, ...rest }: CustomLinkProps) => {
+  const normalizedHref = typeof href === 'string' ? href : ''
+  const hasHref = normalizedHref.length > 0
+
+  if (!hasHref) {
+    return <span {...rest}>{children}</span>
+  }
+
+  const isInternalLink = normalizedHref.startsWith('/')
+  const isAnchorLink = normalizedHref.startsWith('#')
 
   if (isInternalLink || isAnchorLink) {
     // If children is an <a> element, extract its props and apply to Link to avoid nesting <a> inside <Link>
@@ -25,7 +31,7 @@ const CustomLink = ({
       const childProps = (children as React.ReactElement).props || {}
       const { children: childChildren, ...anchorProps } = childProps
       return (
-        <Link href={href} {...anchorProps} {...rest}>
+        <Link href={normalizedHref} {...anchorProps} {...rest}>
           {childChildren}
         </Link>
       )
@@ -33,7 +39,7 @@ const CustomLink = ({
 
     // Default: pass props to Link (Next will render <a> internally)
     return (
-      <Link href={href} {...rest}>
+      <Link href={normalizedHref} {...rest}>
         {children}
       </Link>
     )
@@ -45,7 +51,7 @@ const CustomLink = ({
   let derivedTitle = title
   if (!derivedTitle) {
     try {
-      const url = new URL(href)
+      const url = new URL(normalizedHref)
       derivedTitle = `Open external link (${url.hostname})`
     } catch {
       derivedTitle = 'Open external link in a new tab'
@@ -60,7 +66,7 @@ const CustomLink = ({
     <a
       target="_blank"
       rel="noopener noreferrer"
-      href={href}
+      href={normalizedHref}
       title={derivedTitle}
       aria-label={derivedTitle}
       className={combinedClassName}

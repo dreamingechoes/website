@@ -1,12 +1,14 @@
-import fs from 'fs'
-import PageTitle from '@/components/PageTitle'
-import generateRss from '@/lib/generate-rss'
-import { MDXLayoutRenderer } from '@/components/MDXComponents'
-import { formatSlug, getAllFilesFrontMatter, getFileBySlug, getFiles } from '@/lib/mdx'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { SeriesContext, buildSeriesContext } from '@/lib/series'
+import { formatSlug, getAllFilesFrontMatter, getFileBySlug, getFiles } from '@/lib/mdx'
+
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
+import { MDXLayoutRenderer } from '@/components/MDXComponents'
+import PageTitle from '@/components/PageTitle'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 import { Toc } from 'types/Toc'
+import fs from 'fs'
+import generateRss from '@/lib/generate-rss'
 
 const DEFAULT_LAYOUT = 'PostLayout'
 
@@ -28,6 +30,7 @@ export const getStaticProps: GetStaticProps<{
   authorDetails: AuthorFrontMatter[]
   prev?: { slug: string; title: string }
   next?: { slug: string; title: string }
+  seriesContext?: SeriesContext | null
 }> = async ({ params }) => {
   const slug = (params.slug as string[]).join('/')
   const allPosts = await getAllFilesFrontMatter('blog')
@@ -49,12 +52,22 @@ export const getStaticProps: GetStaticProps<{
     fs.writeFileSync('./public/feed.xml', rss)
   }
 
+  const seriesSlug = post.frontMatter.series?.slug
+  const postSlug =
+    typeof post.frontMatter.slug === 'string'
+      ? post.frontMatter.slug
+      : Array.isArray(post.frontMatter.slug)
+      ? post.frontMatter.slug.join('/')
+      : ''
+  const seriesContext = seriesSlug ? buildSeriesContext(allPosts, seriesSlug, postSlug) : null
+
   return {
     props: {
       post,
       authorDetails,
       prev,
       next,
+      seriesContext,
     },
   }
 }
@@ -64,6 +77,7 @@ export default function Blog({
   authorDetails,
   prev,
   next,
+  seriesContext,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { mdxSource, toc, frontMatter } = post
 
@@ -78,6 +92,7 @@ export default function Blog({
           authorDetails={authorDetails}
           prev={prev}
           next={next}
+          seriesContext={seriesContext}
         />
       ) : (
         <div className="mt-24 text-center">
