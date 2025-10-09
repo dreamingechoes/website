@@ -7,8 +7,6 @@ summary: 'Changing a field type in an Ecto embedded schema requires both a code 
 authors: ['default']
 ---
 
-## Why I’m Writing This?
-
 The other day, I had to change the type of a field in an **Ecto embedded schema** from a string to a list of strings. Sounds simple, right? Well, not quite—because this field already had existing data stored in **PostgreSQL** as JSONB. That meant I had to not only update my **Elixir codebase** but also write a migration to transform the stored data correctly.
 
 Since this is a challenge others will likely encounter, I wanted to document the process, including the reasoning behind each step. If you ever need to change a field type in an embedded schema, this guide will help you do it safely without breaking your existing data.
