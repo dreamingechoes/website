@@ -1,5 +1,6 @@
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
 import { BlogSEO } from '@/components/SEO'
+import { Clock } from 'lucide-react'
 import Comments from '@/components/comments'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
@@ -39,7 +40,7 @@ export default function PostLayout({
   seriesContext,
   children,
 }: Props) {
-  const { slug, fileName, date, title, tags } = frontMatter
+  const { slug, fileName, date, title, tags, readingTime } = frontMatter
   const seriesDetails = seriesContext && seriesContext.currentIndex !== -1 ? seriesContext : null
   const previousInSeries =
     seriesDetails && seriesDetails.currentIndex > 0
@@ -53,6 +54,8 @@ export default function PostLayout({
       ? seriesDetails.posts[seriesDetails.currentIndex + 1]
       : null
 
+  const readingTimeMinutes = readingTime ? Math.max(1, Math.round(readingTime.minutes)) : null
+
   return (
     <SectionContainer>
       <BlogSEO
@@ -63,8 +66,8 @@ export default function PostLayout({
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="pt-6 xl:pb-6">
-            <div className="space-y-1 text-center">
-              <dl className="space-y-10">
+            <div className="space-y-4 text-center">
+              <dl className="space-y-6">
                 <div>
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
@@ -74,9 +77,7 @@ export default function PostLayout({
                   </dd>
                 </div>
               </dl>
-              <div>
-                <PageTitle>{title}</PageTitle>
-              </div>
+              <PageTitle>{title}</PageTitle>
             </div>
           </header>
           <div
@@ -119,7 +120,18 @@ export default function PostLayout({
               </dd>
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:pb-0 xl:col-span-3 xl:row-span-2">
-              <div className="pt-10 pb-8 prose dark:prose-dark max-w-none">{children}</div>
+              <div className="pt-10 pb-8">
+                {readingTimeMinutes && (
+                  <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                    <Clock className="h-4 w-4" aria-hidden="true" />
+                    <span>
+                      Estimated reading time: {readingTimeMinutes}{' '}
+                      {readingTimeMinutes === 1 ? 'minute' : 'minutes'}
+                    </span>
+                  </div>
+                )}
+                <div className="prose dark:prose-dark max-w-none">{children}</div>
+              </div>
               <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
                 <Link href={editUrl(fileName)}>{'View on GitHub'}</Link>
                 <span className="mr-2 ml-2">·</span>

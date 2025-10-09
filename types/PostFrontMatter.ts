@@ -17,4 +17,10 @@ export type PostFrontMatter = {
   fileName: string
   cover?: string
   series?: SeriesReference | null
+  readingTime?: {
+    text: string
+    minutes: number
+    time: number
+    words: number
+  }
 }

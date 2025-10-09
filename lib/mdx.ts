@@ -63,7 +63,17 @@ export function dateSortDesc(a: string, b: string) {
   return 0
 }
 
-export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | string[]) {
+export async function getFileBySlug<T extends Record<string, unknown>>(
+  type: 'authors' | 'blog',
+  slug: string | string[]
+): Promise<{
+  mdxSource: string
+  toc: Toc
+  frontMatter: T & {
+    slug: string | string[] | null
+    fileName: string
+  }
+}> {
   const mdxPath = path.join(root, 'data', type, `${slug}.mdx`)
   const mdPath = path.join(root, 'data', type, `${slug}.md`)
   const source = fs.existsSync(mdxPath)
@@ -80,7 +90,7 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
   const toc: Toc = []
 
   // Parsing frontmatter here to pass it in as options to rehype plugin
-  const { data: frontmatter } = matter(source)
+  const { content, data: frontmatter } = matter(source)
   const { code } = await bundleMDX({
     source,
     // mdx imports can be automatically source from the components directory
@@ -128,7 +138,7 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
     Object.keys(frontmatter).forEach((key) => {
       authorFrontMatter[key] = safe(frontmatter[key])
     })
-    return {
+    const frontMatterResult = {
       mdxSource: code,
       toc,
       frontMatter: {
@@ -137,14 +147,25 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
         fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
       },
     }
+    return (frontMatterResult as unknown) as {
+      mdxSource: string
+      toc: Toc
+      frontMatter: T & {
+        slug: string | string[] | null
+        fileName: string
+      }
+    }
   } else {
     const { title, summary, tags, authors, draft, date, series } = frontmatter
     const normalizedSeries = parseSeriesReference(series)
-    return {
+    const frontMatterResult = {
       mdxSource: code,
       toc,
       frontMatter: {
-        readingTime: readingTime(code),
+        readingTime:
+          frontmatter?.readingTime && typeof frontmatter.readingTime === 'object'
+            ? frontmatter.readingTime
+            : readingTime(content),
         slug: slug || null,
         fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
         title: safe(title),
@@ -155,6 +176,14 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
         date: date ? new Date(date).toISOString() : null,
         series: normalizedSeries,
       },
+    }
+    return (frontMatterResult as unknown) as {
+      mdxSource: string
+      toc: Toc
+      frontMatter: T & {
+        slug: string | string[] | null
+        fileName: string
+      }
     }
   }
 }
