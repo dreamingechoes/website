@@ -1,12 +1,13 @@
+import { ArrowUp, Clock } from 'lucide-react'
+import { ReactNode, useEffect, useState } from 'react'
+
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
 import { BlogSEO } from '@/components/SEO'
-import { Clock } from 'lucide-react'
 import Comments from '@/components/comments'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import { PostFrontMatter } from 'types/PostFrontMatter'
-import { ReactNode } from 'react'
 import SectionContainer from '@/components/SectionContainer'
 import { SeriesContext } from '@/lib/series'
 import Tag from '@/components/Tag'
@@ -55,6 +56,22 @@ export default function PostLayout({
       : null
 
   const readingTimeMinutes = readingTime ? Math.max(1, Math.round(readingTime.minutes)) : null
+  const [showScrollTop, setShowScrollTop] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const yOffset = window.scrollY || document.documentElement.scrollTop
+      setShowScrollTop(yOffset > 400)
+    }
+
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <SectionContainer>
@@ -249,6 +266,16 @@ export default function PostLayout({
           </div>
         </div>
       </article>
+      {showScrollTop && (
+        <button
+          type="button"
+          aria-label="Back to top"
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary-500 text-white shadow-lg transition hover:bg-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 dark:bg-primary-400 dark:text-gray-900 dark:hover:bg-primary-300"
+        >
+          <ArrowUp className="h-5 w-5" aria-hidden="true" />
+        </button>
+      )}
     </SectionContainer>
   )
 }
