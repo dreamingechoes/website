@@ -7,7 +7,7 @@ github: https://github.com/dreamingechoes
 gitlab: https://gitlab.com/dreamingechoes
 linkedin: https://www.linkedin.com/in/ivan-gonzalez-saiz/
 linktree: https://linktr.ee/dreamingechoes
-twitter: https://twitter.com/dreamingechoes
+twitter: https://x.com/dreamingechoes
 ---
 
 # 👋 Hi folks
