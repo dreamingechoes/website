@@ -1,13 +1,50 @@
-import { useState, useRef, ReactNode } from 'react'
+import { ReactElement, ReactNode, useRef, useState } from 'react'
+
+import dynamic from 'next/dynamic'
+
+const Mermaid = dynamic(() => import('./Mermaid'), {
+  ssr: false,
+  loading: () => (
+    <div className="my-6 rounded-lg border border-primary-200 bg-primary-50/60 p-4 text-sm text-primary-700 dark:border-primary-400/40 dark:bg-primary-900/20 dark:text-primary-200">
+      Rendering diagram…
+    </div>
+  ),
+})
 
 interface Props {
   children: ReactNode
 }
 
 const Pre = ({ children }: Props) => {
-  const textInput = useRef(null)
+  const child = children as ReactElement<{ className?: string; children?: ReactNode }>
+  const isMermaid =
+    child?.props?.className?.includes('language-mermaid') ||
+    child?.props?.className?.includes('lang-mermaid')
+
+  const textInput = useRef<HTMLDivElement | null>(null)
   const [hovered, setHovered] = useState(false)
   const [copied, setCopied] = useState(false)
+
+  if (isMermaid) {
+    const extractText = (node: ReactNode): string => {
+      if (node === null || node === undefined) {
+        return ''
+      }
+      if (typeof node === 'string' || typeof node === 'number') {
+        return `${node}`
+      }
+      if (Array.isArray(node)) {
+        return node.map((item) => extractText(item)).join('')
+      }
+      if (typeof node === 'object' && 'props' in (node as Record<string, unknown>)) {
+        return extractText((node as ReactElement).props?.children)
+      }
+      return ''
+    }
+
+    const chart = extractText(child?.props?.children).trim()
+    return <Mermaid chart={chart} />
+  }
 
   const onEnter = () => {
     setHovered(true)
