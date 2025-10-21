@@ -14,9 +14,21 @@ export const seriesData: Record<string, SeriesDefinition> = {
     slug: 'empathetic-remote-management',
     title: 'Empathetic Remote Management',
     summary:
-      'A four-part guide to leading distributed engineering teams with trust, tailored coaching, and sustainable pace.',
+      'Practical reflections on building trust, coaching people, and leading remote teams at a sustainable pace.',
     description:
       'From high-impact 1:1s to people-first coaching styles, this series walks through the daily habits and guardrails that keep remote teams healthy, connected, and shipping. Each installment gives you practical rituals to strengthen psychological safety while protecting your own energy as a leader.',
+    cta: {
+      label: null,
+      href: null,
+    },
+  },
+  'cross-functional-glue-em-product-design': {
+    slug: 'cross-functional-glue-em-product-design',
+    title: 'Cross-Functional Glue: EM x Product x Design',
+    summary:
+      'Operating rhythms, artifacts, and guardrails that make triads click: less ping-pong, clearer decisions, happier teams.',
+    description:
+      'Practical playbook for Engineering Managers partnering with Product and Design. From PRD-to-prod handoffs to weekly bets, 45-minute qual+quant reviews, and post-launch care windows, each post includes guides and examples you can use without burning the team.',
     cta: {
       label: null,
       href: null,
