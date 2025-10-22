@@ -3,6 +3,7 @@ import { H2, H3, H4, H5, ListItem, OrderedList, UnorderedList } from './mdx/Typo
 import React, { useMemo } from 'react'
 
 import { BlogNewsletterForm } from './NewsletterForm'
+import Callout from './mdx/Callout'
 import CustomLink from './Link'
 import Image from './Image'
 import Pre from './Pre'
@@ -35,6 +36,7 @@ export const MDXComponents: Record<string, React.ComponentType<any>> = {
   wrapper: Wrapper,
   //@ts-ignore
   BlogNewsletterForm,
+  Callout,
 }
 
 interface Props {
