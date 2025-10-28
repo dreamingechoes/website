@@ -26,9 +26,9 @@ export const seriesData: Record<string, SeriesDefinition> = {
     slug: 'cross-functional-glue-em-product-design',
     title: 'Cross-Functional Glue: EM x Product x Design',
     summary:
-      'Operating rhythms, artifacts, and guardrails that make triads click: less ping-pong, clearer decisions, happier teams.',
+      'Operating rhythms, artifacts, and guardrails that make triads click — fewer hand-offs, clearer decisions, happier teams.',
     description:
-      'Practical playbook for Engineering Managers partnering with Product and Design. From PRD-to-prod handoffs to weekly bets, 45-minute qual+quant reviews, and post-launch care windows, each post includes guides and examples you can use without burning the team.',
+      'Practical playbook for Engineering Managers partnering with Product and Design. From PRD-to-prod handoffs to weekly bets, 45-minute qual+quant reviews, and post-launch care windows, each post includes frameworks and examples you can use without burning the team.',
     cta: {
       label: null,
       href: null,
