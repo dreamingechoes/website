@@ -1,8 +1,11 @@
-import Head from 'next/head'
-import { useRouter } from 'next/router'
-import siteMetadata from '@/data/siteMetadata'
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
+import Head from 'next/head'
 import { PostFrontMatter } from 'types/PostFrontMatter'
+import siteMetadata from '@/data/siteMetadata'
+import { useRouter } from 'next/router'
+
+const getRuntimeSiteUrl = () =>
+  (process.env.NEXT_PUBLIC_SITE_URL || siteMetadata.siteUrl).replace(/\/$/, '')
 
 interface CommonSEOProps {
   title: string
@@ -19,12 +22,13 @@ interface CommonSEOProps {
 
 const CommonSEO = ({ title, description, ogType, ogImage, twImage }: CommonSEOProps) => {
   const router = useRouter()
+  const siteUrl = getRuntimeSiteUrl()
   return (
     <Head>
       <title>{title}</title>
       <meta name="robots" content="follow, index" />
       <meta name="description" content={description} />
-      <meta property="og:url" content={`${siteMetadata.siteUrl}${router.asPath}`} />
+      <meta property="og:url" content={`${siteUrl}${router.asPath}`} />
       <meta property="og:type" content={ogType} />
       <meta property="og:site_name" content={siteMetadata.title} />
       <meta property="og:description" content={description} />
@@ -49,8 +53,9 @@ interface PageSEOProps {
 }
 
 export const PageSEO = ({ title, description }: PageSEOProps) => {
-  const ogImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner
-  const twImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner
+  const siteUrl = getRuntimeSiteUrl()
+  const ogImageUrl = siteUrl + siteMetadata.socialBanner
+  const twImageUrl = siteUrl + siteMetadata.socialBanner
   return (
     <CommonSEO
       title={title}
@@ -63,8 +68,9 @@ export const PageSEO = ({ title, description }: PageSEOProps) => {
 }
 
 export const TagSEO = ({ title, description }: PageSEOProps) => {
-  const ogImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner
-  const twImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner
+  const siteUrl = getRuntimeSiteUrl()
+  const ogImageUrl = siteUrl + siteMetadata.socialBanner
+  const twImageUrl = siteUrl + siteMetadata.socialBanner
   const router = useRouter()
   return (
     <>
@@ -80,7 +86,7 @@ export const TagSEO = ({ title, description }: PageSEOProps) => {
           rel="alternate"
           type="application/rss+xml"
           title={`${description} - RSS feed`}
-          href={`${siteMetadata.siteUrl}${router.asPath}/feed.xml`}
+          href={`${siteUrl}${router.asPath}/feed.xml`}
         />
       </Head>
     </>
@@ -99,22 +105,31 @@ export const BlogSEO = ({
   date,
   lastmod,
   url,
+  tags,
   images = [],
 }: BlogSeoProps) => {
   const router = useRouter()
+  const siteUrl = getRuntimeSiteUrl()
   const publishedAt = new Date(date).toISOString()
   const modifiedAt = new Date(lastmod || date).toISOString()
-  const imagesArr =
-    images.length === 0
-      ? [siteMetadata.socialBanner]
-      : typeof images === 'string'
-      ? [images]
-      : images
+  const resolvedImages = (typeof images === 'string' ? [images] : images).filter(Boolean)
+  const titleForImage = title.slice(0, 140)
+  const summaryForImage = (summary ?? siteMetadata.description)?.replace(/\s+/g, ' ').slice(0, 200)
+  const ogParams = new URLSearchParams({ title: titleForImage })
+  if (summaryForImage) ogParams.set('summary', summaryForImage)
+  const dynamicOgImageUrl = `${siteUrl}/api/og?${ogParams.toString()}`
 
-  const featuredImages = imagesArr.map((img) => {
+  const resolveImageUrl = (img: string) => (img.startsWith('http') ? img : `${siteUrl}${img}`)
+
+  const ogImageUrls =
+    resolvedImages.length > 0
+      ? resolvedImages.map((img) => resolveImageUrl(img))
+      : [dynamicOgImageUrl]
+
+  const featuredImages = ogImageUrls.map((url) => {
     return {
       '@type': 'ImageObject',
-      url: `${siteMetadata.siteUrl}${img}`,
+      url,
     }
   })
 
@@ -156,7 +171,7 @@ export const BlogSEO = ({
     description: summary,
   }
 
-  const twImageUrl = featuredImages[0].url
+  const twImageUrl = ogImageUrls[0]
 
   return (
     <>
@@ -170,7 +185,7 @@ export const BlogSEO = ({
       <Head>
         {date && <meta property="article:published_time" content={publishedAt} />}
         {lastmod && <meta property="article:modified_time" content={modifiedAt} />}
-        <link rel="canonical" href={`${siteMetadata.siteUrl}${router.asPath}`} />
+        <link rel="canonical" href={`${siteUrl}${router.asPath}`} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
