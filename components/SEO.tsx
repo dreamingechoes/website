@@ -105,7 +105,6 @@ export const BlogSEO = ({
   date,
   lastmod,
   url,
-  tags,
   images = [],
 }: BlogSeoProps) => {
   const router = useRouter()
