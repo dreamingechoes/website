@@ -3,6 +3,13 @@ import { SeriesDefinition, ensureSeriesDefinition, seriesData } from '@/data/ser
 import { PostFrontMatter } from 'types/PostFrontMatter'
 
 const SERIES_POST_ORDER_FALLBACK = Number.MAX_SAFE_INTEGER
+const SERIES_ORDER = Object.keys(seriesData)
+const SERIES_LIST_FALLBACK = Number.MAX_SAFE_INTEGER
+
+const resolveSeriesOrder = (slug: string) => {
+  const index = SERIES_ORDER.indexOf(slug)
+  return index === -1 ? SERIES_LIST_FALLBACK : index
+}
 
 const normalizeOrder = (post: PostFrontMatter) => {
   if (post.series?.order === undefined || post.series?.order === null) {
@@ -50,7 +57,10 @@ export const collectSeriesFromPosts = (posts: PostFrontMatter[]): SeriesWithPost
       ...ensureSeriesDefinition(slug),
       posts: sortSeriesPosts(seriesPosts),
     }))
-    .sort((a, b) => a.title.localeCompare(b.title))
+    .sort((a, b) => {
+      const delta = resolveSeriesOrder(a.slug) - resolveSeriesOrder(b.slug)
+      return delta !== 0 ? delta : a.title.localeCompare(b.title)
+    })
 }
 
 export type SeriesContext = {
@@ -82,4 +92,4 @@ export const buildSeriesContext = (
 export const getSeriesMeta = (slug: string): SeriesDefinition => ensureSeriesDefinition(slug)
 
 export const listAvailableSeries = (): SeriesDefinition[] =>
-  Object.keys(seriesData).map((slug) => ensureSeriesDefinition(slug))
+  SERIES_ORDER.map((slug) => ensureSeriesDefinition(slug))
