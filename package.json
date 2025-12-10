@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env SOCKET=true node ./scripts/next-remote-watch.js ./data",
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build && node ./scripts/generate-sitemap",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
@@ -31,7 +31,7 @@
     "lucide-react": "^0.544.0",
     "mdx-bundler": "^9.0.0",
     "mermaid": "^11.12.0",
-    "next": "^15.5.0",
+    "next": "^16.0.7",
     "next-themes": "^0.0.14",
     "postcss": "^8.4.5",
     "react": "18.2.0",
