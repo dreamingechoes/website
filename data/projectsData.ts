@@ -1,15 +1,15 @@
 const projectsData = [
   {
+    title: 'Avenida',
+    description: `Shop smarter. Save any product from any marketplace in one click.`,
+    imgSrc: null,
+    href: 'https://www.avenida.so/',
+  },
+  {
     title: 'Awesome Mental Health',
     description: `A curated list of awesome articles, websites, and resources about mental health in the software industry.`,
     imgSrc: null,
     href: 'https://dreamingechoes.github.io/awesome-mental-health/',
-  },
-  {
-    title: 'Fabada Conference',
-    description: `Annual software engineering conference located in Gijón, Asturias.`,
-    imgSrc: null,
-    href: 'https://fabadaconf.com/',
   },
   {
     title: 'Neilipsum',
@@ -24,16 +24,16 @@ const projectsData = [
     href: 'https://twitter.com/ShoegazeBot_',
   },
   {
+    title: 'Fabada Conference',
+    description: `Annual software engineering conference located in Gijón, Asturias.`,
+    imgSrc: null,
+    href: 'https://fabadaconf.com/',
+  },
+  {
     title: 'Elixir Asturias',
     description: `Community for Elixir enthusiasts in Asturias, organizing meetups, talks, and projects to learn.`,
     imgSrc: null,
     href: 'https://elixirasturias.github.io/',
-  },
-  {
-    title: 'Folks Who Code',
-    description: `Organization which aims for a richer and diverse tech community.`,
-    imgSrc: null,
-    href: 'https://folkswhocode.org/',
   },
 ]
 
