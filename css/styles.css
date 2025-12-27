@@ -40,3 +40,9 @@ h6 {
 .dark .callout-content a:hover {
   color: #c4b5fd;
 }
+
+/* Reduce spacing when Callout is followed by a heading */
+.prose .not-prose + h2,
+.prose .not-prose + h3 {
+  margin-top: 1.5rem;
+}

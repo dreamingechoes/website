@@ -8,7 +8,8 @@
     "build": "next build --webpack && node ./scripts/generate-sitemap",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts",
+    "lint": "eslint --fix pages components lib layouts scripts",
+    "format:fix": "prettier --write .",
     "prepare": "husky install"
   },
   "dependencies": {

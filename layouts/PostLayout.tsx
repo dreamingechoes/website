@@ -1,4 +1,4 @@
-import { ArrowUp, Clock } from 'lucide-react'
+import { ArrowUp, Clock, Coffee, Github, MessageCircle } from 'lucide-react'
 import { ReactNode, useEffect, useState } from 'react'
 
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
@@ -137,8 +137,8 @@ export default function PostLayout({
                 </ul>
               </dd>
             </dl>
-            <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:pb-0 xl:col-span-3 xl:row-span-2">
-              <div className="pt-10">
+            <div className="xl:pb-0 xl:col-span-3 xl:row-span-2 dark:divide-gray-700">
+              <div className="pt-10 pb-4">
                 {readingTimeMinutes && (
                   <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
                     <Clock className="h-4 w-4" aria-hidden="true" />
@@ -150,19 +150,62 @@ export default function PostLayout({
                 )}
                 <div className="prose dark:prose-dark max-w-none">{children}</div>
               </div>
-              <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={editUrl(fileName)}>{'View on GitHub'}</Link>
-                <span className="mr-2 ml-2">·</span>
-                <Link href={kofiUrl()}>{'Buy me a coffee'}</Link>
-                <span className="mr-2 ml-2">·</span>
-                <Link href={mentorCruiseUrl()}>{'Request a mentoring session'}</Link>
-              </div>
-              {siteMetadata.newsletter.provider !== '' && (
-                <div className="pt-6 pb-6">
-                  <NewsletterForm />
+              {/* Engagement Section */}
+              <div className="pt-4 pb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                  Enjoyed this article?
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                  <Link
+                    href={editUrl(fileName)}
+                    className="group flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-600"
+                  >
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-gray-600 transition-colors group-hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:group-hover:bg-gray-600">
+                      <Github className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="font-medium text-gray-900 dark:text-gray-100">
+                        View source
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">See on GitHub</div>
+                    </div>
+                  </Link>
+                  <Link
+                    href={kofiUrl()}
+                    className="group flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all hover:border-amber-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-amber-600"
+                  >
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors group-hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:group-hover:bg-amber-900/50">
+                      <Coffee className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="font-medium text-gray-900 dark:text-gray-100">
+                        Buy me a coffee
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        Support my work
+                      </div>
+                    </div>
+                  </Link>
+                  <Link
+                    href={mentorCruiseUrl()}
+                    className="group flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all hover:border-primary-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-primary-600"
+                  >
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-50 text-primary-600 transition-colors group-hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-400 dark:group-hover:bg-primary-900/50">
+                      <MessageCircle className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="font-medium text-gray-900 dark:text-gray-100">
+                        Book a session
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">1:1 mentoring</div>
+                    </div>
+                  </Link>
                 </div>
-              )}
-              <Comments frontMatter={frontMatter} />
+                {siteMetadata.newsletter.provider !== '' && <NewsletterForm />}
+              </div>
+              <div className="pb-8 xl:pb-0">
+                <Comments frontMatter={frontMatter} />
+              </div>
             </div>
             <footer>
               <div className="text-sm font-medium leading-5 divide-gray-200 xl:divide-y dark:divide-gray-700 xl:col-start-1 xl:row-start-2">

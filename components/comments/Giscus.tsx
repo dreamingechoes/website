@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useTheme } from 'next-themes'
+import React, { useCallback, useEffect, useState } from 'react'
 
+import { MessageSquare } from 'lucide-react'
 import siteMetadata from '@/data/siteMetadata'
+import { useTheme } from 'next-themes'
 
 interface Props {
   mapping: string
@@ -51,8 +52,18 @@ const Giscus = ({ mapping }: Props) => {
   }, [LoadComments])
 
   return (
-    <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300">
-      {enableLoadComments && <button onClick={LoadComments}>Load Comments</button>}
+    <div className="pt-4">
+      {enableLoadComments && (
+        <div className="flex flex-col items-center">
+          <button
+            onClick={LoadComments}
+            className="group flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3 font-medium text-gray-700 transition-all hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-gray-600 dark:hover:bg-gray-700"
+          >
+            <MessageSquare className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+            Load Comments
+          </button>
+        </div>
+      )}
       <div className="giscus" id={COMMENTS_ID} />
     </div>
   )

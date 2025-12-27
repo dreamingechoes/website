@@ -147,7 +147,7 @@ export async function getFileBySlug<T extends Record<string, unknown>>(
         fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
       },
     }
-    return (frontMatterResult as unknown) as {
+    return frontMatterResult as unknown as {
       mdxSource: string
       toc: Toc
       frontMatter: T & {
@@ -177,7 +177,7 @@ export async function getFileBySlug<T extends Record<string, unknown>>(
         series: normalizedSeries,
       },
     }
-    return (frontMatterResult as unknown) as {
+    return frontMatterResult as unknown as {
       mdxSource: string
       toc: Toc
       frontMatter: T & {
