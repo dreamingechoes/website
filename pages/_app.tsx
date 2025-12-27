@@ -4,13 +4,14 @@ import '@/css/fonts.css'
 import '@/css/prism.css'
 import '@/css/styles.css'
 
-import { Analytics } from '@vercel/analytics/next'
+import Analytics from '@/components/analytics'
 import type { AppProps } from 'next/app'
 import { ClientReload } from '@/components/ClientReload'
 import Head from 'next/head'
 import LayoutWrapper from '@/components/LayoutWrapper'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from 'next-themes'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
 import siteMetadata from '@/data/siteMetadata'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <LayoutWrapper>
         <Component {...pageProps} />
         <Analytics />
+        <VercelAnalytics />
         <SpeedInsights />
       </LayoutWrapper>
     </ThemeProvider>
