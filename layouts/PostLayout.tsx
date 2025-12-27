@@ -6,6 +6,7 @@ import { BlogSEO } from '@/components/SEO'
 import Comments from '@/components/comments'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
+import NewsletterForm from '@/components/NewsletterForm'
 import PageTitle from '@/components/PageTitle'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 import SectionContainer from '@/components/SectionContainer'
@@ -137,7 +138,7 @@ export default function PostLayout({
               </dd>
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:pb-0 xl:col-span-3 xl:row-span-2">
-              <div className="pt-10 pb-8">
+              <div className="pt-10">
                 {readingTimeMinutes && (
                   <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
                     <Clock className="h-4 w-4" aria-hidden="true" />
@@ -156,6 +157,11 @@ export default function PostLayout({
                 <span className="mr-2 ml-2">·</span>
                 <Link href={mentorCruiseUrl()}>{'Request a mentoring session'}</Link>
               </div>
+              {siteMetadata.newsletter.provider !== '' && (
+                <div className="pt-6 pb-6">
+                  <NewsletterForm />
+                </div>
+              )}
               <Comments frontMatter={frontMatter} />
             </div>
             <footer>

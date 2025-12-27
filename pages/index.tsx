@@ -1,6 +1,5 @@
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
-import NewsletterForm from '@/components/NewsletterForm'
 import { PageSEO } from '@/components/SEO'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 import { getAllFilesFrontMatter } from '@/lib/mdx'
@@ -63,11 +62,6 @@ export default function Home() {
           </p>
         </div>
       </div>
-      {siteMetadata.newsletter.provider !== '' && (
-        <div className="flex items-center justify-center pt-4">
-          <NewsletterForm />
-        </div>
-      )}
     </>
   )
 }

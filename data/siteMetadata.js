@@ -24,13 +24,13 @@ const siteMetadata = {
   analytics: {
     // supports plausible, simpleAnalytics or googleAnalytics
     plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
-    simpleAnalytics: false, // true or false
+    simpleAnalytics: true, // true or false
     googleAnalyticsId: '', // e.g. UA-000000-2 or G-XXXXXXX
   },
   newsletter: {
     // supports mailchimp, buttondown, convertkit, klaviyo
     // Please add your .env file and modify it according to your selection
-    provider: '',
+    provider: 'convertkit',
   },
   comment: {
     // Select a provider and use the environment variables associated to it

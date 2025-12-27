@@ -10,14 +10,12 @@ const iconMap: Record<CalloutVariant, LucideIcon> = {
 }
 
 const variantStyles: Record<CalloutVariant, string> = {
-  info:
-    'border-primary-200 bg-primary-50 text-primary-900 dark:border-primary-500/40 dark:bg-primary-900/20 dark:text-primary-50',
+  info: 'border-primary-200 bg-primary-50 text-primary-900 dark:border-primary-500/40 dark:bg-primary-900/20 dark:text-primary-50',
   warning:
     'border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-500/40 dark:bg-amber-900/20 dark:text-amber-50',
   success:
     'border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-500/40 dark:bg-emerald-900/20 dark:text-emerald-50',
-  idea:
-    'border-sky-200 bg-sky-50 text-sky-900 dark:border-sky-500/40 dark:bg-sky-900/20 dark:text-sky-50',
+  idea: 'border-sky-200 bg-sky-50 text-sky-900 dark:border-sky-500/40 dark:bg-sky-900/20 dark:text-sky-50',
 }
 
 export type CalloutVariant = 'info' | 'warning' | 'success' | 'idea'
@@ -49,7 +47,7 @@ const Callout = ({ title, variant = 'info', children }: CalloutProps) => {
         </span>
         {heading}
       </div>
-      <div className="bg-white/70 px-5 py-4 text-base text-gray-800 dark:bg-white/10 dark:text-gray-100">
+      <div className="callout-content bg-white/70 px-5 py-4 text-base text-gray-800 dark:bg-white/10 dark:text-gray-100">
         {children}
       </div>
     </div>

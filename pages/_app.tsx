@@ -17,21 +17,17 @@ const isDevelopment = process.env.NODE_ENV === 'development'
 const isSocket = process.env.SOCKET
 
 export default function App({ Component, pageProps }: AppProps) {
-  const isProduction = process.env.NODE_ENV === 'production'
   return (
-    <>
-      <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme}>
-        <Head>
-          <meta content="width=device-width, initial-scale=1" name="viewport" />
-        </Head>
-        {isDevelopment && isSocket && <ClientReload />}
-        {isProduction && <Analytics />}
-        <LayoutWrapper>
-          <Component {...pageProps} />
-          <Analytics />
-          <SpeedInsights />
-        </LayoutWrapper>
-      </ThemeProvider>
-    </>
+    <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme}>
+      <Head>
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+      </Head>
+      {isDevelopment && isSocket && <ClientReload />}
+      <LayoutWrapper>
+        <Component {...pageProps} />
+        <Analytics />
+        <SpeedInsights />
+      </LayoutWrapper>
+    </ThemeProvider>
   )
 }

@@ -20,3 +20,23 @@ h6 {
   display: flex;
   flex-direction: column;
 }
+
+/* Callout link styles */
+.callout-content a {
+  font-weight: 500;
+  color: #7c3aed;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.callout-content a:hover {
+  color: #6d28d9;
+}
+
+.dark .callout-content a {
+  color: #a78bfa;
+}
+
+.dark .callout-content a:hover {
+  color: #c4b5fd;
+}
