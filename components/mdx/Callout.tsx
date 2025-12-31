@@ -39,7 +39,7 @@ const Callout = ({ title, variant = 'info', children }: CalloutProps) => {
 
   return (
     <div
-      className={`not-prose my-6 overflow-hidden rounded-2xl border shadow-sm ring-1 ring-black/5 dark:ring-white/10 ${variantStyles[variant]}`}
+      className={`not-prose my-10 overflow-hidden rounded-2xl border shadow-sm ring-1 ring-black/5 dark:ring-white/10 ${variantStyles[variant]}`}
     >
       <div className="flex items-center gap-3 border-b border-white/40 px-3 py-2 text-sm font-semibold uppercase tracking-wide text-black/70 dark:text-white/80">
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/70 text-primary-600 dark:bg-white/20 dark:text-primary-100">
