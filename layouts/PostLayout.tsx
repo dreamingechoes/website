@@ -11,6 +11,7 @@ import PageTitle from '@/components/PageTitle'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 import SectionContainer from '@/components/SectionContainer'
 import { SeriesContext } from '@/lib/series'
+import SocialShare from '@/components/SocialShare'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 
@@ -201,6 +202,7 @@ export default function PostLayout({
                     </div>
                   </Link>
                 </div>
+                <SocialShare title={title} slug={slug} siteUrl={siteMetadata.siteUrl} />
                 {siteMetadata.newsletter.provider !== '' && <NewsletterForm />}
               </div>
               <div className="pb-8 xl:pb-0">
