@@ -1,0 +1,114 @@
+---
+title: 'Every Yes Kills Something'
+date: '2026-01-19'
+draft: false
+tags: ['engineering-leadership', 'product', 'prioritization', 'architecture', 'team-culture']
+summary: 'Memento mori isn’t morbid — it’s clarifying. A practical lens to prioritize what we build, protect our attention, and choose work we can actually sustain.'
+authors: ['default']
+series:
+  slug: 'philosophy-for-builders'
+  order: 1
+---
+
+There’s a quiet illusion in software that we rarely name out loud: that we can keep adding without paying a real cost.
+
+A new initiative, a “small” feature, one more integration, another dashboard, a quick experiment, a refactor that will “only take a day.” We say yes because it feels constructive, because momentum is rewarded, because we don’t want to be the person who blocks progress — and because saying no can feel like closing a door on possibility.
+
+But in a system with finite time, finite attention, and finite maintenance capacity, every yes kills something. Not dramatically and not publicly, but quietly — in the form of the work we won’t have space to do, the care we won’t have energy to apply, and the focus we won’t be able to protect.
+
+If you’ve lived inside a growing codebase, you’ve probably felt it in your body before you could explain it. You say yes to something “small,” and a few weeks later you notice you’ve stopped making time for the work that would actually make the system calmer: the cleanup you keep postponing, the decisions you keep deferring, the edges you keep sanding down just enough to ship.
+
+This is the first post of _Philosophy for Builders_: a series about taking philosophical ideas and translating them into practical tools for building software. Poetic in the framing, practical in the landing. And we’re starting with a phrase that sounds heavy, but is often liberating once you understand what it’s really pointing to: **memento mori**.
+
+Remember you will die — not as a threat, and not as a gloomy mantra, but as clarity.
+
+## Memento mori is not about death. It’s about limits.
+
+“Memento mori” is often misunderstood as something morbid. Historically, it’s closer to a reminder that life is finite, and that finitude should change how you live. It’s a way of interrupting autopilot and asking: _if my time is limited, what deserves it?_ It’s not about fear — it’s about attention.
+
+In software, we behave as if we’re infinite. We build roadmaps like time doesn’t run out. We plan quarters as if energy is renewable. We accept new commitments as if maintenance won’t compound. We treat attention like it can be endlessly split without consequence, and then we act surprised when the system starts to feel fragile and the team starts to feel tired in a way rest doesn’t fully solve.
+
+But we are not infinite. Teams are not infinite. And systems — especially systems that are expected to keep running while we keep adding — don’t behave like they are.
+
+Every new “yes” creates a shadow. Sometimes it’s obvious. Often it isn’t. It might be the work that gets delayed, the quality that gets compromised, the coordination that gets heavier, or the future burden that quietly accumulates in the background. Memento mori is simply the moment you stop pretending that cost doesn’t exist.
+
+Once you accept the limit, the trade-offs become easier to see. Prioritization stops being a debate about what’s “important” and becomes a conversation about what you’re willing to spend — and what you’re not.
+
+## The two clocks you’re always juggling
+
+Part of why prioritization feels so hard is that we’re rarely optimizing for one thing. We’re juggling two clocks at once, and we often don’t notice when we’re sacrificing one for the other.
+
+The first is the **user clock**: the time your users live in. It’s friction, waiting, confusion, time-to-value. It’s the difference between someone feeling guided or feeling lost, between a flow that helps and a flow that drains. User time matters because it scales. A few seconds here, an extra step there, a confusing label that forces a second read — it all multiplies across every person who touches your product.
+
+The second is the **team clock**: the time your team lives in. It’s complexity, cognitive load, maintenance, incident fatigue, coordination costs, context switching. Team time matters because it compounds. A small shortcut that “saves time” today can become a recurring tax for years. A “temporary” solution has a habit of becoming permanent. A feature with unclear ownership becomes a quiet leak in responsibility and care.
+
+Most prioritization mistakes happen when we optimize one clock while pretending the other doesn’t exist. We reduce user time at the expense of team time until the system becomes brittle and people burn out, or we protect team time so aggressively that users never feel momentum and the product slowly loses its pulse. Memento mori, in practice, is the reminder that **both clocks are finite**, and that trade-offs should be made consciously rather than accidentally.
+
+## The hidden cost of yes
+
+The obvious cost of a yes is time. The hidden cost is everything else that starts to move around it.
+
+Yes steals focus. Yes fragments momentum. Yes creates parallel paths that increase coordination. Yes adds surface area, edge cases, and failure modes. Yes adds things to remember — which sounds harmless until you realize that “things to remember” is one of the most expensive resources a team can spend.
+
+And the most deceptive thing about yes is that the cost rarely lands immediately. It lands later, when you try to make a “small change” and realize the system has become a maze of exceptions, or when your backlog is mostly maintenance and your “new work” is just keeping old promises alive. It lands when every deployment carries a quiet dread that you might break something you forgot existed, and when the team starts doing a kind of emotional accounting: _how many more of these can we carry?_
+
+This is why memento mori belongs in prioritization. It forces you to include the future in the decision, instead of borrowing from it unconsciously.
+
+## A practical tool: the Mortality Check
+
+If memento mori is the reminder, this is the practice.
+
+Here’s a lightweight set of questions you can run before you say yes — not to block progress, but to make sure your “yes” is actually aligned with what you can sustain.
+
+**What are we willing to kill to say yes to this?**  
+Name the trade-off explicitly. If you can’t name it, you’re probably about to create an unowned cost.
+
+**Whose time are we saving — and whose time are we spending?**  
+User clock vs team clock. Make the trade visible. The conversation changes when you put language to what you’re optimizing for.
+
+**What will this cost to carry for the next 12 months?**  
+Not just to build — to own. Incidents, support, documentation, refactors, mental overhead, the quiet weight of “this is now part of the system.”
+
+**What becomes harder if we add this?**  
+Deploys, on-call, debugging, hiring, product iteration, team autonomy. If the answer is “nothing,” you haven’t looked closely enough yet.
+
+**If we could only do 20% of it, what would we ship?**  
+This reveals whether the idea is well-formed or just emotionally appealing. It forces clarity about the actual value, not the imagined one.
+
+You can run this as an individual check, but it becomes much more powerful as a team ritual — a shared language that makes “no” feel like care rather than rejection.
+
+## Saying no without becoming rigid
+
+One of the common fears around prioritization frameworks is that they turn you into someone who always says no. That’s not what this is for. Memento mori doesn’t remove ambition — it removes delusion.
+
+It’s not anti-building. It’s pro-intentional building.
+
+Sometimes you will still say yes — to the big thing, the risky thing, the thing that creates leverage. The difference is that you’ll say it with your eyes open, and you’ll pair it with something equally intentional: a clear owner, a defined scope, a sunset plan, a maintenance budget, a decision log, a trade-off you’re willing to accept.
+
+You stop treating “yes” as free, and you stop letting it quietly steal from the future.
+
+## What this changes in the day-to-day
+
+This lens isn’t only for roadmaps. It changes the small decisions too, the ones that shape your culture without ever being written down.
+
+It changes how you respond to “quick asks,” how you handle scope creep, how you design systems, and how you write code. Because once you internalize finitude, you start building in a way that respects it — fewer features with more depth, fewer dependencies with more clarity, fewer promises with more ownership, fewer rushed merges and more calm releases.
+
+Not because you care less. Because you care in a way that can last.
+
+<Callout variant="info">
+  This article is part of the series [*Philosophy for Builders*](/series/philosophy-for-builders),
+  where I translate philosophical ideas into practical tools for building software — prioritization,
+  design, delivery, and culture.
+</Callout>
+
+## Final thoughts
+
+Memento mori isn’t a productivity hack. It’s a values check.
+
+It asks a simple question we avoid because it forces honesty: **what is this “yes” going to cost?** Not just this week or this quarter, but in the life of the system and the life of the people carrying it.
+
+Because the goal isn’t to build the most impressive roadmap. The goal is to build something you can sustain — a product, a team, a career — without trading away your peace for momentum.
+
+So if you want a small place to start, start here: pick one recent “yes” and run the Mortality Check on it, not to punish yourself, but to see what you’ve been quietly paying for.
+
+Every yes kills something. The work is to choose what deserves to live.
