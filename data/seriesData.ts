@@ -10,6 +10,18 @@ export type SeriesDefinition = {
 }
 
 export const seriesData: Record<string, SeriesDefinition> = {
+  'philosophy-for-builders': {
+    slug: 'philosophy-for-builders',
+    title: 'Philosophy for Builders',
+    summary:
+      'Turning philosophical ideas into practical tools for building software — prioritization, design, delivery, and culture.',
+    description:
+      'A series that applies philosophy as an engineering lens: not as abstract theory, but as a way to make clearer trade-offs, build more sustainable systems, and lead with more intention. Each post starts with a concept (Stoicism, memento mori, Socratic method...) and translates it into concrete frameworks, questions, and habits you can actually use while shipping.',
+    cta: {
+      label: null,
+      href: null,
+    },
+  },
   'the-quiet-side-of-tech': {
     slug: 'the-quiet-side-of-tech',
     title: 'The Quiet Side of Tech',
