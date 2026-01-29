@@ -13,6 +13,7 @@ import SectionContainer from '@/components/SectionContainer'
 import { SeriesContext } from '@/lib/series'
 import SocialShare from '@/components/SocialShare'
 import Tag from '@/components/Tag'
+import TextToSpeech from '@/components/TextToSpeech'
 import siteMetadata from '@/data/siteMetadata'
 
 const editUrl = (fileName) => `${siteMetadata.siteRepo}/blob/master/data/blog/${fileName}`
@@ -140,15 +141,18 @@ export default function PostLayout({
             </dl>
             <div className="xl:pb-0 xl:col-span-3 xl:row-span-2 dark:divide-gray-700">
               <div className="pt-10 pb-4">
-                {readingTimeMinutes && (
-                  <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
-                    <Clock className="h-4 w-4" aria-hidden="true" />
-                    <span>
-                      Estimated reading time: {readingTimeMinutes}{' '}
-                      {readingTimeMinutes === 1 ? 'minute' : 'minutes'}
-                    </span>
-                  </div>
-                )}
+                <div className="mb-6 flex flex-col gap-4">
+                  {readingTimeMinutes && (
+                    <div className="inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 self-start">
+                      <Clock className="h-4 w-4" aria-hidden="true" />
+                      <span>
+                        Estimated reading time: {readingTimeMinutes}{' '}
+                        {readingTimeMinutes === 1 ? 'minute' : 'minutes'}
+                      </span>
+                    </div>
+                  )}
+                  <TextToSpeech />
+                </div>
                 <div className="prose dark:prose-dark max-w-none">{children}</div>
               </div>
               {/* Engagement Section */}
