@@ -49,9 +49,11 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
   const [totalTime, setTotalTime] = useState(0)
 
   const queueRef = useRef<SpeechSynthesisUtterance[]>([])
+  const chunksRef = useRef<string[]>([])
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const chunkTimesRef = useRef<number[]>([])
   const voiceSelectorRef = useRef<HTMLDivElement>(null)
+  const progressBarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setSupported(typeof window !== 'undefined' && 'speechSynthesis' in window)
@@ -74,15 +76,20 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
         })
 
         // If no preferred voices found, fallback to any en-GB voice
-        const finalVoices =
+        const fallbackVoices =
           filteredVoices.length > 0
             ? filteredVoices
             : availableVoices.filter((v) => v.lang === 'en-GB')
 
-        setVoices(finalVoices)
+        // Remove duplicate voices by name (keep first occurrence)
+        const uniqueVoices = fallbackVoices.filter(
+          (voice, index, self) => index === self.findIndex((v) => v.name === voice.name)
+        )
+
+        setVoices(uniqueVoices)
         // Auto-select first voice if none selected
-        if (!selectedVoice && finalVoices.length > 0) {
-          setSelectedVoice(finalVoices[0])
+        if (!selectedVoice && uniqueVoices.length > 0) {
+          setSelectedVoice(uniqueVoices[0])
         }
       }
     }
@@ -170,24 +177,30 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     }
   }
 
-  const buildQueue = () => {
+  const buildQueue = (startFromChunk = 0) => {
     const text = getTextContent()
     if (!text) return
 
     const chunks = chunkText(text)
+    chunksRef.current = chunks
     setTotalChunks(chunks.length)
-    setCurrentChunkIndex(0)
-    setElapsedTime(0)
+    setCurrentChunkIndex(startFromChunk)
 
     // Calculate estimated time for each chunk and total
     const chunkTimes = chunks.map((c) => estimateReadingTime(c))
     chunkTimesRef.current = chunkTimes
     setTotalTime(chunkTimes.reduce((a, b) => a + b, 0))
 
-    queueRef.current = chunks.map((c, idx) => {
+    // Calculate elapsed time up to startFromChunk
+    const elapsedUpToStart = chunkTimes.slice(0, startFromChunk).reduce((a, b) => a + b, 0)
+    setElapsedTime(elapsedUpToStart)
+
+    // Only create utterances from startFromChunk onwards
+    queueRef.current = chunks.slice(startFromChunk).map((c, idx) => {
+      const actualIdx = startFromChunk + idx
       const u = new SpeechSynthesisUtterance(c)
       u.lang = selectedVoice?.lang || 'en-GB'
-      u.rate = 0.95
+      u.rate = 1
       u.pitch = 1
       if (selectedVoice) {
         u.voice = selectedVoice
@@ -196,12 +209,12 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
       u.onstart = () => {
         setSpeaking(true)
         setPaused(false)
-        setCurrentChunkIndex(idx)
+        setCurrentChunkIndex(actualIdx)
         startTimer()
       }
 
       u.onend = () => {
-        if (idx === chunks.length - 1) {
+        if (actualIdx === chunks.length - 1) {
           setSpeaking(false)
           setPaused(false)
           stopTimer()
@@ -263,6 +276,33 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     setElapsedTime(0)
   }
 
+  const seekToChunk = (chunkIndex: number) => {
+    if (!supported || chunkIndex < 0 || chunkIndex >= totalChunks) return
+
+    const synth = window.speechSynthesis
+    synth.cancel()
+    stopTimer()
+
+    // Rebuild queue starting from the selected chunk
+    buildQueue(chunkIndex)
+
+    if (queueRef.current.length === 0) return
+
+    // Start playing from the new position
+    for (const u of queueRef.current) synth.speak(u)
+  }
+
+  const handleProgressClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!progressBarRef.current || totalChunks === 0) return
+
+    const rect = progressBarRef.current.getBoundingClientRect()
+    const clickX = event.clientX - rect.left
+    const percentage = clickX / rect.width
+    const targetChunk = Math.floor(percentage * totalChunks)
+
+    seekToChunk(Math.max(0, Math.min(targetChunk, totalChunks - 1)))
+  }
+
   if (!supported) return null
 
   const progress = totalChunks > 0 ? ((currentChunkIndex + 1) / totalChunks) * 100 : 0
@@ -279,7 +319,37 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     <div className="w-full rounded-2xl bg-gray-100 dark:bg-gray-800 p-3">
       {/* Progress bar */}
       <div className="mb-3">
-        <div className="h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+        <div
+          ref={progressBarRef}
+          onClick={isActive ? handleProgressClick : undefined}
+          onKeyDown={
+            isActive
+              ? (e) => {
+                  if (e.key === 'ArrowLeft') {
+                    seekToChunk(Math.max(0, currentChunkIndex - 1))
+                  } else if (e.key === 'ArrowRight') {
+                    seekToChunk(Math.min(totalChunks - 1, currentChunkIndex + 1))
+                  } else if (e.key === 'Home') {
+                    seekToChunk(0)
+                  } else if (e.key === 'End') {
+                    seekToChunk(totalChunks - 1)
+                  } else if (e.key === 'Enter' || e.key === ' ') {
+                    // Optionally, play/pause on Enter/Space
+                    isActive && paused ? play() : pause()
+                  }
+                }
+              : undefined
+          }
+          tabIndex={isActive ? 0 : -1}
+          className={`h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden ${
+            isActive ? 'cursor-pointer' : ''
+          }`}
+          role={isActive ? 'slider' : undefined}
+          aria-label={isActive ? 'Seek position' : undefined}
+          aria-valuemin={isActive ? 0 : undefined}
+          aria-valuemax={isActive ? totalChunks : undefined}
+          aria-valuenow={isActive ? currentChunkIndex + 1 : undefined}
+        >
           <div
             className="h-full rounded-full bg-primary-500 dark:bg-primary-400 transition-all duration-300"
             style={{ width: isActive ? `${progress}%` : '0%' }}
