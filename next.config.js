@@ -5,7 +5,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app *.simpleanalyticscdn.com;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app *.simpleanalyticscdn.com unpkg.com *.googletagmanager.com;
   style-src 'self' 'unsafe-inline' *.googleapis.com cdn.jsdelivr.net;
   img-src * blob: data:;
   media-src 'none';
@@ -58,6 +58,36 @@ const securityHeaders = [
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  trailingSlash: true,
+  async rewrites() {
+    return {
+      beforeFiles: [
+        // MkDocs assets (CSS, JS, images)
+        {
+          source: '/assets/:path*',
+          destination: 'https://engineering-leadership-playbook.vercel.app/assets/:path*',
+        },
+        // MkDocs search
+        {
+          source: '/search/:path*',
+          destination: 'https://engineering-leadership-playbook.vercel.app/search/:path*',
+        },
+        // Playbook pages
+        {
+          source: '/playbook',
+          destination: 'https://engineering-leadership-playbook.vercel.app/',
+        },
+        {
+          source: '/playbook/',
+          destination: 'https://engineering-leadership-playbook.vercel.app/',
+        },
+        {
+          source: '/playbook/:path*',
+          destination: 'https://engineering-leadership-playbook.vercel.app/:path*',
+        },
+      ],
+    }
+  },
   async headers() {
     return [
       {
