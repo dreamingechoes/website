@@ -6,6 +6,12 @@ const projectsData = [
     href: 'https://www.avenida.so/',
   },
   {
+    title: 'Engineering Leadership Playbook',
+    description: `A handbook for engineering leaders to help them navigate the challenges of leading software teams.`,
+    imgSrc: null,
+    href: 'https://dreamingecho.es/playbook/',
+  },
+  {
     title: 'Awesome Mental Health',
     description: `A curated list of awesome articles, websites, and resources about mental health in the software industry.`,
     imgSrc: null,
