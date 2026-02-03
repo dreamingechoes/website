@@ -18,6 +18,12 @@ const projectsData = [
     href: 'https://dreamingechoes.github.io/awesome-mental-health/',
   },
   {
+    title: 'Awesome Diversity',
+    description: `A curated list of amazingly awesome articles, websites and resources about diversity in technology.`,
+    imgSrc: null,
+    href: 'https://github.com/folkswhocode/awesome-diversity/',
+  },
+  {
     title: 'Neilipsum',
     description: `Lorem ipsum single page application with Neil deGrasse Tyson quotes.`,
     imgSrc: null,
