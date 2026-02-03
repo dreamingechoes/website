@@ -1,0 +1,199 @@
+---
+title: 'The Unexamined Backlog'
+date: '2026-02-04'
+tags: ['engineering-leadership', 'product', 'requirements', 'delivery', 'team-culture']
+draft: false
+summary: 'A Socratic checklist for requirements: uncover assumptions, prevent scope drift, and pull discovery forward—before you build.'
+authors: ['default']
+series:
+  slug: 'philosophy-for-builders'
+  order: 3
+---
+
+Most delivery pain begins long before the work looks hard. It begins the moment a ticket feels obvious.
+
+A confident title. A “good enough” description. A screenshot. A quick “LGTM.” And suddenly the team is moving — estimates, commitments, implementation — with the quiet assumption that understanding will catch up. That if we start building, the meaning will clarify itself.
+
+Sometimes it does. But when it doesn’t, the backlog starts rewriting the project in real time.
+
+A stakeholder watches a demo and realizes what they meant wasn’t what they wrote. A dependency reveals a constraint nobody named because nobody could see it yet. A “small” edge case turns into a redesign. A legal or compliance question appears late — not because people didn’t care, but because the question only becomes visible once the feature becomes real.
+
+And because each request sounds reasonable, drift doesn’t feel like drift. It feels like progress. One more adjustment. One more “while you’re there…”.
+
+By the time you notice the shape has changed, you’re already too deep to ask the clean questions. You’re in motion now. You’re “almost there.” And “almost there” is where teams trade understanding for finishing.
+
+This is the autopilot problem: letting assumptions drive choices without ever noticing they’re there. Which is exactly why the Socratic method becomes practical here — not as philosophy trivia, but as a discipline of refusing to build on top of unexamined assumptions.
+
+Because the backlog is full of truths no one checked.
+
+## The Autopilot Problem
+
+The line often attributed to Socrates — “the unexamined life is not worth living” — isn’t a moral verdict. It’s a warning about autopilot: about letting assumptions drive your choices without ever noticing they’re there.
+
+Backlogs have the same failure mode.
+
+An unexamined backlog is where tickets read like orders instead of hypotheses — where scope exists as implication, and “requirements” are often guesses wearing certainty. The work is real, but the meaning is vague. And vagueness always gets paid for later.
+
+When backlogs go wrong, it’s rarely because people didn’t care. It’s because everyone is busy, and busyness has a bias: it makes building feel more urgent than understanding. It makes slow questions feel like blockers. It makes uncertainty feel socially expensive.
+
+So we move forward. And we call that progress.
+
+## What Socrates Would Do to a Ticket
+
+Socrates wasn’t interested in speed. He was interested in clarity. Not the kind that sounds confident in a meeting, but the kind that survives contact with reality.
+
+In software terms, he would keep asking questions until the ticket stopped being a vibe and became a decision.
+
+He would try to surface three things that determine whether a requirement is safe to build:
+
+- **Meaning** — what are we actually trying to change, and for whom?
+- **Truth** — what are we assuming without noticing?
+- **Boundaries** — where does this stop, and what is explicitly not included?
+
+A good requirements conversation doesn’t eliminate uncertainty. It relocates it. It turns uncertainty from an invisible tax into an explicit trade-off you can actually own.
+
+That’s the goal: not perfection, but fewer surprises that arrive late and expensive.
+
+## The Socratic Checklist for Requirements
+
+Think of this as a checklist you run _before_ you write code — not as bureaucracy, but as a way to protect your future attention.
+
+Use it solo while shaping a ticket, or as a team ritual in refinement. The goal is simple: **turn assumptions into decisions while they’re still cheap.**
+
+### Meaning: What are we actually trying to change?
+
+**Who is this for, specifically?**  
+Not “users.” Which users — and in what context? New users? Admins? People on mobile? People under time pressure?
+
+**What behavior should change?**  
+Not “add a feature.” What should someone do differently when this exists?
+
+**What is the job to be done?**  
+Could you explain the “why” in one sentence without internal jargon?
+
+**What does success mean in human terms?**  
+Not “shipped.” What becomes easier, calmer, faster, clearer in someone’s day?
+
+_(Optional but powerful)_ **What would we do if we couldn’t ship code?**  
+Sometimes the fastest learning is copy, defaults, education, or a manual workaround. If a non-code change could move the needle, the “requirement” might be less firm than it looks.
+
+The goal of this section is to stop building a solution that makes sense only inside your org chart.
+
+### Truth: What are we assuming?
+
+A surprising amount of scope creep is just reality arriving late. This set of questions pulls reality forward.
+
+**What must be true for this to work?**  
+List the hidden “of course…” statements: of course users will find it, of course they’ll understand it, of course the data exists, of course permissions work, of course performance is fine.
+
+**What are we using as evidence?**  
+Metric, support pattern, customer call, hunch, strategic bet — name it. Clarity about evidence prevents fake certainty.
+
+**What might we be wrong about?**  
+If you had to bet on one assumption that breaks, which one is it? Naming it early lets you design the work to test it quickly.
+
+**Where are the unknown unknowns likely hiding?**  
+Permissions, migrations, analytics gaps, compliance, localization, accessibility, rollback paths, ownership. You don’t need to solve all of them now — you need to decide which ones are real risks and which ones are noise.
+
+This is the moment where a “simple ticket” often becomes honest — and that honesty is what keeps delivery calm.
+
+### Boundaries: Where does this stop?
+
+A backlog item without boundaries is basically an invitation to drift.
+
+**What is explicitly out of scope?**  
+If you don’t write this down, scope creep will write it for you.
+
+**What is the thin slice that still creates real value?**  
+Not the “perfect” version — the smallest version that is meaningful. Thin slices reveal truth. Big bets hide it.
+
+**What are the non-goals?**  
+What are we not optimizing for in this iteration? Example: “We’re not redesigning the full flow.” “We’re not solving every edge case.” “We’re not refactoring unrelated areas.”
+
+**What would make us stop or re-scope?**  
+A constraint, a dependency slip, an unexpected migration, a performance risk. Name the tripwires before you cross them.
+
+**Who owns the trade-off calls?**  
+If scope decisions have no owner, they become silent conflicts later. If the answer is “we’ll decide as we go,” that’s not agility — that’s risk.
+
+Boundaries don’t kill creativity. They protect it. They create a container where good work can happen without constantly renegotiating reality. And they’re also how we spend attention on purpose — because attention is finite.
+
+## A Practical Format: Requirements as a Hypothesis
+
+One small shift that makes tickets dramatically better is how you write them.
+
+Instead of writing requirements like commands:
+
+“Add X to Y so users can Z.”
+
+Write them like a hypothesis:
+
+> **Requirements as a Hypothesis (copy/paste)**
+>
+> **We believe** [user segment] struggles with [problem].
+> **If we** introduce [change], **then** [behavior] will improve, and we’ll notice via [signal].
+> **This iteration explicitly does not solve** [non-goals].
+> **Tripwires:** [what would make us stop / re-scope].
+
+This does two things.
+
+First, it makes the work easier to discuss, because everyone can see what is being assumed. Second, it makes it easier to stop when the hypothesis is wrong — because stopping becomes learning, not failure.
+
+## Where Scope Creep Actually Comes From
+
+Scope creep is rarely “people being annoying.” More often it’s discovery arriving late.
+
+People remember constraints when they see something. Stakeholders realize what they meant after a demo. Systems reveal their edges when you touch production.
+
+So the question isn’t “how do we stop people from asking for more?” It’s: **how do we pull discovery forward, while it’s still cheap?**
+
+The Socratic approach is one answer. It pulls discovery forward, when it still fits inside a calm conversation.
+
+Discovery is inevitable. The only choice is when you pay for it.
+
+## A Team Ritual: The 15-Minute Socratic Pass
+
+If you want this to stick, don’t turn it into a ceremony. Make it small and repeatable.
+
+Once per ticket (or per epic), do a Socratic pass:
+
+- **5 minutes — Meaning:** what are we changing, for whom?
+- **5 minutes — Truth:** what are we assuming, and what’s the biggest risk?
+- **5 minutes — Boundaries:** what is out of scope, and what is the thin slice?
+
+End with one explicit output: A sentence that makes the trade-off visible.
+
+Something like:
+
+- We’re shipping the thin slice without enterprise permissions in v1, and we’ll revisit if adoption crosses X.
+- We’re building the interface now and deferring the integration until the dependency is stable.
+
+That single sentence is often the difference between calm delivery and later confusion.
+
+## How This Fits in the Series
+
+The first post was about finitude: every yes has a cost. The second was about agency: control the inputs, not the outcomes. This third lens is about clarity before commitment.
+
+Because the backlog is where “yes” becomes real. It’s where you either build on purpose, or you build on momentum. And momentum is not the same as intention.
+
+A Socratic backlog doesn’t slow you down. It prevents you from accelerating into the wrong thing — and then calling that speed.
+
+<Callout variant="info">
+  This article is part of the series [*Philosophy for Builders*](/series/philosophy-for-builders),
+  where I translate philosophical ideas into practical tools for building software — prioritization,
+  design, delivery, and culture.
+</Callout>
+
+## Final thoughts
+
+Most delivery pain is not caused by difficulty. It’s caused by surprises.
+
+And most surprises aren’t random. They’re the bill you pay for assumptions you didn’t examine when they were still cheap to question.
+
+Socrates didn’t give people productivity systems. He gave them a way to notice what they were taking for granted. In software, that’s not academic. It’s a form of care — for your team’s attention, for your future maintainability, for your ability to ship without turning every week into a negotiation with uncertainty.
+
+So the next time a ticket feels “obvious,” try a small act of resistance: don’t ask how fast you can build it. Ask what it really means, what must be true, and where it stops.
+
+Because the backlog doesn’t just hold work. It holds your future attention. And attention is finite.
+
+So treat “obvious” tickets like a warning light: **when something feels obvious, that’s usually where the unexamined assumptions are hiding.**
