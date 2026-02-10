@@ -1,0 +1,124 @@
+---
+title: 'Make the Failure Useful'
+date: '2026-02-09'
+lastmod: '2026-02-09'
+draft: false
+tags: ['engineering-leadership', 'team-culture', 'incident-response', 'delivery', 'philosophy']
+summary: "Nietzsche's amor fati means loving what happens. In engineering, that translates to postmortems without shame — and systems that learn from every incident."
+authors: ['default']
+series:
+  slug: 'philosophy-for-builders'
+  order: 5
+---
+
+The outage is over. The fix is deployed. The Slack channel goes quiet, and someone makes a joke about the incident that almost everyone laughs at.
+
+Within an hour, the energy shifts. People want to move forward. The sprint still has work in it. There's a retro scheduled for Friday but already it feels like a formality — the details are fuzzy, the adrenaline has faded, and nobody really wants to relive it.
+
+So the team moves on. The postmortem gets filed — brief, factual, slightly sanitized. "Root cause: misconfigured environment variable. Action item: add validation check." And something valuable — the messy, human, surprising truth about what actually happened — quietly disappears.
+
+_"We survived it. Isn't that enough?"_
+
+It's a reasonable question. But there's an older, stranger idea that suggests the answer is no — and that surviving isn't even close to what the failure could give you if you let it.
+
+## The instinct to move on
+
+There's nothing wrong with wanting to leave an incident behind. Incidents are stressful, often physically exhausting, and they carry a particular kind of emotional residue — the feeling that something under your watch went wrong, that systems you trusted failed in ways you didn't anticipate.
+
+The natural response is relief, and then distance. Close the chapter. Learn the minimum necessary lesson. Make sure it doesn't happen _exactly_ that way again. Move on.
+
+But moving on quickly has a cost that's easy to miss. When you file the postmortem and close the ticket, you're also closing a window — a brief, rare window where the team has direct access to what actually happened, how it felt, what they noticed, and what they wish they'd done differently.
+
+That window is where the real learning lives. Not in the root cause (which is often a single technical detail), but in the chain of decisions, assumptions, and communication patterns that led to the moment when someone realized something was wrong.
+
+Most teams treat incidents as things to survive. The ones that grow the fastest treat them as material to build with.
+
+## Amor fati: the love of what happens
+
+Friedrich Nietzsche had a concept for this — _amor fati_, the love of fate. Not passive acceptance, not pretending that bad things are good, but something more radical: the idea that everything that happens, including failure and suffering, is material you can use. That the right response to difficulty isn't to wish it away but to ask: _what can I make from this?_
+
+The Stoics had a version of the same idea. Marcus Aurelius called it "turning obstacles upside down" — using the thing that blocks your path as part of the path itself. Epictetus taught that events are neutral; only our response gives them meaning.
+
+In engineering, this translates to something surprisingly practical — not as philosophical resignation, but as a design principle for how teams learn. If your team can shift from "how do we prevent this from ever happening again?" to "what did this failure teach us that we couldn't have learned any other way?", the entire texture of incident response changes.
+
+The postmortem stops being a ritual of accountability. It becomes a ritual of curiosity.
+
+## Why incidents are the richest material
+
+A production incident reveals things that no planning document, no architecture review, and no test suite ever will:
+
+- How the team actually communicates under pressure — not how they say they do.
+- Where the mental models diverge — the moment when two engineers realize they were debugging different assumptions.
+- Which monitoring is trusted and which is noise.
+- Where the documentation gaps live — not in theory, but in the specific moment when someone needed an answer and couldn't find it.
+- How decisions get made when there's no time for consensus.
+
+These insights are perishable. After 48 hours, the details soften. After a week, the narrative smooths itself into something simpler than what actually happened. And the most valuable details — the hesitations, the gut feelings, the moments of confusion — are the first to disappear.
+
+The failure is the material. The postmortem is the workshop. And the only thing standing between the two is the team's willingness to sit with what happened instead of rushing past it.
+
+## The shame spiral that kills learning
+
+The biggest obstacle to useful postmortems isn't process — it's shame.
+
+When something breaks, people instinctively protect themselves. They rehearse their actions, looking for the moment that proves they weren't responsible. They soften their descriptions. They hesitate to name what they noticed about others. The postmortem becomes a document written by people trying to sound careful, not truthful.
+
+This isn't a character flaw. It's what happens when failure is treated as a personal event rather than a systemic one. And it's exactly what the amor fati lens pushes against.
+
+If the failure is _material_ — something you use, not something you endure — then the question shifts from "whose fault was this?" to "what did this reveal about our systems, our communication, and our assumptions?" The same facts, held differently, become useful instead of threatening.
+
+Building this kind of culture doesn't happen by declaring "we're blameless now." It happens slowly, through consistent behavior — leaders naming what went wrong in their own decisions first, teams [creating environments where people feel safe enough to be honest](/blog/building-a-culture-of-psychological-safety-in-engineering-teams), celebrating the most transparent postmortem instead of the most flattering one.
+
+## A practical tool: the Amor Fati Postmortem
+
+Here's a lightweight postmortem format built around the idea of using the failure, not just documenting it.
+
+**Part 1 — What happened (facts only).** Timeline of events. No interpretation, no blame. Just what happened and when. Keep it honest and sequential.
+
+**Part 2 — What did we learn that we couldn't have learned any other way?** This is the core question. Not "what went wrong" but "what did this reveal?" Examples:
+
+- "We learned that our alerting doesn't distinguish between degraded and fully down."
+- "We learned that the on-call engineer didn't know the service had a dependency on X."
+- "We learned that our deploy rollback takes 12 minutes, not 2."
+
+**Part 3 — Where did our mental models break?** Identify at least one moment where someone's assumption about the system didn't match reality. This is almost always where the most valuable insight lives.
+
+**Part 4 — What one thing would have helped most?** Not a list of five action items that never get done. One thing. The single change that would have made the biggest difference — in detection, in communication, in recovery.
+
+**Part 5 — How do we carry this forward?** Who owns the one thing? By when? How will we know it worked?
+
+The format is short on purpose. A long postmortem is a postmortem that doesn't get written — or doesn't get read. Amor fati is a discipline, not a ceremony.
+
+## Building systems that remember
+
+Useful postmortems change the shape of your systems over time. Not in dramatic ways — in quiet, cumulative ones.
+
+The monitoring gets slightly better because someone finally described the alert they wish they'd had. The runbook gets an extra paragraph because someone remembered the confusion. The on-call rotation gets adjusted because someone named the gap between "on paper" and "in practice" — the same gap that [people who've lived inside real systems already understand](/blog/learning-to-build-in-the-age-of-ai).
+
+What amor fati gives engineering teams isn't fearlessness. It's a different relationship with failure — one where each incident leaves behind something useful instead of just a scar.
+
+Over time, teams that practice this develop a kind of institutional memory that isn't stored in a wiki. It lives in the way people react when something goes wrong: not with panic or blame, but with genuine curiosity. _"What is this showing us?"_
+
+That's not naivety. It's what happens when a team has decided, quietly and collectively, that failure is too valuable to waste — and that the discomfort of examining it honestly is a small price for the clarity it brings.
+
+## How this connects to the series
+
+The first post was about **finitude** — [every yes kills something](/blog/every-yes-kills-something). The second was about **agency** — controlling inputs, not outcomes. The third was about **clarity** — examining assumptions before committing. The fourth was about **stillness** — pausing before optimizing.
+
+This fifth lens is about **amor fati** — the practice of treating failure not as something to survive, but as the richest material your team has. Nietzsche's insight isn't that bad things are secretly good. It's that even bad things can be _used_ — if you're willing to face them honestly.
+
+Together, these lenses build a philosophy for teams that ship: say no to what doesn't matter, control what you can, question what you assume, pause before you react, and when things break — make the failure useful.
+
+<Callout variant="info">
+  This post is part of the series [_Philosophy for Builders_](/series/philosophy-for-builders) —
+  where I translate philosophical ideas into practical tools for building software — prioritization,
+  design, delivery, and culture.
+</Callout>
+
+## Final thoughts
+
+Amor fati doesn't ask you to celebrate failure. It asks you to refuse to waste it.
+
+The next time your team survives an incident and the impulse is to close the ticket and move on, try holding the door open a little longer. Not to assign blame or demand perfection — but to ask, honestly, what the failure is trying to teach you.
+
+Because the teams that learn the fastest aren't the ones that avoid incidents. They're the ones that make every incident count — and carry what they learned into the next thing they build.
