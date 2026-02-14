@@ -59,6 +59,45 @@ export default function CV() {
             </div>
           </div>
 
+          <div className="mt-8 bg-white dark:bg-gray-900 border-2 border-gray-200 rounded-md border-opacity-60 dark:border-gray-700 p-6">
+            <h2 className="text-lg font-semibold">Best Practices</h2>
+            <p className="mt-3 text-gray-600 dark:text-gray-300">
+              I try to run my work like a system: clear outcomes, predictable execution, and a
+              culture that makes quality the default.
+            </p>
+            <p className="mt-3 text-gray-600 dark:text-gray-300">
+              On the <b>product and delivery</b> side, I start by aligning on the problem and
+              success criteria before we build. I push for a clear definition of “what good looks
+              like,” a tight scope, and explicit trade-offs so the team isn’t guessing. I prefer
+              small, safe increments with short feedback loops, so we learn early and avoid shipping
+              “technically correct but conceptually wrong” solutions.
+            </p>
+
+            <p className="mt-3 text-gray-600 dark:text-gray-300">
+              On the <b>team and leadership</b> side, I rely on consistency: regular 1:1s, written
+              context, and clear ownership. I invest in psychological safety and direct, yet kind
+              and honest, feedback because it’s the fastest way to build high-trust teams with high
+              standards. I’m intentional about growth: turning expectations into observable
+              behaviors, creating opportunities, and sponsoring people so development isn’t left to
+              chance.
+            </p>
+
+            <p className="mt-3 text-gray-600 dark:text-gray-300">
+              On the <b>engineering practices</b> side, I focus on maintainability and operational
+              readiness. That means keeping changes small and reviewable, documenting important
+              decisions, building guardrails that prevent common errors, and treating incidents as
+              learning opportunities rather than blame. I also watch team health as a first-class
+              signal: sustainable pace, reasonable WIP, and visible priorities—because long-term
+              performance depends on energy, not heroics.
+            </p>
+
+            <p className="mt-3 text-gray-600 dark:text-gray-300">
+              Overall, the best practice I care about most is <b>clarity</b>: clarity of intent,
+              clarity of ownership, and clarity of what success means—for users, for the business,
+              and for the team.
+            </p>
+          </div>
+
           <div className="mt-8 bg-white dark:bg-gray-900 border-2 border-gray-200 rounded-md border-opacity-60 dark:border-gray-700 dark:border-gray-700 p-6">
             <h2 className="text-lg font-semibold">Leadership Style</h2>
             <p className="mt-2  text-gray-500 dark:text-gray-400">
