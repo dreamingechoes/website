@@ -1,4 +1,14 @@
-import { ArrowUp, Clock, Coffee, Github, MessageCircle } from 'lucide-react'
+import {
+  ArrowUp,
+  Check,
+  Clock,
+  Coffee,
+  Github,
+  Link2,
+  Linkedin,
+  MessageCircle,
+  Twitter,
+} from 'lucide-react'
 import { ReactNode, useEffect, useState } from 'react'
 
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
@@ -11,7 +21,6 @@ import PageTitle from '@/components/PageTitle'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 import SectionContainer from '@/components/SectionContainer'
 import { SeriesContext } from '@/lib/series'
-import SocialShare from '@/components/SocialShare'
 import Tag from '@/components/Tag'
 import TextToSpeech from '@/components/TextToSpeech'
 import siteMetadata from '@/data/siteMetadata'
@@ -60,6 +69,25 @@ export default function PostLayout({
 
   const readingTimeMinutes = readingTime ? Math.max(1, Math.round(readingTime.minutes)) : null
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`
+  const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+    postUrl
+  )}`
+  const twitterShareUrl = `https://x.com/intent/post?text="${title}" by @dreamingechoes&url=${encodeURIComponent(
+    postUrl
+  )}`
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(postUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -142,15 +170,51 @@ export default function PostLayout({
             <div className="xl:pb-0 xl:col-span-3 xl:row-span-2 dark:divide-gray-700">
               <div className="pt-10 pb-4">
                 <div className="mb-6 flex flex-col gap-4">
-                  {readingTimeMinutes && (
-                    <div className="inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 self-start">
-                      <Clock className="h-4 w-4" aria-hidden="true" />
-                      <span>
-                        Estimated reading time: {readingTimeMinutes}{' '}
-                        {readingTimeMinutes === 1 ? 'minute' : 'minutes'}
-                      </span>
+                  <div className="flex flex-wrap items-center gap-3">
+                    {readingTimeMinutes && (
+                      <div className="inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                        <Clock className="h-4 w-4" aria-hidden="true" />
+                        <span>
+                          Estimated reading time: {readingTimeMinutes}{' '}
+                          {readingTimeMinutes === 1 ? 'minute' : 'minutes'}
+                        </span>
+                      </div>
+                    )}
+                    <div className="inline-flex items-center gap-2">
+                      <a
+                        href={linkedinShareUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on LinkedIn"
+                        title="Share on LinkedIn"
+                        className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400"
+                      >
+                        <Linkedin className="h-4 w-4" />
+                      </a>
+                      <a
+                        href={twitterShareUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Share on X"
+                        title="Share on X"
+                        className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400"
+                      >
+                        <Twitter className="h-4 w-4" />
+                      </a>
+                      <button
+                        onClick={handleCopyLink}
+                        aria-label={copied ? 'Link copied' : 'Copy link'}
+                        title={copied ? 'Link copied!' : 'Copy link'}
+                        className={`inline-flex items-center justify-center h-9 w-9 rounded-full transition-colors ${
+                          copied
+                            ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400'
+                            : 'bg-gray-100 text-gray-500 hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400'
+                        }`}
+                      >
+                        {copied ? <Check className="h-4 w-4" /> : <Link2 className="h-4 w-4" />}
+                      </button>
                     </div>
-                  )}
+                  </div>
                   <TextToSpeech />
                 </div>
                 <div className="prose dark:prose-dark max-w-none">{children}</div>
@@ -206,7 +270,6 @@ export default function PostLayout({
                     </div>
                   </Link>
                 </div>
-                <SocialShare title={title} slug={slug} siteUrl={siteMetadata.siteUrl} />
                 {siteMetadata.newsletter.provider !== '' && <NewsletterForm />}
               </div>
               <div className="pb-8 xl:pb-0">
