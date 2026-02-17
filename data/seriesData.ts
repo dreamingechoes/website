@@ -10,6 +10,18 @@ export type SeriesDefinition = {
 }
 
 export const seriesData: Record<string, SeriesDefinition> = {
+  'human-latency-in-ai-accelerated-teams': {
+    slug: 'human-latency-in-ai-accelerated-teams',
+    title: 'Human Latency in AI-Accelerated Teams',
+    summary:
+      'What happens when AI compresses delivery cycles but humans still need time to think, feel, and align.',
+    description:
+      "A series exploring the growing gap between machine speed and human processing in engineering teams. AI shrinks cycle times, but trust, clarity, and emotional integration don't compress at the same rate. Each post examines where that gap shows up — in decisions, in team dynamics, in the quiet weight people carry between sprints — and offers practical ways to close it without slowing down.",
+    cta: {
+      label: null,
+      href: null,
+    },
+  },
   'philosophy-for-builders': {
     slug: 'philosophy-for-builders',
     title: 'Philosophy for Builders',
