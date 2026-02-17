@@ -1,0 +1,102 @@
+---
+title: "AI Shrinks Cycle Time. Humans Don't."
+date: '2026-02-17'
+draft: false
+tags: ['engineering-leadership', 'ai', 'team-culture', 'delivery', 'mental-health']
+summary: "AI compresses delivery cycles, but trust and emotional processing don't. That gap — Human Latency — is the friction your team can't ship away."
+authors: ['default']
+series:
+  slug: 'human-latency-in-ai-accelerated-teams'
+  order: 1
+---
+
+AI is compressing our delivery cycles. Code that took a day now takes an hour. Prototypes that needed a week now land in an afternoon. Pull requests appear faster, decisions are demanded sooner, and the distance between "we should try this" and "it's already in staging" keeps shrinking.
+
+But the human system — trust, clarity, emotional processing — doesn't compress at the same rate. People still need time to understand why something changed. They still need a moment to feel the weight of a decision that went wrong, to process the tension from a difficult conversation, to catch up with a direction that shifted three times in the space of two sprints.
+
+So we ship faster. And we carry more unresolved weight into the next sprint.
+
+If you've felt this in your own team — the sense that things are moving but not landing — you're not imagining it. That gap between the speed of output and the speed of human integration is what I've started calling **Human Latency**.
+
+## The speed that doesn't show up in dashboards
+
+There's a particular kind of fast that feels productive from the outside. Cycle time is down. Deployments per week are up. The backlog is moving. AI-assisted tooling has removed friction from the parts of the process that used to create natural pauses — drafting, reviewing, prototyping, even writing documentation.
+
+But those pauses weren't empty. They were processing time.
+
+When a developer spent two days writing a feature, part of that time was thinking — about trade-offs, about edge cases, about how this change fits into the broader system. When a PR took a day to review, part of that delay was a reviewer forming a mental model, noticing patterns, and building context they'd carry into the next review. When a team took a week to ship, part of that week was recovering from whatever happened the week before.
+
+AI didn't remove the thinking. It removed the container that held it. The speed is real. The capacity to absorb what's happening at that speed is not.
+
+## Decision Velocity vs. Meaning Velocity
+
+A useful way to name this is through two different kinds of speed that teams experience simultaneously.
+
+**Decision Velocity** is how fast a team makes choices and acts on them. This is the metric everyone is optimizing for right now. AI raises it by shrinking the gap between intention and execution. You can prototype faster, iterate more frequently, and move from idea to artifact in a fraction of the time.
+
+**Meaning Velocity** is how fast a team can emotionally and cognitively integrate what's happening. This includes understanding _why_ a decision was made, processing the consequences of a change, arriving at a shared understanding of a new direction, and recovering from friction — whether that friction was a failed deployment, a tense conversation, or a quiet disagreement no one named out loud.
+
+Decision Velocity is accelerating. Meaning Velocity isn't. And the gap between the two is where Human Latency lives.
+
+When the gap is small, teams feel coherent. They ship fast and feel like they understand what they're building and why. When the gap is wide, teams ship fast and feel like they're running on a treadmill — lots of movement, very little sense of progress. I wrote about a similar dynamic in [weekly bets vs. backlog treadmills](/blog/weekly-bets-vs-backlog-treadmills) — the illusion of momentum that comes from moving items across a board without ever stopping to ask whether the direction still makes sense.
+
+## The two quiet signals
+
+Human Latency rarely announces itself. It doesn't show up as a failed build or a missed deadline. It shows up in the texture of how a team feels — and most teams don't have a vocabulary for it.
+
+There are two signals worth learning to notice.
+
+The first is **moving fast without feeling progress**. The team is shipping. The metrics look fine. But people feel tired in a way that weekends don't fix, and when you ask someone what they accomplished last month, there's a pause that lasts a beat too long. Not because they didn't do anything — but because none of it had time to settle into meaning. It's the difference between _doing work_ and _feeling like your work matters_. When AI compresses the cycle, the doing accelerates. The mattering doesn't.
+
+The second is **diffuse tension**. Something feels off, but nobody can point to a specific incident. There's no big conflict, no dramatic failure, no obvious dysfunction — and yet the team carries a low-grade weight that doesn't resolve between sprints. This is often the residue of decisions that moved too fast for the team to absorb. A direction changed, a priority shifted, a piece of feedback was given and received but never actually processed. The [unexamined backlog](/blog/the-unexamined-backlog) doesn't just accumulate in Linear — it accumulates in the team's emotional space. And unlike Linear, there's no filter view to surface it.
+
+## Why it compounds
+
+Human Latency isn't a one-time event. It compounds.
+
+When a team doesn't process what happened last sprint, they carry that residue into the next one. A small misalignment stays unnamed. A quiet frustration doesn't get voiced. A decision that felt rushed gets accepted rather than revisited. None of these are crises on their own — but they stack.
+
+Over weeks, the accumulated latency starts to look like something else. It looks like disengagement, like passivity, like a team that's "fine" but somehow not bringing its full attention to the work. Leaders sometimes misread this as a motivation problem or a performance issue, and they respond by pushing for more clarity on goals, more accountability, more [visibility into output](/blog/when-your-worth-becomes-your-output). But the issue isn't that people don't understand what to do. The issue is that they haven't had time to catch up with what's already happened.
+
+This compounding is structural, not personal. It's the system creating more cognitive and emotional load than it creates space to process — and AI-accelerated delivery makes it worse because it removes the accidental pauses that used to provide that space without anyone designing them intentionally.
+
+## The Latency Check
+
+If the problem is a lack of processing space, the simplest intervention is to create some — deliberately, at a rhythm the team can rely on.
+
+One practice that can be useful is a **Latency Check**: a single question added to a weekly team meeting, retro, or standup. Not a new ritual — an addition to an existing one.
+
+The question is: **"What happened last week that we haven't fully processed yet?"**
+
+That's it. One question. No framework, no scoring, no action items required. The value isn't in the answer — it's in the pause. It interrupts the momentum long enough for people to notice whether they're carrying something that hasn't been named.
+
+What comes up varies. Sometimes it's a decision that moved too fast and left people unsure about the reasoning. Sometimes it's a production incident that was resolved but never discussed. Sometimes it's a team change, a reorg, a shift in priorities that everyone accepted but nobody had space to react to honestly. And sometimes nothing comes up — which is also useful, because it means the team is genuinely caught up.
+
+A few things that make the Latency Check work:
+
+- It needs psychological safety to land. People won't name unprocessed tension if they expect judgment. If your team isn't there yet, [building that foundation](/blog/building-a-culture-of-psychological-safety-in-engineering-teams) comes first.
+- The leader goes first. Name something you're carrying. Model the honesty you're asking for.
+- Don't solve it in the moment. The goal is surfacing, not fixing. If something needs follow-up, schedule it separately.
+- Rotate it — don't ask every week forever. Once the muscle develops, every two weeks is enough.
+
+## Speed ≠ Progress
+
+There's a quiet assumption behind most AI adoption in engineering teams: that if we can make things faster, we're making things better. And for the parts of the process that are genuinely bottlenecked by speed — waiting for CI, writing boilerplate, generating test scaffolding — that's true.
+
+But for the parts of the process that depend on human judgment, trust, and alignment, speed is not the constraint. Clarity is. And clarity requires time — not infinite time, not slow time, but enough time for people to understand what they're doing and why, to name what isn't working, and to arrive at the next sprint without a backpack full of unresolved weight.
+
+The teams I've seen navigate this well don't slow down their tooling. They protect their [processing rhythms](/blog/control-the-inputs-not-the-outcomes). They treat the space between sprints as intentional, not accidental. They ask questions that create room — not for therapy, not for venting, but for the quiet integration that keeps a team coherent under acceleration.
+
+<Callout variant="info">
+  This post is part of the series [*Human Latency in AI-Accelerated
+  Teams*](/series/human-latency-in-ai-accelerated-teams) — exploring what happens when AI compresses
+  delivery but humans still need time to think, feel, and align.
+</Callout>
+
+## Final thoughts
+
+Human Latency isn't a bug in your team. It's the natural consequence of a system that got faster without checking whether the people inside it could keep up — not in output, but in understanding.
+
+The fix isn't to resist AI or to slow down delivery. It's to notice that speed creates a new kind of debt — one that doesn't live in the codebase but in the space between people. In the decisions that moved before anyone fully understood them. In the feedback that was given but never absorbed. In the tension that lingers between sprints because there was never a moment to name it.
+
+Your team's cycle time might be shrinking. The question worth asking is whether their sense of coherence is shrinking with it — or whether you're protecting enough space for them to carry the speed without being carried away by it.
