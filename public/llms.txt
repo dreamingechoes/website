@@ -1,0 +1,79 @@
+# dreamingecho.es
+
+> Personal website and blog by Iván González Sáiz — a senior software engineer and engineering lead with 15+ years of experience, writing about engineering leadership, mental health in tech, remote team management, cross-functional collaboration, and philosophy applied to building software.
+
+The site publishes long-form essays in two registers: reflective (narrative, emotional, metaphor-rich) and operational (structured, direct, with frameworks and templates). All content is grounded in real experience leading distributed engineering teams. Iván is also the author of a comprehensive engineering leadership playbook.
+
+Key themes: psychological safety, sustainable pace, burnout prevention, AI's impact on engineering teams, people-first management, cross-functional collaboration (EM × Product × Design), stoic and philosophical lenses for builders.
+
+## Series
+
+- [Human Latency in AI-Accelerated Teams](https://dreamingecho.es/series/human-latency-in-ai-accelerated-teams): Exploring the growing gap between machine speed and human processing in engineering teams — where AI compresses delivery but trust, clarity, and emotional integration don't compress at the same rate.
+- [The Quiet Side of Tech](https://dreamingecho.es/series/the-quiet-side-of-tech): Sustainability, mental health, identity — the things people feel in tech but rarely name. A reflective series on burnout, loneliness, comparison, and healing inside modern tech culture.
+- [Philosophy for Builders](https://dreamingecho.es/series/philosophy-for-builders): Philosophical ideas as practical engineering and leadership lenses — from Stoicism to memento mori, applied to prioritization, design, delivery, and culture.
+- [Empathetic Remote Management](https://dreamingecho.es/series/empathetic-remote-management): Leading distributed teams with clarity and humanity — 1:1s, coaching, burnout prevention, and people-first rituals for remote engineering leaders.
+- [Cross-Functional Glue: EM × Product × Design](https://dreamingecho.es/series/cross-functional-glue-em-product-design): How Engineering Management, Product, and Design work together without stepping on each other — operating rhythms, artifacts, and guardrails that make triads click.
+
+## Blog posts — Leadership, AI & teams
+
+- [The AI Fatigue Curve: Why Intensity Is Not Free](https://dreamingecho.es/blog/the-ai-fatigue-curve): AI-driven productivity follows a predictable curve — boost, stretch, crash. Three operational limits help teams sustain intensity without burning through attention and judgment.
+- [AI Shrinks Cycle Time. Humans Don't.](https://dreamingecho.es/blog/ai-shrinks-cycle-time-humans-dont): AI compresses delivery cycles, but trust and emotional processing don't. That gap — Human Latency — is the friction your team can't ship away.
+- [Learning to Build in the Age of AI](https://dreamingecho.es/blog/learning-to-build-in-the-age-of-ai): AI is changing how we write code — but not why we build. A gentle, optimistic note for juniors and career switchers learning software today.
+- [When Systems Become Self-Soothing](https://dreamingecho.es/blog/when-systems-become-self-soothing): Pascal warned that we flee stillness by staying busy. In engineering, the flight often looks like optimizing — and it's worth learning to notice.
+- [Make the Failure Useful](https://dreamingecho.es/blog/make-the-failure-useful): Nietzsche's amor fati means loving what happens. In engineering, that translates to postmortems without shame — and systems that learn from every incident.
+- [Control the Inputs, Not the Outcomes](https://dreamingecho.es/blog/control-the-inputs-not-the-outcomes): A stoic lens for shipping in unstable environments — reduce delivery anxiety by separating what you can control from what you can't.
+- [Every Yes Kills Something](https://dreamingecho.es/blog/every-yes-kills-something): Memento mori isn't morbid — it's clarifying. A practical lens to prioritize what we build, protect our attention, and choose work we can actually sustain.
+- [Weekly Bets vs. Backlog Treadmills](https://dreamingecho.es/blog/weekly-bets-vs-backlog-treadmills): Replacing groomed backlogs with weekly bets to restore agency, focus, and momentum in cross-functional teams.
+- [Design Debt Is Real Debt](https://dreamingecho.es/blog/design-debt-is-real-debt): Design debt compounds silently — eroding usability, velocity, and trust. A framework for naming it, budgeting it, and paying it down.
+- [The Unexamined Backlog](https://dreamingecho.es/blog/the-unexamined-backlog): When backlogs grow unchecked, they stop being plans and start being anxiety made visible. A case for regular backlog audits.
+- [Building a Culture of Psychological Safety in Engineering Teams](https://dreamingecho.es/blog/building-a-culture-of-psychological-safety-in-engineering-teams): Psychological safety is the foundation of high-performing engineering teams — how to foster an environment where engineers feel safe to share ideas and admit mistakes.
+
+## Blog posts — Remote work & people management
+
+- [High‑impact 1:1s in Remote Teams: Building Trust and Psychological Safety](https://dreamingecho.es/blog/effective-one-on-ones-remote-teams-trust-psychological-safety): A practical, people-first playbook for running remote 1:1s that build trust, surface risks early, and drive growth.
+- [People‑first, For Real: Adapt Your Management Style to the Person](https://dreamingecho.es/blog/people-first-engineering-management-adapt-your-style): A practical guide with day-to-day management styles, a lightweight personality map, and weekly rituals.
+- [When Overcommunication Becomes Noise in Remote Teams](https://dreamingecho.es/blog/when-overcommunication-becomes-noise-in-remote-teams): The line between clarity and noise in distributed teams, and how to communicate with intention rather than volume.
+- [Burnout in Engineering Leadership: How to Recognize and Prevent It](https://dreamingecho.es/blog/how-to-prevent-burnout-in-engineering-leadership): Recognizing early signs of burnout in engineering leadership and actionable strategies to prevent it.
+- [Lonely in a Distributed World](https://dreamingecho.es/blog/lonely-in-a-distributed-world): Remote work offers freedom and flexibility — but it also carries a quiet shadow. A reflection on loneliness in distributed teams.
+
+## Blog posts — Mental health & wellbeing
+
+- [The Invisible Burnout](https://dreamingecho.es/blog/the-invisible-burnout): Burnout doesn't always arrive as collapse. Often it comes quietly — through numbness, over-functioning, and the slow fading of joy in work.
+- [High Achievers, Heavy Minds](https://dreamingecho.es/blog/high-achievers-heavy-minds): Ambition can look like strength — but for many high achievers in tech, success comes with a quiet emotional weight rarely acknowledged.
+- [When Your Worth Becomes Your Output](https://dreamingecho.es/blog/when-your-worth-becomes-your-output): What happens when identity fuses with productivity, and how to reclaim self-worth beyond what you ship.
+- [The Comparison Trap](https://dreamingecho.es/blog/the-comparison-trap): How comparison stops being a moment and becomes a lens — and what it takes to step out of the loop.
+- [Small Signals, Big Impact](https://dreamingecho.es/blog/small-signals-big-impact-workplace-self-care): How tiny acts of self-care can transform workplace well-being in tech teams.
+- [Help Others by Sharing Your Experiences in Mental Health](https://dreamingecho.es/blog/help-others-by-sharing-your-experiences-in-mental-health): A personal reflection on mental health in the software industry and the pressures developers face.
+
+## Blog posts — Cross-functional collaboration
+
+- [From PRD to Prod Without Ping-Pong](https://dreamingecho.es/blog/from-prd-to-prod-without-ping-pong): Reducing handoff friction between Product, Design, and Engineering — from spec to shipping.
+- [Post-Launch Care Windows](https://dreamingecho.es/blog/post-launch-care-windows): Why the work after launch matters as much as the launch itself — intentional attention windows for shipped features.
+- [Qual + Quant Reviews in 45 Minutes](https://dreamingecho.es/blog/qual-quant-reviews-in-45-minutes): A lightweight ritual for combining qualitative and quantitative signals in a single, focused cross-functional review.
+
+## Blog posts — Career & growth
+
+- [Owning Your Career as a Software Engineer](https://dreamingecho.es/blog/own-your-software-engineering-career-growth): Career growth isn't just about writing better code — it's about taking ownership of your trajectory and focusing on real-world impact.
+- [The Year I Paused to Move Forward](https://dreamingecho.es/blog/the-year-i-paused-to-move-forward): A personal retrospective on taking a career break, redefining what matters, and finding clarity in the pause.
+
+## Blog posts — Technical (Elixir, Ruby, Python, JS)
+
+- [A Dive into Database Multi-Tenancy in Elixir with Ecto](https://dreamingecho.es/blog/a-dive-into-database-multi-tenancy-in-elixir-with-ecto): A detailed guide on migrating a Phoenix application to a multi-tenancy architecture using Ecto.
+- [Building a Minimal Blog in Pure Elixir with Notion as a CMS](https://dreamingecho.es/blog/building-a-minimal-blog-in-pure-elixir-with-notion-as-a-cms): A proof of concept for a simple blog using pure Elixir, with Notion as a CMS and only three dependencies.
+- [Creating an AI-Powered Search Input With Phoenix LiveView](https://dreamingecho.es/blog/creating-an-ai-powered-search-input-with-phoenix-liveview): Integrating OpenAI with Phoenix LiveView to build an intelligent search bar that translates user queries into structured filters.
+- [The Anatomy of a GenServer](https://dreamingecho.es/blog/the-anatomy-of-a-genserver): Understanding how GenServer works in Elixir — the core abstraction for stateful processes in OTP.
+- [How to Change a Field Type in an Ecto Embedded Schema with a Migration](https://dreamingecho.es/blog/how-to-change-a-field-type-in-an-ecto-embedded-schema-with-a-migration): Changing a field type in an Ecto embedded schema requires both a code update and a database migration.
+
+## About
+
+- [About Iván González](https://dreamingecho.es/about): Senior Software Engineer and Engineering Lead from Asturias, Spain. 15+ years in software engineering. Co-founder of FabadaConf and Elixir Asturias. Mentor at MentorCruise. Building Avenida.so.
+- [Engineering Leadership Playbook](https://dreamingecho.es/playbook): A comprehensive, always-evolving operating system for healthy, high-performing engineering teams — covering hiring, 1:1s, feedback, incident response, scaling, and organizational design.
+
+## Optional
+
+- [Generate UUID Fields in Phoenix with PostgreSQL](https://dreamingecho.es/blog/generate-uuid-fields-in-phoenix-with-postgresql): Creating non-primary key UUID fields in Ecto schemas using PostgreSQL.
+- [Generating Breadcrumbs with PostgreSQL WITH Queries](https://dreamingecho.es/blog/use-postgresql-to-generate-your-navigation-breadcrumbs): Using PostgreSQL recursive queries to generate navigation breadcrumbs.
+- [Flask and Raspberry Pi for IoT Projects](https://dreamingecho.es/blog/internet-of-things-with-python-and-flask): Setting up a Flask web application on a Raspberry Pi for IoT projects.
+- [Create a Super Fancy API with Grape](https://dreamingecho.es/blog/create-a-super-fancy-api-with-grape): How to develop a RESTful API in Ruby on Rails using Grape.
+- [Web Scraping Pokémon Data with Ruby and Nokogiri](https://dreamingecho.es/blog/simple-example-of-web-scraping-with-nokogiri): Web scraping with Ruby and Nokogiri.
+- [Getting Started with p5.js](https://dreamingecho.es/blog/enjoy-sketching-your-ideas-with-p5-js): An introduction to p5.js including building a simple T-Rex game.
