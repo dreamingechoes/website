@@ -1,0 +1,109 @@
+---
+title: 'The AI Fatigue Curve: Why Intensity Is Not Free'
+date: '2026-02-25'
+draft: false
+tags: ['engineering-leadership', 'ai', 'team-culture', 'delivery', 'mental-health']
+summary: 'AI-driven productivity follows a predictable curve — boost, stretch, crash. Three operational limits help teams sustain intensity without burning through attention and judgment.'
+authors: ['default']
+series:
+  slug: 'human-latency-in-ai-accelerated-teams'
+  order: 2
+---
+
+Monday felt like a breakthrough. The AI-assisted drafts were flowing. The PR queue was shrinking. Features that would have taken three days were landing in one. Twice the output, half the friction — and for a few days, it felt like the future had arrived early.
+
+By Thursday, you were approving pull requests you hadn't really read.
+
+The pull request you approved a little too quickly comes back with an edge case nobody caught. A design decision you made on Tuesday feels wrong by Thursday, but you can't articulate why. You're still shipping, still moving — but the decisions feel thinner. The patience shorter. The gap between "this is good enough" and "I genuinely reviewed this" starts widening in ways you don't notice until the consequences show up.
+
+This isn't a willpower problem. It's a curve — predictable, structural, and mostly invisible until you learn to see it. AI compresses the effort required for production, but it doesn't compress the cognitive cost of judgment. And when [the speed of output outpaces the speed of integration](/blog/ai-shrinks-cycle-time-humans-dont), the invoice arrives in attention, in mood, and in the quality of every decision that follows.
+
+## The three phases nobody tracks
+
+Most teams experience AI-accelerated work in a pattern that repeats across sprints, across quarters, and across individuals — but rarely gets named. The shape is consistent enough to deserve a label: the **AI Fatigue Curve**.
+
+**Phase 1: Boost.** The first days of heavy AI-assisted work feel genuinely powerful. You're moving faster, producing more, and the friction that used to slow you down — writing boilerplate, generating tests, drafting documentation — is gone. The sensation is of capacity unlocked. For a while, it is.
+
+**Phase 2: Stretch.** The increased output becomes the new baseline. You take on more, or the team expects more, because the early evidence suggests you can handle it. But cognitive load hasn't decreased — it's shifted. Instead of spending energy on writing, you're spending it on evaluating, deciding, and curating. The machine produces; the human judges. And judging at speed is one of the most depleting forms of cognitive work, because every evaluation requires holding context, applying criteria, and resisting the gravitational pull of "looks fine."
+
+**Phase 3: Crash.** Not dramatic collapse — something quieter and harder to name. A day where everything feels slightly irritating. A review cycle where you default to approval because you don't have the energy to push back. A conversation where your patience is thinner than the situation warrants. You're still functional, still delivering. But the quality of your attention has degraded — and with it, the quality of everything that depends on it.
+
+The curve isn't a failure of discipline. It's the predictable cost of sustained high-intensity cognitive work — amplified by a toolchain that removes the natural pauses where recovery used to happen accidentally.
+
+## The signals before the crash
+
+AI fatigue rarely announces itself as exhaustion. It wears the costume of other things — personality shifts, attitude changes, a subtle coarsening of the care people bring to their work. In most teams, these signals get dismissed or misread.
+
+There are five that show up reliably.
+
+**Irritability that doesn't match the trigger.** A teammate asks a reasonable follow-up question, and the internal reaction is disproportionate. Not anger — more like a flash of impatience that surprises you. The cause isn't the question. The cause is a depleted capacity for deliberate processing, and the question is demanding one more unit of attention than you have available.
+
+**Impulsive decisions that feel like decisiveness.** There's a specific kind of quick call that comes from clarity, and another that comes from depletion. The second one feels the same in the moment but looks different in retrospect — it skips trade-off evaluation, it avoids nuance, and it optimizes for _finishing_ rather than for _quality_. Teams experiencing AI fatigue make more of these without noticing the shift.
+
+**Less real review, more rubber-stamping.** Pull requests get approved faster — not because the code is cleaner, but because the reviewer has run out of [cognitive budget for careful evaluation](/blog/the-unexamined-backlog). Comments become shorter. "Looks good" replaces "I have a question about this edge case." The review process still exists in form, but its substance has thinned.
+
+**The "fine, whatever" threshold drops.** Standards quietly relax. Not because anyone decided to lower them, but because the energy required to hold them is no longer there. Naming trade-offs, pushing back on shortcuts, raising a concern in a meeting — all of these cost attention. When attention is spent, the path of least resistance wins by default.
+
+**Procrastination increases on high-judgment tasks.** People still move fast on tasks where AI does the heavy lifting — generation, scaffolding, repetitive patterns. But tasks that require sustained human judgment — architecture decisions, difficult feedback conversations, strategic planning — get delayed. Not because they're not important, but because they require the exact cognitive resource that AI-heavy work has been draining: the capacity for [deliberate, unassisted thought](/blog/control-the-inputs-not-the-outcomes).
+
+These five signals share a common root. None of them are character flaws. All of them are symptoms of a system that's consuming more cognitive energy than it's allowing people to recover.
+
+## Why the curve stays invisible
+
+Teams don't track cognitive load the way they track cycle time. There's no dashboard for judgment quality, no metric for "how carefully did we actually review this sprint's output." The gap between what AI lets us produce and what our attention can sustain is real — but it lives in the space between measurable outputs.
+
+This makes the curve structurally invisible in most engineering organizations. When irritability rises, it's read as interpersonal friction. When review quality drops, it's read as a process problem. When decisions become impulsive, it's attributed to individual recklessness rather than systemic depletion.
+
+The compounding effect matters, too. A team running on depleted attention makes decisions that create more work downstream — edge cases missed in fast reviews, architectural shortcuts that generate [design debt](/blog/design-debt-is-real-debt), conflicts left unnamed that quietly erode trust. Each of these adds to the cognitive load of the following sprint, which means the curve doesn't reset cleanly. It carries forward.
+
+And because AI keeps producing at the same rate regardless of the human system's state, every sprint that starts with unprocessed fatigue is a sprint where the gap between output speed and judgment quality is wider than the last.
+
+## Intensity ≠ Capacity
+
+There's an assumption embedded in the way most teams adopt AI tooling: that removing friction from production means increasing capacity. If writing code takes half the time, the team can do twice as much. If generating tests is instant, the team can cover more ground. If documentation writes itself, people can focus on "real work."
+
+But this confuses two things. Production capacity may have increased. Judgment capacity has not. And judgment — the ability to evaluate whether something is good, spot what's missing, decide what matters — is the bottleneck that actually determines the quality of what ships.
+
+In most pre-AI workflows, judgment was distributed across the process. The time it took to write code was also time spent thinking about trade-offs. The time spent in review was also time spent [building shared context](/blog/building-a-culture-of-psychological-safety-in-engineering-teams). The pauses between production phases gave the brain space to integrate, recover, and recalibrate.
+
+AI compressed the production time without compressing the judgment time. What remains is a concentrated dose of evaluation with fewer natural recovery windows. More decisions per hour. More context-switching. More output that needs human sign-off but arrives faster than human attention can metabolize.
+
+The result is not that people can't keep up. They can — for a while. That's Phase 1. The result is that people who sustain this pace without recovery eventually hit a point where their judgment degrades faster than their output. They're still productive. They're no longer careful.
+
+## Three operational limits
+
+If the curve is predictable, it can be managed — not through willpower, but through structure. Three practices create enough friction to protect judgment without slowing down delivery.
+
+**The Intensity Budget.** Not every task costs the same amount of cognitive energy. Writing a utility function with AI assistance is low-cost. Reviewing a complex PR for architectural implications is high-cost. Making a trade-off decision on a feature's scope is high-cost. Giving difficult feedback is high-cost.
+
+An intensity budget means capping the number of high-judgment tasks per day — not as a rigid limit, but as a shared awareness. Three to four high-cognitive-load tasks per person, per day, is a reasonable starting point. Beyond that, the quality of each subsequent evaluation drops. Teams that name this explicitly — "I'm out of budget for deep reviews today" — create a vocabulary for something that otherwise goes unsaid until the consequences arrive.
+
+**No-LLM Blocks.** There's a specific kind of thinking that only happens when the AI isn't in the loop. It's slower, less polished, and produces less output — but it exercises a different cognitive muscle: the ability to form your own judgment without an assist. When every decision starts with "let me ask the model," the skill of independent evaluation atrophies gradually. Not dramatically — it doesn't disappear. It drifts.
+
+Blocking 60–90 minutes per day for work without AI assistance — whether that's a code review done manually, a design decision sketched on paper, or a planning session without generated options — protects the capacity for original judgment. The goal isn't productivity in those blocks. The goal is maintaining the ability to know what good looks like without needing a second opinion from a machine.
+
+**Recovery After Shipping.** The most depleting moment in an AI-accelerated cycle isn't the sprint itself — it's the transition between sprints. A team that ships fast and immediately loads the next batch of work starts every new cycle carrying the cognitive residue of the last one. The intensity budget was spent. The attention was consumed. And instead of recovering, the system pushes forward.
+
+Building a deliberate recovery window after major shipping milestones — even half a day of lower-intensity work, documentation cleanup, or [team retrospection](/blog/make-the-failure-useful) — gives the brain space to consolidate what happened and arrive at the next cycle with restored judgment. This isn't rest as luxury. It's rest as maintenance.
+
+## What this looks like in practice
+
+A team running these three limits isn't slower. It's more deliberately paced — which, over weeks, tends to produce higher-quality outcomes and fewer of the downstream problems that fast-but-depleted work creates.
+
+In practice, it might look like a standup where someone says "I've done two deep reviews today, so I'll save the architecture discussion for tomorrow morning" — and the team accepts that without reading it as low performance. It might look like a shared calendar block labeled "unassisted thinking time" that the team respects the way they'd respect a meeting. It might look like a sprint retro that asks not only "what did we ship?" but "what did that sprint cost, and did we recover before starting the next one?"
+
+None of these require new tools, new processes, or organizational buy-in. They require naming the cost of intensity in a culture that tends to treat intensity as free.
+
+<Callout variant="info">
+  This post is part of the series [*Human Latency in AI-Accelerated
+  Teams*](/series/human-latency-in-ai-accelerated-teams) — exploring what happens when AI compresses
+  delivery but humans still need time to think, feel, and align.
+</Callout>
+
+## Final thoughts
+
+AI fatigue isn't a sign of weakness. It's the natural response of a system — a human system — that was asked to produce at machine speed without adjusting for the fact that judgment, attention, and patience are finite resources that deplete and need to recover.
+
+The curve is real. Boost, stretch, crash. Most teams ride it without seeing it, then attribute the consequences to individual performance rather than structural intensity. But the pattern is consistent enough, and predictable enough, that it can be managed with simple guardrails — if you're willing to name it.
+
+What fatigues you more right now: writing the code, or deciding which code deserves to exist? The answer tells you something about where you are on the curve — and whether you're protecting enough space to stay on the side of it where your judgment still works.
