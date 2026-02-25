@@ -1,9 +1,10 @@
 const siteMetadata = {
   title: 'dreamingechoes',
-  author: 'Iván González',
+  author: 'Iván González Sáiz',
   headerTitle: 'dreamingechoes',
   description:
-    'My name is Iván, a senior software engineer and engineering lead from the north of Spain, committed to promoting diversity and mental health awareness in the tech community.',
+    'Engineering leader helping teams build better products without burning people out. Writing about healthy delivery, team culture, and practical leadership frameworks.',
+  twitterHandle: '@dreamingechoes',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://dreamingecho.es',
@@ -16,7 +17,7 @@ const siteMetadata = {
   twitter: 'https://twitter.com/dreamingechoes',
   facebook: '',
   youtube: '',
-  linkedin: 'https://www.linkedin.com/in/ivangonzalezsaiz',
+  linkedin: 'https://www.linkedin.com/in/ivan-gonzalez-saiz',
   kofi: 'https://ko-fi.com/dreamingechoes',
   mentorCruise: 'https://mentorcruise.com/mentor/ivngonzlezsiz/',
   locale: 'en-US',

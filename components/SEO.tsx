@@ -23,12 +23,15 @@ interface CommonSEOProps {
 const CommonSEO = ({ title, description, ogType, ogImage, twImage }: CommonSEOProps) => {
   const router = useRouter()
   const siteUrl = getRuntimeSiteUrl()
+  const canonicalUrl = `${siteUrl}${router.asPath}`
+  const twitterSite = siteMetadata.twitterHandle || siteMetadata.twitter
   return (
     <Head>
       <title>{title}</title>
       <meta name="robots" content="follow, index" />
       <meta name="description" content={description} />
-      <meta property="og:url" content={`${siteUrl}${router.asPath}`} />
+      <link rel="canonical" href={canonicalUrl} />
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:type" content={ogType} />
       <meta property="og:site_name" content={siteMetadata.title} />
       <meta property="og:description" content={description} />
@@ -39,7 +42,7 @@ const CommonSEO = ({ title, description, ogType, ogImage, twImage }: CommonSEOPr
         <meta property="og:image" content={ogImage} key={ogImage} />
       )}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content={siteMetadata.twitter} />
+      <meta name="twitter:site" content={twitterSite} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={twImage} />
@@ -107,7 +110,6 @@ export const BlogSEO = ({
   url,
   images = [],
 }: BlogSeoProps) => {
-  const router = useRouter()
   const siteUrl = getRuntimeSiteUrl()
   const publishedAt = new Date(date).toISOString()
   const modifiedAt = new Date(lastmod || date).toISOString()
@@ -184,7 +186,6 @@ export const BlogSEO = ({
       <Head>
         {date && <meta property="article:published_time" content={publishedAt} />}
         {lastmod && <meta property="article:modified_time" content={modifiedAt} />}
-        <link rel="canonical" href={`${siteUrl}${router.asPath}`} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
