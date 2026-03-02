@@ -26,6 +26,14 @@ Important interpretation notes:
 - [Playbook](https://dreamingecho.es/playbook/): Engineering leadership operating system (practical frameworks).
 - [Contact](https://dreamingecho.es/contact/): Direct contact and mentoring entry points.
 - [Projects](https://dreamingecho.es/projects/): Selected projects and community initiatives.
+- [Avenida](https://dreamingecho.es/projects/avenida/): Smart shopping companion to save and organize products from any marketplace.
+- [Engineering Leadership Playbook](https://dreamingecho.es/projects/engineering-leadership-playbook/): Open handbook with practical frameworks for engineering leaders.
+- [Awesome Mental Health](https://dreamingecho.es/projects/awesome-mental-health/): Curated open-source list of mental health resources for the software industry.
+- [Awesome Diversity](https://dreamingecho.es/projects/awesome-diversity/): Community-maintained list of diversity and inclusion resources in tech.
+- [Neilipsum](https://dreamingecho.es/projects/neilipsum/): Lorem ipsum generator with Neil deGrasse Tyson quotes.
+- [Shoegaze Bot](https://dreamingecho.es/projects/shoegaze-bot/): Daily shoegaze song bot for Twitter.
+- [Fabada Conference](https://dreamingecho.es/projects/fabada-conference/): Annual software engineering conference in Gijón, Asturias.
+- [Elixir Asturias](https://dreamingecho.es/projects/elixir-asturias/): Local Elixir community organizing meetups and talks in Asturias.
 
 ## Core Themes
 

@@ -17,11 +17,11 @@ export default function Projects() {
           <div className="flex flex-wrap -m-4">
             {projectsData.map((d) => (
               <Card
-                key={d.title}
+                key={d.slug}
                 title={d.title}
-                description={d.description}
+                description={d.summary}
                 imgSrc={d.imgSrc}
-                href={d.href}
+                href={`/projects/${d.slug}`}
               />
             ))}
           </div>

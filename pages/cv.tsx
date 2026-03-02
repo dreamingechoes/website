@@ -41,7 +41,7 @@ export default function CV() {
             </p>
             <div className="mt-4 flex gap-3">
               <a
-                href="/static/resume.pdf"
+                href="/static/RESUME_IVAN_GONZALEZ_SAIZ.pdf"
                 download
                 className="inline-flex items-center gap-2 px-4 py-2  font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-purple hover:bg-purple-700 dark:hover:bg-purple-500"
               >
@@ -49,7 +49,7 @@ export default function CV() {
                 Download PDF
               </a>
               <a
-                href="/static/resume.pdf"
+                href="/static/RESUME_IVAN_GONZALEZ_SAIZ.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2  font-medium leading-5 transition-colors duration-150 bg-stone-50 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-stone hover:bg-stone-200 dark:hover:bg-stone-100 dark:hover:text-gray-800 text-gray-700 shadow focus:shadow-outline-stone"

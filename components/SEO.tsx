@@ -96,6 +96,78 @@ export const TagSEO = ({ title, description }: PageSEOProps) => {
   )
 }
 
+interface ProjectSEOProps {
+  title: string
+  summary: string
+  slug: string
+  images?: string[]
+}
+
+export const ProjectSEO = ({ title, summary, slug, images = [] }: ProjectSEOProps) => {
+  const siteUrl = getRuntimeSiteUrl()
+  const pageTitle = `${title} - Projects - ${siteMetadata.author}`
+  const url = `${siteUrl}/projects/${slug}`
+
+  const titleForImage = title.slice(0, 140)
+  const summaryForImage = summary?.replace(/\s+/g, ' ').slice(0, 200)
+  const ogParams = new URLSearchParams({ title: titleForImage })
+  if (summaryForImage) ogParams.set('summary', summaryForImage)
+  const dynamicOgImageUrl = `${siteUrl}/api/og?${ogParams.toString()}`
+
+  const resolveImageUrl = (img: string) => (img.startsWith('http') ? img : `${siteUrl}${img}`)
+
+  const ogImageUrls =
+    images.length > 0 ? images.map((img) => resolveImageUrl(img)) : [dynamicOgImageUrl]
+
+  const featuredImages = ogImageUrls.map((imgUrl) => ({
+    '@type': 'ImageObject',
+    url: imgUrl,
+  }))
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: title,
+    description: summary,
+    url,
+    image: featuredImages,
+    author: {
+      '@type': 'Person',
+      name: siteMetadata.author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: siteMetadata.author,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}${siteMetadata.siteLogo}`,
+      },
+    },
+  }
+
+  const twImageUrl = ogImageUrls[0]
+
+  return (
+    <>
+      <CommonSEO
+        title={pageTitle}
+        description={summary}
+        ogType="website"
+        ogImage={featuredImages}
+        twImage={twImageUrl}
+      />
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData, null, 2),
+          }}
+        />
+      </Head>
+    </>
+  )
+}
+
 interface BlogSeoProps extends PostFrontMatter {
   authorDetails?: AuthorFrontMatter[]
   url: string

@@ -21,7 +21,7 @@ const siteMetadata = {
   kofi: 'https://ko-fi.com/dreamingechoes',
   mentorCruise: 'https://mentorcruise.com/mentor/ivngonzlezsiz/',
   locale: 'en-US',
-  resume: '/static/resume.pdf',
+  resume: '/static/RESUME_IVAN_GONZALEZ_SAIZ.pdf',
   analytics: {
     // supports plausible, simpleAnalytics or googleAnalytics
     plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
