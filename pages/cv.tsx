@@ -27,7 +27,7 @@ export default function CV() {
               </span>
             </h2>
             <p className="mt-2  text-gray-500 dark:text-gray-400">
-              Here's my journey as a <b>Senior Software Engineer</b> and <b>Engineering Lead</b>.
+              Here's my journey as a <b>Senior Software Engineer</b> and <b>Engineering Leader</b>.
               I've tackled complex technical challenges, mentored people, and built supportive, and
               healthy teams that deliver.
             </p>

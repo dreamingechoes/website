@@ -1,7 +1,7 @@
 ---
 name: Iván González Sáiz
 avatar: /static/images/avatar.svg
-occupation: Engineering Lead
+occupation: Engineering Leader
 company:
 github: https://github.com/dreamingechoes
 gitlab: https://gitlab.com/dreamingechoes

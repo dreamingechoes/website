@@ -38,7 +38,7 @@ export default function Home() {
           Iván González Sáiz
         </h1>
         <h2 className="xl:text-2xl text-1xl tracking-tight text-gray-500 dark:text-gray-100">
-          Engineering Lead
+          Engineering Leader
         </h2>
       </div>
 
@@ -51,7 +51,7 @@ export default function Home() {
           <strong className="underline underline-offset-4 decoration-4 decoration-yellow-300">
             Iván
           </strong>
-          , a <strong>Senior Software Engineer</strong> and <strong>Engineering Lead</strong> from
+          , a <strong>Senior Software Engineer</strong> and <strong>Engineering Leader</strong> from
           the north of Spain, committed to promoting{' '}
           <strong className="underline underline-offset-4 decoration-4 decoration-rose-300">
             diversity
