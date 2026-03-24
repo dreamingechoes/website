@@ -1,5 +1,6 @@
-import { Link2, Linkedin, Twitter } from 'lucide-react'
+import { Link2, Linkedin } from 'lucide-react'
 
+import XLogo from '@/components/icons/XLogo'
 import { useState } from 'react'
 
 interface SocialShareProps {
@@ -19,8 +20,8 @@ export default function SocialShare({ title, slug, siteUrl }: SocialShareProps) 
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`,
     },
     {
-      name: 'Twitter',
-      icon: Twitter,
+      name: 'X',
+      icon: XLogo,
       url: `https://x.com/intent/post?text="${title}" by @dreamingechoes&url=${encodeURIComponent(
         postUrl
       )}`,

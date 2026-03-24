@@ -7,7 +7,7 @@ import {
   Link2,
   Linkedin,
   MessageCircle,
-  Twitter,
+  Sparkles,
 } from 'lucide-react'
 import { ReactNode, useEffect, useState } from 'react'
 
@@ -23,6 +23,7 @@ import SectionContainer from '@/components/SectionContainer'
 import { SeriesContext } from '@/lib/series'
 import Tag from '@/components/Tag'
 import TextToSpeech from '@/components/TextToSpeech'
+import XLogo from '@/components/icons/XLogo'
 import siteMetadata from '@/data/siteMetadata'
 
 const editUrl = (fileName) => `${siteMetadata.siteRepo}/blob/master/data/blog/${fileName}`
@@ -78,6 +79,9 @@ export default function PostLayout({
   const twitterShareUrl = `https://x.com/intent/post?text="${title}" by @dreamingechoes&url=${encodeURIComponent(
     postUrl
   )}`
+
+  const chatGptPrompt = `Summarize the article "${title}" from the dreamingechoes blog by Iván González Sáiz. Focus exclusively on the content of this article — don't mix in information from other sources. Cover all key points.\n\nFull article: ${postUrl}`
+  const chatGptUrl = `https://chat.openai.com/?q=${encodeURIComponent(chatGptPrompt)}`
 
   const handleCopyLink = async () => {
     try {
@@ -170,50 +174,63 @@ export default function PostLayout({
             <div className="xl:pb-0 xl:col-span-3 xl:row-span-2 dark:divide-gray-700">
               <div className="pt-10 pb-4">
                 <div className="mb-6 flex flex-col gap-4">
-                  <div className="flex flex-wrap items-center gap-3">
-                    {readingTimeMinutes && (
-                      <div className="inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
-                        <Clock className="h-4 w-4" aria-hidden="true" />
-                        <span>
-                          Estimated reading time: {readingTimeMinutes}{' '}
-                          {readingTimeMinutes === 1 ? 'minute' : 'minutes'}
-                        </span>
+                  <div className="flex w-full flex-wrap items-center justify-between gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
+                      {readingTimeMinutes && (
+                        <div className="inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                          <Clock className="h-4 w-4" aria-hidden="true" />
+                          <span>
+                            Estimated reading time: {readingTimeMinutes}{' '}
+                            {readingTimeMinutes === 1 ? 'minute' : 'minutes'}
+                          </span>
+                        </div>
+                      )}
+                      <div className="inline-flex items-center gap-2">
+                        <a
+                          href={linkedinShareUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="Share on LinkedIn"
+                          title="Share on LinkedIn"
+                          className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400"
+                        >
+                          <Linkedin className="h-4 w-4" />
+                        </a>
+                        <a
+                          href={twitterShareUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="Share on X"
+                          title="Share on X"
+                          className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400"
+                        >
+                          <XLogo className="h-4 w-4" />
+                        </a>
+                        <button
+                          onClick={handleCopyLink}
+                          aria-label={copied ? 'Link copied' : 'Copy link'}
+                          title={copied ? 'Link copied!' : 'Copy link'}
+                          className={`inline-flex items-center justify-center h-9 w-9 rounded-full transition-colors ${
+                            copied
+                              ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400'
+                              : 'bg-gray-100 text-gray-500 hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400'
+                          }`}
+                        >
+                          {copied ? <Check className="h-4 w-4" /> : <Link2 className="h-4 w-4" />}
+                        </button>
                       </div>
-                    )}
-                    <div className="inline-flex items-center gap-2">
-                      <a
-                        href={linkedinShareUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Share on LinkedIn"
-                        title="Share on LinkedIn"
-                        className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400"
-                      >
-                        <Linkedin className="h-4 w-4" />
-                      </a>
-                      <a
-                        href={twitterShareUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Share on X"
-                        title="Share on X"
-                        className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400"
-                      >
-                        <Twitter className="h-4 w-4" />
-                      </a>
-                      <button
-                        onClick={handleCopyLink}
-                        aria-label={copied ? 'Link copied' : 'Copy link'}
-                        title={copied ? 'Link copied!' : 'Copy link'}
-                        className={`inline-flex items-center justify-center h-9 w-9 rounded-full transition-colors ${
-                          copied
-                            ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400'
-                            : 'bg-gray-100 text-gray-500 hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400'
-                        }`}
-                      >
-                        {copied ? <Check className="h-4 w-4" /> : <Link2 className="h-4 w-4" />}
-                      </button>
                     </div>
+                    <a
+                      href={chatGptUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Summarize with ChatGPT"
+                      title="Summarize with ChatGPT"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400"
+                    >
+                      <Sparkles className="h-3.5 w-3.5" />
+                      <span>Summarize with ChatGPT</span>
+                    </a>
                   </div>
                   <TextToSpeech />
                 </div>

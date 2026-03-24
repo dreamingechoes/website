@@ -2,13 +2,13 @@ import Github from './github.svg'
 import Gitlab from './gitlab.svg'
 import Linkedin from './linkedin.svg'
 import Linktree from './linktree.svg'
-import Twitter from './twitter.svg'
+import XLogo from '@/components/icons/XLogo'
 
 const components = {
   github: Github,
   linkedin: Linkedin,
   linktree: Linktree,
-  twitter: Twitter,
+  twitter: XLogo,
   gitlab: Gitlab,
 }
 

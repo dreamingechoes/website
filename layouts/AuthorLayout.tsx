@@ -1,9 +1,10 @@
-import { Github, Gitlab, Link as LinkIcon, Linkedin, Twitter } from 'lucide-react'
+import { Github, Gitlab, Link as LinkIcon, Linkedin } from 'lucide-react'
 
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
 import Image from '@/components/Image'
 import { PageSEO } from '@/components/SEO'
 import { ReactNode } from 'react'
+import XLogo from '@/components/icons/XLogo'
 
 interface Props {
   children: ReactNode
@@ -53,11 +54,11 @@ export default function AuthorLayout({ children, frontMatter }: Props) {
                   href={twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="X (Twitter)"
-                  title="X (Twitter)"
+                  aria-label="X"
+                  title="X"
                   className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-400"
                 >
-                  <Twitter className="h-4 w-4" />
+                  <XLogo className="h-4 w-4" />
                 </a>
               )}
               {github && (
