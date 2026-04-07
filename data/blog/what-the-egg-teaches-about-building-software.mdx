@@ -1,0 +1,106 @@
+---
+title: 'What The Egg Can Teach Us About Building Software'
+date: '2026-04-07'
+draft: false
+tags: ['philosophy', 'software-engineering', 'engineering-leadership', 'team-culture']
+summary: "Andy Weir's The Egg reframes engineering ethics: every shortcut, every design choice, eventually lands on a human. Build as if that human were you."
+authors: ['default']
+---
+
+I know it may sound strange to bring a short philosophical story into a conversation about software engineering. One lives in the world of meaning, identity, and moral imagination. The other lives in roadmaps, pull requests, incident reviews, and the low hum of production alerts at inconvenient hours. And yet, some ideas stay with us precisely because they keep surfacing in places where we did not expect them.
+
+One of those ideas, for me, comes from _The Egg_ — the short story by Andy Weir. The premise is simple and unsettling in the best possible way: a man dies and meets a godlike being who reveals that every human who has ever lived is the same consciousness experienced through different lives. The cruel person and the compassionate one. The frightened child and the exhausted parent. The leader, the stranger, the helper. All of them are, in some deeper sense, you.
+
+The story is not really trying to explain the universe. It works more like a moral lens — a thought experiment that compresses the distance between you and everyone you will ever affect. And the moment you read it that way, it starts to say something surprisingly concrete about how we build software. Because if the person who will live with the consequences of your decision is not really "other," then every architectural shortcut, every error message, every migration plan you rush becomes a small act of ethics.
+
+That is the idea I want to sit with here — and it turns out to be more practical than it sounds.
+
+## The person downstream is never abstract
+
+A lot of bad engineering decisions become possible when the people affected by them remain invisible. The user is reduced to a conversion metric. Support becomes a queue. Operations becomes "someone else's concern." Future maintenance becomes a vague problem for another sprint, another quarter, another team. Even your future self becomes easy to ignore when today's pressure is loud enough.
+
+But _The Egg_ offers a disruptive reframe: what if the person who will live with your decision is not abstract at all?
+
+Not in a mystical sense. In a practical one.
+
+The engineer who will inherit your code in six months might be you. The person on call at 3 a.m. trying to parse a failure without context — that might be you. The support teammate facing a frustrated customer, the new hire onboarding into the codebase, the user confused by a workflow you made "efficient" on paper — they might all be you, at a different stage, on a worse day, with less patience and more pressure.
+
+I explored a version of this tension when writing about [how technology should serve lives, not just metrics](/blog/technology-should-serve-lives-not-just-metrics) — the gap between a system's intent and its human impact. _The Egg_ gives that gap a name: it is the illusion that the person downstream is someone else entirely.
+
+Once the downstream human stops being abstract, the way you think about cost starts to shift too.
+
+## Every shortcut lands somewhere
+
+In software, costs rarely disappear. They move.
+
+A rushed implementation saves time for the team now, but creates cognitive load for maintenance later. A vague error message makes shipping easier, but offloads the confusion onto the user. And when the architecture is brittle enough, it might accelerate the MVP — but it turns every future change into a quiet negotiation with hidden complexity.
+
+We talk about trade-offs as if they were neutral instruments — just another row in a decision matrix. In reality, most trade-offs are decisions about who will carry the burden. That burden might fall on users through confusion, on support through repetitive explanations, on engineering through fragile systems, on on-call rotations through stress, or on future teammates through invisible context that nobody thought to leave behind.
+
+Sometimes it falls on all of them at once.
+
+This is why _The Egg_ works as a metaphor for engineering ethics. Every choice we make is eventually inhabited by someone. Code is not just executed by machines — it is lived by people. And that recognition makes it harder to hide behind local optimization, the same way [emotional debt compounds when nobody names it](/blog/emotional-debt-is-the-new-technical-debt) — silently, across sprints, until the weight becomes structural.
+
+If the cost always falls somewhere, the question is no longer whether to optimize. It is what kind of system you are willing to leave behind.
+
+## Empathy as architecture
+
+There is a habit in our industry of treating empathy as a cultural nice-to-have — important for leadership maybe, useful for collaboration, but somehow secondary to the "real" technical work.
+
+I think that framing is backwards.
+
+A surprising amount of good engineering is simply empathy made concrete. Choosing names that help the next person understand intent. Designing APIs that are hard to misuse. Writing migration plans that respect operational reality. Leaving decision context behind — not just final code. Shaping flows that do not require users to guess what comes next.
+
+The best teams I have worked with are not the ones that optimize exclusively for speed or cleverness. They are the ones that stay aware of the human beings on the other side of their decisions — and that awareness shows up everywhere: in architecture, in developer experience, in product choices, in observability, in what they refuse to push downstream without a second thought.
+
+This is also why [building a culture of psychological safety](/blog/building-a-culture-of-psychological-safety-in-engineering-teams) matters at the structural level. When people feel safe enough to say "this design will punish the on-call rotation" or "this error message will confuse every new user," empathy stops being abstract and becomes a design constraint. A good one.
+
+Empathy ≠ Softness. It is architectural.
+
+## Inhabiting many lives
+
+Another reason _The Egg_ resonates with software is that growth in this field often comes from learning to see through multiple roles — not from getting better at implementation alone.
+
+At the beginning of your career, it is natural to think mostly in terms of code: how to solve the task, how to make it work, how to apply the right tools. With time, the perspective widens. You start to see the product manager trying to balance ambiguity and constraints. Support patterns reveal where the product is creating repeated pain. Infrastructure stops feeling like a separate world and starts becoming part of the product experience. And somewhere along the way, you notice that users do not experience your codebase in modules — they experience it as anxiety, relief, friction, speed, trust, or confusion.
+
+In other words, you mature by learning to inhabit more lives inside the system. That might sound grandiose — in practice, it is quieter than that. Not all of them fully, not all at once, and never perfectly. But enough to stop treating your own local viewpoint as the whole truth.
+
+That shift — from narrow implementation to responsible engineering — is one of the hardest to teach and one of the most important to make. No framework automates it. It happens when you care enough to look sideways.
+
+## The system beyond the ticket
+
+One of the most limiting habits in software teams is reducing work to ticket completion. The ticket matters. Scope matters. Constraints matter. MVP thinking matters.
+
+But the ticket is not the system.
+
+The system also includes the human reality created after shipping: what users understand or misunderstand, what support needs to explain repeatedly, what incidents become more likely, what future changes grow more expensive, what trust is quietly gained or lost. A team can close tickets efficiently while making the overall experience worse — and we have all lived some version of this.
+
+That is why I keep coming back to one question that feels deeply aligned with the spirit of _The Egg_:
+
+_Who will have to live inside this decision after we are done?_
+
+That question does not eliminate trade-offs — it will not magically resolve the tension between speed and quality, and it certainly does not demand that every path be perfect. But it forces honesty. And honesty is often where better systems begin.
+
+## A small practical lens
+
+You do not need to accept the metaphysics of _The Egg_ for the story to be useful. You only need to carry one idea from it into your work: **build as if the downstream human were also you.**
+
+That sentence is enough to change the shape of many daily decisions. Before shipping, it helps to ask:
+
+- If I were maintaining this six months from now, would I understand it quickly?
+- If I were on call tonight, would I feel protected by this design?
+- If I were using this product under stress, would I know what to do next?
+- If I worked in support, could I explain this behavior to someone frustrated and tired?
+- If I were the newest person on the team, would this system feel teachable?
+
+These are not abstract moral questions. They are engineering questions — the kind that reveal more than a debate about purity, patterns, or style ever will.
+
+## Final thoughts
+
+Maybe this is the deepest connection between _The Egg_ and software: the story asks us to imagine there is less distance between people than we assume, and engineering — at its best — asks us to behave as if that were true.
+
+Not because we are all literally the same person. But because software is never just a technical artifact. It becomes part of someone's day, someone's work, someone's uncertainty, someone's fatigue, someone's trust. Every system eventually enters a human life.
+
+One mark of mature engineering might be this: the ability to build with technical judgment while never forgetting the person who will experience the outcome.
+
+The person downstream from your decision may not be you. But they are never nobody. And if we built with that awareness more often, I suspect our software would become not only more robust — but more humane.
