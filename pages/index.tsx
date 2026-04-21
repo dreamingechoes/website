@@ -51,8 +51,8 @@ export default function Home() {
           <strong className="underline underline-offset-4 decoration-4 decoration-yellow-300">
             Iván
           </strong>
-          , a <strong>Senior Software Engineer</strong> and <strong>Engineering Leader</strong> from
-          the north of Spain, committed to promoting{' '}
+          , an <strong>Engineering Leader</strong> and <strong>Senior Software Engineer</strong>{' '}
+          from the north of Spain, committed to promoting{' '}
           <strong className="underline underline-offset-4 decoration-4 decoration-rose-300">
             diversity
           </strong>{' '}
@@ -70,26 +70,6 @@ export default function Home() {
           </strong>{' '}
           within my teams.
         </p>
-        <p className="mt-3 text-base leading-7 text-gray-500 dark:text-gray-400">
-          Through writing, mentoring, and practical leadership frameworks, I share what I've learned
-          about building strong teams, better decisions, and more sustainable ways of working.
-        </p>
-
-        {/* CTAs */}
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/cv"
-            className="inline-flex items-center gap-2 px-6 py-3 text-base font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 dark:hover:bg-purple-500 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-          >
-            Let's work together
-          </Link>
-          <Link
-            href="/playbook"
-            className="inline-flex items-center gap-2 px-6 py-3 text-base font-medium text-gray-700 dark:text-gray-200 bg-stone-50 dark:bg-gray-800 rounded-lg hover:bg-stone-200 dark:hover:bg-gray-700 transition-colors duration-150 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
-          >
-            Explore my Playbook
-          </Link>
-        </div>
       </div>
     </>
   )

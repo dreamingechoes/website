@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2, Download, ExternalLink, MailIcon, Sparkles } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Download, ExternalLink, Sparkles } from 'lucide-react'
 
 import Link from '@/components/Link'
 import { PageSEO } from '@/components/SEO'
@@ -22,9 +22,9 @@ export default function CV() {
           <div className="bg-white dark:bg-gray-900 border-2 border-gray-200 rounded-md border-opacity-60 dark:border-gray-700 p-6">
             <h2 className="text-lg font-semibold flex items-center">
               Professional Resume
-              <span className="ml-2 px-2 py-1 text-xs font-medium text-white bg-green-600 rounded-full font-semibold">
+              {/* <span className="ml-2 px-2 py-1 text-xs font-medium text-white bg-green-600 rounded-full font-semibold">
                 Open to Work
-              </span>
+              </span> */}
             </h2>
             <p className="mt-2  text-gray-500 dark:text-gray-400">
               Here's my journey as a <b>Senior Software Engineer</b> and <b>Engineering Leader</b>.
@@ -57,24 +57,6 @@ export default function CV() {
                 <ExternalLink className="w-4 h-4" />
                 View Online
               </a>
-            </div>
-          </div>
-
-          <div className="mt-8 bg-white dark:bg-gray-900 border-2 border-gray-200 rounded-md border-opacity-60 dark:border-gray-700 p-6 text-center">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              Looking for an engineering leader?
-            </h3>
-            <p className="mt-2 text-gray-500 dark:text-gray-400">
-              I'm open to new opportunities — let's talk about what you're building.
-            </p>
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="mailto:hi@dreamingecho.es"
-                className="inline-flex items-center gap-2 px-4 py-2  font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-purple hover:bg-purple-700 dark:hover:bg-purple-500"
-              >
-                <MailIcon className="w-4 h-4" />
-                Email me
-              </Link>
             </div>
           </div>
 
