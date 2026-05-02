@@ -14,32 +14,34 @@ twitter: https://x.com/dreamingechoes
 
 I’m Iván (he/him), pronounced [ee-bahn](https://www.spanishdict.com/pronunciation/iv%C3%A1n).
 
-I’ve been building software for a long time — long enough to remember when “shipping” felt like the whole job. Over the years I learned that the real work isn’t just writing code. It’s making decisions you can live with. Keeping things understandable for Future You. And building teams where people can do great work without burning out.
+I’m an **Engineering Leader, Product Engineer, and Senior Software Engineer** with over 15 years of experience building product software at the intersection of **engineering, product, and people**.
 
-My home base has usually been backend, but I’ve always followed the problem wherever it went: frontend, DevOps, mobile, UI/UX… not because I wanted to collect skills, but because I cared about the full product. I like systems that make sense end-to-end. I like work that’s useful, not just clever.
+Over the years, I’ve learned that building software is rarely just about implementation. The real work is often in shaping ideas early, defining scope, making trade-offs explicit, and building systems that can evolve without becoming harder to understand. I care about useful software, maintainable systems, and teams that can do meaningful work without burning out.
 
-These days, my focus is less on “how do we implement this?” and more on “how do we build in a way that stays healthy?” I lead distributed teams, shape engineering strategy, and think a lot about architecture — not as diagrams, but as a way to protect focus, clarity, and momentum.
+My home base has usually been backend, but I’ve always followed the problem wherever it went — frontend, platform, mobile, delivery, product shaping. Not because I wanted to collect skills, but because I’ve always cared about the full product and the full path from idea to production. I’m most effective in roles where I can contribute beyond implementation: helping turn ambiguity into clear, sustainable execution.
 
-On the side, I’m building [Avenida](https://avenida.so) with former colleagues I genuinely love working with. It’s one of those rare projects where the product feels personal and the collaboration feels easy — the kind of work that reminds you why you got into tech in the first place.
+These days, a growing part of my work is focused on **AI-native product development**. I’m interested in using AI not just to generate code faster, but to improve the full lifecycle of building products: **ideation, product definition, technical proposals, scope slicing, implementation, testing, and delivery**. What interests me most is not speed alone, but using AI to improve clarity, decision-making, and the quality of how products get built.
 
-I also keep an ongoing notebook of everything I wish I’d had earlier in my career: my [Engineering Leadership Playbook](https://dreamingecho.es/playbook/). It’s not a manifesto — it’s an operating system. Practical frameworks for running teams, improving delivery, growing people, and protecting culture. Templates you can copy, rituals you can try, patterns you can keep.
+My focus is less on “how do we implement this?” and more on “how do we build in a way that stays healthy?” I lead distributed teams, shape engineering strategy, and think a lot about architecture — not as diagrams, but as a way to protect focus, clarity, and momentum.
 
-## Why I write (the human side, made practical)
+I’m currently building [Avenida](https://avenida.so), a 0→1 product in the intentional shopping space, where I work closely across product and engineering to shape ideas, define trade-offs, and build end-to-end with strong ownership. It’s the kind of work that keeps me close to product thinking, fast iteration, and the reality of building with limited resources and real constraints.
 
-I write because the hardest parts of our work rarely show up in the backlog.
+I also maintain my [Engineering Leadership Playbook](https://dreamingecho.es/playbook/), a practical body of work built around the things I wish I’d had earlier in my career: better operating rhythms, clearer ways to support people, more sustainable delivery systems, and healthier ways to lead in remote-first environments. It’s less a manifesto than an operating system — practical frameworks, templates, and patterns for teams that want to work well over time.
 
-Technology is the visible layer. The human layer is where things quietly break: attention, confidence, motivation, conflict, collaboration, ambiguity, the pressure to always be “on,” the feeling of never being done. I’ve lived enough of the good and the hard parts of this industry to know that you can have great engineers and still end up with a team that’s exhausted, reactive, and disconnected.
+## Why I write
 
-I’ve learned the hard way that sustainable teams are built on small habits. Not big transformations, not new tools — but small rhythms that protect clarity, trust, and focus over time.
+I write because some of the hardest parts of our work never appear in the backlog.
 
-A big theme in my writing is how to coexist with the reality of building software — the pace, the uncertainty, the constant change — without losing yourself (or your team) in the process. That includes mental health, sustainability, and the things we don’t always name at work but definitely feel.
+Technology is the visible layer. Underneath it, the human layer is where things often start to break: attention, confidence, motivation, collaboration, conflict, ambiguity, the pressure to always be “on,” and the slow accumulation of emotional debt. I’ve spent enough time in this industry to know that you can have smart people, good intentions, and strong technical execution — and still end up with a team that feels reactive, exhausted, or disconnected.
 
-I’m especially interested in teams that want to move fast without becoming brittle. In practice, that means I write about operating rhythms that reduce chaos, team health patterns you can actually apply, delivery systems that respect humans, and what happens when technology accelerates faster than people can process — especially in AI-accelerated environments.
+A big theme in my writing is how to build software without losing yourself in the process. That includes delivery, team health, sustainable pace, and the practical realities of working in environments shaped by constant change — especially now that AI is accelerating how quickly work moves and how much complexity teams are expected to absorb.
 
-Whenever possible, I try to turn the “human side” into tools you can use: a template, a checklist, a script for a hard conversation, a small ritual that prevents emotional debt from piling up.
+I’m especially interested in teams that want to move fast **without becoming brittle**. In practice, that means I write about product and delivery systems, healthy team patterns, leadership habits, AI-accelerated workflows, and small changes that improve clarity, trust, and momentum over time.
 
-Mentoring is a big part of my life too. On [MentorCruise](https://mentorcruise.com/), I help engineers grow — sometimes in coding fundamentals, sometimes in leadership, sometimes in figuring out what they actually want next. I’ve also spent years building community in Asturias: I founded [Elixir Asturias](https://elixirasturias.github.io/), co-organize [FabadaConf](https://fabadaconf.com/), and I speak regularly about diversity, inclusion, and mental health in tech. Those aren’t side topics for me — they’re part of what “good engineering” means.
+Whenever possible, I try to turn abstract ideas into something practical: a template, a checklist, a prompt, a script for a hard conversation, a ritual that prevents confusion from compounding.
 
-Outside of work, I’m usually playing guitar or behind a camera. I love going to conferences and meetups, not just to talk, but to learn — and to leave with a few ideas that genuinely change how I build.
+Mentoring is a big part of my life too. Through [MentorCruise](https://mentorcruise.com/), I help engineers grow in backend development, system design, leadership, and career clarity. I’ve also spent years building community in Asturias through initiatives like [Elixir Asturias](https://elixirasturias.github.io/) and [FabadaConf](https://fabadaconf.com/). For me, mentoring, inclusion, mental health, and healthy engineering cultures are not side topics — they’re part of what good engineering actually looks like.
 
-If you want to chat, drop me an [email](mailto:hi@dreamingecho.es), connect on [LinkedIn](https://linkedin.com/in/ivan-gonzalez-saiz), or book a [mentorship session](https://mentorcruise.com/mentor/ivngonzlezsiz/). I’d love to hear from you.
+Outside of work, I’m usually playing guitar, taking photos, or leaving a conference or meetup with a few ideas that genuinely change how I build.
+
+If you want to chat, drop me an [Email](mailto:hi@dreamingecho.es), connect on [LinkedIn](https://linkedin.com/in/ivan-gonzalez-saiz), or book a [Mentorship Session](https://mentorcruise.com/mentor/ivngonzlezsiz/). I’d love to hear from you.
