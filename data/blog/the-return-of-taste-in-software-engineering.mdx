@@ -1,0 +1,106 @@
+---
+title: 'The Return of Taste in Software Engineering'
+date: '2026-05-13'
+draft: false
+tags: ['software-engineering', 'ai', 'engineering-craft', 'software-design', 'reflection']
+summary: 'As AI makes plausible software easier to produce, the scarce skill shifts from making things to choosing well. Taste is what helps engineering hold its shape.'
+authors: ['default']
+---
+
+There is a moment, familiar to anyone who has worked with AI tooling long enough, when the novelty fades. Early on, the speed itself is the event — a component appears in seconds, a test suite gets scaffolded in minutes, a migration plan arrives with structured detail that would have taken a morning to draft. You're genuinely surprised. You show people.
+
+Then, after a while, it becomes ordinary. Expected, even. And that shift — the moment the capability becomes normal — is more interesting than the capability itself. Not because the speed has lessened, but because speed as novelty is over, and what remains is a harder question underneath.
+
+The unsettling part, it turns out, is not that AI produces rough drafts. It is that it often produces something good enough to survive first contact with scrutiny. That changes things.
+
+The question is no longer only _can this be built?_ Increasingly, that is not the most interesting part. But: _is this the right version of it? Does it belong here? Is it as simple as it could be?_
+
+Those questions have always existed in software. What is changing is how much of the work they now represent — and that shift is bringing an older, quieter skill back into focus: taste.
+
+## The long scarcity
+
+For much of software engineering's short history, one of the hardest and most visible parts of the work was making things exist.
+
+Translating an idea into a reliable, functioning system required real craft. You had to hold the problem precisely enough to express it in code. You had to reason about edge cases, manage state across complex flows, understand what the machine would and wouldn't do with your intentions. Abstraction was expensive — premature abstraction was an easy trap, and finding the right seam took experience. Reuse was hard to achieve well. There were no shortcuts for writing software that handled error conditions gracefully, that composed with its neighbors without entanglement, that would still make sense when someone returned to it six months later.
+
+That scarcity shaped how engineering reputation was built. If you could make things exist — if you were the person who could translate intention into working software — you had something others needed. Technical depth was genuinely hard to fake, because at some point someone ran the code.
+
+This is not to romanticize the era before AI tooling. The scarcity had real costs. Velocity was slow. Experiments were expensive. Talented people spent significant hours on work that didn't need their full attention. A lot of the friction was just friction. But the constraint had one structural effect worth naming: it filtered options. Most things that seemed worth building didn't get built, because building was hard. There were fewer versions to evaluate, fewer implementations to compare, fewer branching paths at every decision point. The difficulty of making things was — among its other, less useful properties — a quiet curb on the abundance of plausible options.
+
+## The abundance problem
+
+AI does not change what software needs to do. It changes how fast plausible versions of it can appear.
+
+Ask for a component and you get three variants in the time it used to take to draft one. Ask for a refactor and you receive something that compiles, passes tests, and looks coherent. Request a migration plan, a technical design, a set of tests, a piece of onboarding copy — and what arrives is often genuinely usable. Not always perfect, not precisely right, but usable. Better than a blank page. Sometimes better than a quick first draft.
+
+That speed creates something the old scarcity quietly prevented: an abundance of plausible options.
+
+Plausible is an important word here. It doesn't mean good. It doesn't mean right. It means: _plausible_. This abstraction could work. This design doesn't have obvious holes. This refactor is technically defensible. This feature satisfies the ticket. The code passes the tests. The copy sounds professional.
+
+Plausible is the point at which judgment has to begin. And when plausible is easy to produce — when several plausible options can appear before you've formed strong constraints — the work shifts. Building remains necessary. But it is no longer the bottleneck.
+
+## When selection becomes the constraint
+
+When making things is the bottleneck, the question is: _how do I build this?_ When making things is no longer the bottleneck, the question changes. Now the constraint is: _which of these should exist, and in which form?_
+
+That requires holding more things in mind at once — not just what works, but what fits; not just what is correct, but what is coherent; not just what solves the ticket, but what belongs in the system and will still make sense there a year from now.
+
+This is where taste enters. Not as a vague aesthetic preference, not as seniority theater, but as a practical skill — and one that becomes more central, not less, as output gets faster and cheaper.
+
+Taste, in this context, is the ability to recognise quality before failure makes the absence of quality obvious. It is judgment made visible through selection. Engineers who develop it describe something like the ability to sense that something is off before they can explain why — a discomfort with an abstraction that, months later, turns out to have been premature. That's not mysticism. It's pattern recognition built from experience with how systems age.
+
+Taste ≠ personal preference. It is not "I find this pattern more elegant." It is something more rigorous: the ability to recognise which of two plausible options will create less drag over time, which abstraction is genuinely warranted by the problem and which is solving a future that hasn't arrived, which API design teaches the domain versus which one exposes the implementation.
+
+## What taste looks like in software
+
+It is easier to recognise taste through what it does than through how it's defined.
+
+Taste appears when an engineer rejects an abstraction not because it's broken but because it's early. The problem could be solved more directly, with less surface to maintain, and the case for the abstraction hasn't yet been made by the system itself — there's one use case, not three, and the third might never come. Taste waits for the pattern to be real before reaching for the layer that would hold it.
+
+It appears in the willingness to simplify something that already works. A generated implementation might compile and pass tests — and still be solving a harder problem than the one that actually exists. Two hundred lines doing what forty could do if you named the actual intent clearly and stopped hedging for futures that haven't been requested. Simplification requires a kind of courage, because the complex version looks thorough and the simple version looks insufficient until you understand the domain well enough to trust it.
+
+Taste appears in how someone reads an API — not just asking "does it work?" but "what does using this teach the person who calls it?" An API that expresses the implementation rather than the domain is technically functional and practically awkward. It distributes cognitive load invisibly across every future use. Taste notices this early, before the uses multiply.
+
+It also appears as a preference for consistency over cleverness — for the solution that fits the existing system without requiring a context switch, the choice that the team can reason about months later, the boring option that turns out to be the right one.
+
+[Returning to hands-on engineering after years in leadership](/blog/returning-to-the-craft-is-not-moving-backwards) made this especially visible to me. What felt sharper on return was not the joy of building again — though that was real — but the instinct to ask what deserved to be built in the first place. Management had changed my relationship to production; going back to it made that change legible.
+
+None of these are new virtues. What is new is how much more often they need to be applied.
+
+## The danger of succeeding plausibly
+
+There is a risk in AI-assisted software development that doesn't show up as a build failure, a bug report, or a performance incident. It surfaces much later, and far more quietly.
+
+The risk is not that AI produces bad output. Often it doesn't. The risk is that it produces a large volume of output that is locally reasonable, individually defensible, and collectively shapeless.
+
+A codebase doesn't degrade only through bad decisions. It degrades through many small decisions that nobody would have argued against in the moment — a helper that might be useful, a naming choice that's close enough, an abstraction that seemed warranted, a feature that satisfied the request without quite fitting the product model. Each one is plausible. Together, they accumulate into something harder to reason about, harder to point to and explain.
+
+_The danger of AI-generated software is not that it fails obviously. It is that it succeeds plausibly._
+
+When building was slow, many of those decisions got deferred by necessity. The friction served as a soft filter. When building is fast, the small decisions multiply. More options that could once have been dismissed by effort alone now make it far enough to demand evaluation. More features that could be shipped get shipped sooner. The system grows in several directions at once, filled with things that individually make sense and collectively drift from any recognisable governing idea — a loss of shape that no single addition caused, but that all of them together produce.
+
+This is the part that [learning to build alongside AI tools](/blog/learning-to-build-in-the-age-of-ai) doesn't fully prepare you for, because it's not a question about building — it's a question about keeping. What do you keep? What do you simplify? What do you decline, even when it functions?
+
+## How taste is cultivated
+
+Taste is not innate, and it is not automated. It grows through a specific kind of exposure — the kind that can only come from being inside systems over time.
+
+It grows from reading code that aged well and code that aged badly, and paying attention to the difference. Not the difference in cleverness or sophistication, but in how each kind feels to work with years later — what opens possibilities and what boxes you in, what you're glad someone built with care and what you wish someone had left simpler.
+
+It grows from maintaining things. From returning to decisions you made twelve months ago and discovering, sometimes with real discomfort, that they made sense in the moment and created drag in the year after. Taste is, in part, delayed feedback made portable — what remains after you have lived long enough with your own decisions to start anticipating some of their consequences earlier next time. That gap between decision and consequence is the primary education. There is no shortcut for it.
+
+It grows from reviewing code — not only for correctness but for fit. Asking not just "does this work?" but "does this belong here, and what does it teach the next person who reads it?"
+
+It grows from seeing products after they're released. From watching how people actually use what you built, noticing where your model of the system diverged from theirs, and following that feedback loop back into the decisions that produced the gap.
+
+AI can assist in limited ways — suggesting alternatives, surfacing patterns, articulating trade-offs. But it cannot own the long-term responsibility for coherence. It doesn't live with the consequences of the decisions it helps produce. The engineer who maintains the system does. And that person's accumulated experience — carrying the texture of what ages well and what creates drag — is precisely what taste is made of. That is also what makes it so difficult to substitute.
+
+## Final thoughts
+
+The value of being able to produce — to make something exist from intention and craft — hasn't disappeared. It has become more common. And in becoming more common, it has clarified what is actually scarce.
+
+Selection is the new constraint. Not choosing between two carefully crafted options after weeks of work, but choosing well between many plausible ones, often and quickly — recognising which of them deserve to become part of the system, which should be simplified before they ship, and which should be declined even though they function.
+
+Software engineering will still reward people who can build. It will increasingly reward people who can keep systems coherent when producing additions to them is no longer the difficult part.
+
+AI gives us more material. Taste decides what becomes part of the craft.
