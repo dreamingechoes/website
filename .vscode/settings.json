@@ -1,0 +1,8 @@
+{
+  "chat.tools.terminal.autoApprove": {
+    "/^python3 -c \"\nimport re\n\nwith open\\('/Users/ivan/Downloads/bookmarks_29_03_2026\\.html', 'r', encoding='utf-8'\\) as f:\n    content = f\\.read\\(\\)\n\nlines = content\\.split\\('\\\\n'\\)\nfolder_stack = \\[\\]\nresult = \\[\\]\n\nfor line in lines:\n    h3_match = re\\.search\\(r'<H3\\[\\^>\\]\\*>\\(\\.\\*\\?\\)</H3>', line\\)\n    if h3_match:\n        folder_name = h3_match\\.group\\(1\\)\n        folder_stack\\.append\\(folder_name\\)\n    \n    if re\\.search\\(r'</DL>', line\\) and folder_stack:\n        folder_stack\\.pop\\(\\)\n    \n    a_match = re\\.search\\(r'<A HREF=\\\\\"\\(\\[\\^\\\\\"\\]\\+\\)\\\\\"\\[\\^>\\]\\*>\\(\\.\\*\\?\\)</A>', line\\)\n    if a_match:\n        url = a_match\\.group\\(1\\)\n        title = a_match\\.group\\(2\\)\n        folder_path = ' > '\\.join\\(folder_stack\\) if folder_stack else 'root'\n        result\\.append\\(f'\\{folder_path\\} \\| \\{title\\}'\\)\n\nfor r in result\\[300:\\]:\n    print\\(r\\)\n\" 2>&1\n$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
+}
