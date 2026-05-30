@@ -18,11 +18,13 @@ import Comments from '@/components/comments'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
+import PostTableOfContents from '@/components/PostTableOfContents'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 import SectionContainer from '@/components/SectionContainer'
 import { SeriesContext } from '@/lib/series'
 import Tag from '@/components/Tag'
 import TextToSpeech from '@/components/TextToSpeech'
+import { Toc } from 'types/Toc'
 import XLogo from '@/components/icons/XLogo'
 import siteMetadata from '@/data/siteMetadata'
 
@@ -43,6 +45,7 @@ interface Props {
   next?: { slug: string; title: string }
   prev?: { slug: string; title: string }
   seriesContext?: SeriesContext | null
+  toc?: Toc
   children: ReactNode
 }
 
@@ -52,6 +55,7 @@ export default function PostLayout({
   next,
   prev,
   seriesContext,
+  toc,
   children,
 }: Props) {
   const { slug, fileName, date, title, tags, readingTime } = frontMatter
@@ -258,6 +262,7 @@ export default function PostLayout({
                       </a>
                     </div>
                     <TextToSpeech />
+                    <PostTableOfContents toc={toc} />
                   </div>
                   <div className="prose dark:prose-dark max-w-none">{children}</div>
                 </div>
