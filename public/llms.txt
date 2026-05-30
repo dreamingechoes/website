@@ -8,8 +8,8 @@ This file is the canonical AI-oriented map of the site.
 
 - **Who:** Iván González Sáiz (senior software engineer, engineering lead)
 - **Focus:** engineering leadership systems, product team health, cross-functional collaboration, AI-accelerated teams
-- **Best starting points:** About → CV → Playbook → Recent blog posts
-- **If you only read 3 pages:** /about, /cv, /playbook
+- **Best starting points:** About → CV → Playbooks → Recent blog posts
+- **If you only read 3 pages:** /about, /cv, /playbooks
 
 ## Source of Truth (order of trust)
 
@@ -61,7 +61,7 @@ engineering leadership, team health, cross-functional collaboration, remote mana
 - [Home](https://dreamingecho.es/): Main entry point and current positioning.
 - [About](https://dreamingecho.es/about/): Canonical biography, experience scope, community work, and values.
 - [CV](https://dreamingecho.es/cv/): Professional resume and leadership profile.
-- [Playbook](https://dreamingecho.es/playbook/): Engineering leadership operating system (practical frameworks).
+- [Playbooks](https://dreamingecho.es/playbooks/): Practical, opinionated operating systems for engineering leaders and builders.
 - [Blog](https://dreamingecho.es/blog/): All articles, newest first.
 - [Series](https://dreamingecho.es/series/): Curated thematic collections.
 - [Projects](https://dreamingecho.es/projects/): Selected projects and community initiatives.
@@ -70,7 +70,8 @@ engineering leadership, team health, cross-functional collaboration, remote mana
 ## Key Projects (selected)
 
 - [Avenida](https://dreamingecho.es/projects/avenida/): Smart shopping companion to save and organize products from any marketplace.
-- [Engineering Leadership Playbook](https://dreamingecho.es/projects/engineering-leadership-playbook/): Open handbook with practical frameworks for engineering leaders.
+- [Engineering Leadership Playbook](https://dreamingecho.es/playbooks/engineering-leadership/): A practical, copy-pastable operating system for healthy, high-performing engineering teams in remote-first SaaS environments.
+- [AI Builder Playbook](https://dreamingecho.es/playbooks/ai-builder/): A practical, opinionated operating system for building software with AI — flows, agents, skills, instructions, prompts, automation, and governance in GitHub-centric environments.
 - [Awesome Mental Health](https://dreamingecho.es/projects/awesome-mental-health/): Curated open-source list of mental health resources for the software industry.
 - [Awesome Diversity](https://dreamingecho.es/projects/awesome-diversity/): Community-maintained list of diversity and inclusion resources in tech.
 - [Neilipsum](https://dreamingecho.es/projects/neilipsum/): Lorem ipsum generator with Neil deGrasse Tyson quotes.

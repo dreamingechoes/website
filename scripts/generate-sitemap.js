@@ -10,6 +10,13 @@ function getProjectSlugs() {
   return [...slugMatches].map((m) => m[1])
 }
 
+// Extract playbook slugs from TypeScript data file
+function getPlaybookSlugs() {
+  const content = fs.readFileSync('./data/playbooksData.ts', 'utf-8')
+  const slugMatches = content.matchAll(/slug:\s*['"]([^'"]+)['"]/g)
+  return [...slugMatches].map((m) => m[1])
+}
+
 ;(async () => {
   const prettierConfig = await prettier.resolveConfig('./.prettierrc.js')
 
@@ -31,6 +38,10 @@ function getProjectSlugs() {
   // Project detail pages (generated from data)
   const projectSlugs = getProjectSlugs()
   const projectPaths = projectSlugs.map((slug) => `/projects/${slug}`)
+
+  // Playbook canonical pages (generated from data)
+  const playbookSlugs = getPlaybookSlugs()
+  const playbookPaths = playbookSlugs.map((slug) => `/playbooks/${slug}`)
 
   const allFiles = [...pageFiles, ...blogFiles, ...tagFiles]
 
@@ -58,8 +69,9 @@ function getProjectSlugs() {
     })
 
   const projectUrls = projectPaths.map((path) => `${siteMetadata.siteUrl}${path}`)
+  const playbookUrls = playbookPaths.map((path) => `${siteMetadata.siteUrl}${path}`)
 
-  const allUrls = [...fileUrls, ...projectUrls]
+  const allUrls = [...fileUrls, ...projectUrls, ...playbookUrls]
 
   const sitemap = `
         <?xml version="1.0" encoding="UTF-8"?>

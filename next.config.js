@@ -72,21 +72,49 @@ module.exports = withBundleAnalyzer({
           source: '/search/:path*',
           destination: 'https://engineering-leadership-playbook.vercel.app/search/:path*',
         },
-        // Playbook pages
+        // Playbook: Engineering Leadership
         {
-          source: '/playbook',
+          source: '/playbooks/engineering-leadership',
           destination: 'https://engineering-leadership-playbook.vercel.app/',
         },
         {
-          source: '/playbook/',
+          source: '/playbooks/engineering-leadership/',
           destination: 'https://engineering-leadership-playbook.vercel.app/',
         },
         {
-          source: '/playbook/:path*',
+          source: '/playbooks/engineering-leadership/:path*',
           destination: 'https://engineering-leadership-playbook.vercel.app/:path*',
+        },
+        // Playbook: AI Builder
+        {
+          source: '/playbooks/ai-builder',
+          destination: 'https://ai-builder-playbook.vercel.app/',
+        },
+        {
+          source: '/playbooks/ai-builder/',
+          destination: 'https://ai-builder-playbook.vercel.app/',
+        },
+        {
+          source: '/playbooks/ai-builder/:path*',
+          destination: 'https://ai-builder-playbook.vercel.app/:path*',
         },
       ],
     }
+  },
+  async redirects() {
+    return [
+      // Legacy: /playbook → /playbooks/engineering-leadership
+      {
+        source: '/playbook',
+        destination: '/playbooks/engineering-leadership/',
+        permanent: true,
+      },
+      {
+        source: '/playbook/',
+        destination: '/playbooks/engineering-leadership/',
+        permanent: true,
+      },
+    ]
   },
   async headers() {
     return [
