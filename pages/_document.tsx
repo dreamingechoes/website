@@ -45,27 +45,6 @@ class MyDocument extends Document {
           />
           <link
             rel="preload"
-            href="/fonts/inter/inter-v19-latin-700.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/nunito/nunito-v31-latin-300.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/nunito/nunito-v31-latin-regular.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
             href="/fonts/nunito/nunito-v31-latin-800.woff2"
             as="font"
             type="font/woff2"
