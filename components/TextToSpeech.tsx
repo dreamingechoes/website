@@ -356,7 +356,7 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
           />
         </div>
         {isActive && (
-          <div className="mt-1.5 flex justify-between text-xs text-gray-500 dark:text-gray-400">
+          <div className="mt-1.5 flex justify-between text-xs text-gray-600 dark:text-gray-400">
             <span>{formatTime(elapsedTime)}</span>
             <span>{formatTime(totalTime)}</span>
           </div>
@@ -385,12 +385,12 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
             {paused ? 'Paused' : speaking ? 'Playing...' : 'Listen to article'}
           </div>
           {isActive && totalChunks > 0 && (
-            <div className="text-xs text-gray-500 dark:text-gray-400">
+            <div className="text-xs text-gray-600 dark:text-gray-400">
               Section {currentChunkIndex + 1} of {totalChunks}
             </div>
           )}
           {!isActive && selectedVoice && (
-            <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+            <div className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1">
               <Volume2 className="h-3 w-3" aria-hidden="true" />
               <span>{getVoiceDisplayName(selectedVoice)}</span>
             </div>

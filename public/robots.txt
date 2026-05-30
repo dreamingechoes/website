@@ -2,4 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://dreamingecho.es/sitemap.xml
-Llms-txt: https://dreamingecho.es/llms.txt

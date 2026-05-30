@@ -3,6 +3,13 @@
 
 const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
+const primary = {
+  ...colors.purple,
+  500: colors.purple[600],
+  600: colors.purple[700],
+  700: colors.purple[800],
+  800: colors.purple[900],
+}
 
 /** @type {import("tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
@@ -23,7 +30,7 @@ module.exports = {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        primary: colors.purple,
+        primary,
         //@ts-ignore
         gray: colors.neutral, // TODO: Remove ts-ignore after tw types gets updated to v3
       },
