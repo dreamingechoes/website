@@ -10,6 +10,17 @@ export type SeriesDefinition = {
 }
 
 export const seriesData: Record<string, SeriesDefinition> = {
+  'engineering-team-operating-layer': {
+    slug: 'engineering-team-operating-layer',
+    title: 'The Engineering Team Operating Layer',
+    summary: 'Small practices for better engineering teams.',
+    description:
+      'A series about the small practices that help engineering teams turn ambiguity into decisions, decisions into delivery, and delivery into learning. Not ceremonies for the sake of process, but lightweight operating habits grounded in product discovery, engineering strategy, team cognition, risk management, and continuous improvement.',
+    cta: {
+      label: null,
+      href: null,
+    },
+  },
   'human-latency-in-ai-accelerated-teams': {
     slug: 'human-latency-in-ai-accelerated-teams',
     title: 'Human Latency in AI-Accelerated Teams',

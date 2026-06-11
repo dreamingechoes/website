@@ -1,0 +1,188 @@
+---
+title: 'The Small Map Before the Roadmap'
+date: '2026-06-10'
+draft: false
+tags:
+  [
+    'engineering-leadership',
+    'product-management',
+    'software-engineering',
+    'planning',
+    'team-culture',
+  ]
+summary: 'A One-Page Bet Map helps engineering teams clarify outcomes, constraints, bets, and non-goals before roadmap tickets take shape.'
+authors: ['default']
+series:
+  slug: 'engineering-team-operating-layer'
+  order: 1
+---
+
+There is a familiar moment in product engineering when a problem becomes a plan too quickly.
+
+Someone names a real pain. A customer is blocked. A metric is moving in the wrong direction. Sales keeps hearing the same objection. Support has a thread full of sharp edges. The room feels the pressure to act, and before the problem has been properly held, the work starts turning into tickets.
+
+It can happen in a planning meeting, in a Slack thread that has already gone a little long, or inside a ticketing tool while someone is trying to be helpful. A few people are typing. Someone pastes a screenshot. The title of the work quietly changes from a question into a noun.
+
+Not because anyone is being careless. Usually the opposite. The team wants to help. Product wants progress. Engineering wants something concrete enough to estimate. Design wants to know what shape to explore. Everyone is trying to reduce the fog.
+
+But sometimes the fog gets converted into a roadmap before it has become a map.
+
+That is where teams lose something important. Not the plan itself, but the theory behind the plan: what outcome matters, which opportunity is being pursued, what evidence exists, what constraints are real, what bet the team is making, and what is intentionally outside the work.
+
+Before the roadmap, a team often needs a smaller artifact.
+
+A map.
+
+## The missing layer before tickets
+
+Roadmaps are useful when they express direction. They are dangerous when they become lists of solutions without a visible theory underneath.
+
+You can feel the difference quickly. In a healthy version, a roadmap item points back to a clear customer problem, a desired outcome, and a set of constraints the team has chosen to respect. In the weaker version, the roadmap becomes a container for decisions nobody remembers making. The ticket says what to build, but not why this was the right bet, why now, or what would make the bet wrong. That is one reason [unexamined backlogs create so much hidden drag](/blog/the-unexamined-backlog).
+
+You have probably seen the meeting version of this. The estimate gets softer. Someone says, "it depends," and the room goes quiet for half a second because everyone can feel that the ticket is carrying a product decision it never made explicit.
+
+This is where engineering often gets pulled into the work too late. By the time the tickets exist, the problem has already been narrowed. The team is no longer shaping the opportunity; it is negotiating the implementation.
+
+The issue is not that engineers need to own product strategy alone. They do not. The issue is that engineering context belongs in the problem formation stage, before the work becomes a delivery plan. Architecture, migration risk, system constraints, observability gaps, support burden, operational cost, data quality, compliance, rollout paths - these are not implementation details that appear after discovery. They shape what kind of solution is responsible in the first place.
+
+If those constraints enter too late, the roadmap starts with an incomplete picture, and the team spends delivery time rediscovering product questions that should have been visible earlier.
+
+The point is not to slow Product down with engineering concerns. The point is to prevent the team from discovering the real shape of the work only after the roadmap has already promised the wrong shape.
+
+## A map is not a roadmap
+
+A roadmap answers a sequencing question: what are we likely to work on, and when?
+
+A map answers a sense-making question: what do we currently believe about this problem?
+
+That distinction matters because teams often ask the roadmap to do too much. They expect it to carry strategy, evidence, trade-offs, scope, dates, confidence, dependencies, and a theory of value all at once. It becomes overloaded. People debate the order of initiatives while quietly disagreeing about what problem they are solving. That is how teams end up in the same [PRD-to-production ping-pong](/blog/from-prd-to-prod-without-ping-pong) they were trying to avoid.
+
+A small map is different. It is not a commitment device. It is not a mini-PRD. It is not a substitute for discovery, design, technical planning, or delivery work. It is a thin layer of shared thinking before the team starts producing artifacts that look more certain than the thinking actually is.
+
+The map should be small enough to fit on one page and honest enough to expose uncertainty. Its job is not to make the team look ready. Its job is to reveal whether the team is ready to make the next decision.
+
+That might sound obvious, but many teams skip exactly this layer.
+
+Learning to notice that gap is a different kind of maturity.
+
+## What the map borrows
+
+This practice borrows from several places, but it should not feel like a new methodology.
+
+[Teresa Torres' Opportunity Solution Trees](https://www.producttalk.org/opportunity-solution-trees/) make product thinking visible by connecting outcomes, opportunities, solutions, and assumption tests. Customer-first product thinking reminds teams to start from the user reality before falling in love with the internal plan. [Marty Cagan's distinction between discovery and delivery](https://www.svpg.com/discovery-vs-delivery/) reinforces that learning and releasing are both ongoing responsibilities of a cross-functional team.
+
+The One-Page Bet Map borrows from these ideas, then deliberately stays smaller.
+
+It does not try to represent the full opportunity space. It does not ask the team to write a full product narrative. It does not pretend that discovery is complete. It gives the team a place to say: here is the current theory, here is what we know, here is what we do not know, and here is the bet we are willing to make next.
+
+## The One-Page Bet Map
+
+The map is intentionally plain.
+
+```text
+Outcome:
+User/customer problem:
+Opportunity:
+Current evidence:
+Main constraints:
+Bet:
+Non-goals:
+What we need to learn:
+```
+
+That is the whole artifact.
+
+**Outcome** names the change the team wants to create. Not "ship onboarding v2," but something closer to "increase activation for first-time users who invite a teammate." The wording does not need to be perfect, but it should point beyond output.
+
+**User/customer problem** states the pain in human terms. What is hard, confusing, slow, risky, or expensive for the person using the product? If the team cannot write this without naming the solution, the problem is not clear enough yet.
+
+**Opportunity** names the opening the team believes is worth exploring. This is narrower than the whole problem space and wider than a feature. It might be a moment in the user journey, a repeated support pattern, or a constraint that prevents people from reaching value.
+
+**Current evidence** keeps the map honest. Customer calls, support tickets, funnel data, sales notes, product analytics, internal usage, incident reports - the evidence can be qualitative or quantitative, but it should be named. If the evidence is weak, write that down.
+
+**Main constraints** invite engineering into the conversation early. What makes this hard? Legacy flows, unreliable data, migration paths, performance ceilings, privacy rules, support load, rollout risk, team capacity, dependencies. Constraints are not excuses. They are part of the terrain.
+
+**Bet** turns the map into a decision. Given what we know, what are we going to try? The bet should be small enough to inspect and clear enough that the team can later ask whether it worked. This is where the artifact becomes more than a product canvas. It becomes an operating habit for the team.
+
+**Non-goals** protect the work from absorbing every adjacent desire. This is where the team says what it is not solving right now. Good non-goals reduce future negotiation because they make the trade-off visible before the work is underway.
+
+**What we need to learn** keeps the map from becoming theater. If there is nothing left to learn, the team is probably pretending. There is always something: whether the problem is frequent enough, whether users understand the proposed flow, whether the migration risk is real, whether the constraint matters in practice.
+
+## Where engineering changes the map
+
+The map becomes useful when engineering does not wait for the tickets.
+
+This does not mean turning every early product conversation into architecture review. That would make the practice heavy in exactly the wrong way. The engineering contribution is sharper and smaller: make the terrain visible before the team chooses a route.
+
+Sometimes that means naming a constraint that changes the bet. A product idea depends on data the system does not reliably capture. A proposed flow looks simple but crosses a boundary that makes rollout harder. A migration sounds like a detail, until someone explains that the old and new states will have to coexist for months.
+
+Sometimes engineering changes the map by reducing fear. A concern that sounded large turns out to be isolated. A risky area can be protected behind a feature flag. A prototype can answer the hardest technical question in two days. A constraint becomes less threatening once someone gives it edges.
+
+And sometimes engineering changes the map by asking the product question more clearly:
+
+- What user behavior would tell us this worked?
+- What would make this bet not worth continuing?
+- Which constraint should shape the first version?
+- What can we learn before committing production-quality effort?
+
+This is not engineering stepping outside its lane. It is engineering participating in the formation of the problem, while the problem is still soft enough to be shaped.
+
+## What maturity looks like here
+
+The mature behavior is not producing a perfect map. It is noticing when the team is pretending the map already exists.
+
+You see it when a ticket describes a solution but nobody can name the opportunity. When a deadline is debated before the outcome is clear. When a design review turns into a strategy conversation because the strategy never had a place to land. When engineering estimates work without knowing which constraint matters most.
+
+A One-Page Bet Map creates a small pause before that happens. It gives the team a place to ask whether the next artifact should be a roadmap item, a prototype, a customer conversation, a technical spike, or nothing yet.
+
+That pause is not delay. It is a sensing mechanism.
+
+The team is still moving. It is simply moving with a clearer theory of why this path, why now, and why not the adjacent path that also looks reasonable.
+
+## When the map becomes another template
+
+The failure mode is obvious: the map becomes a mini-PRD.
+
+Someone adds sections. Then acceptance criteria. Then ownership tables. Then a long background section nobody reads. Soon the small map has become another document that creates the appearance of clarity while slowing down the moment where clarity was supposed to form.
+
+The practice works only if it helps the team think.
+
+If filling it out takes more than thirty minutes for a normal bet, it is too heavy. If people are polishing wording before discussing trade-offs, it is too polished. If every field has to be complete before a conversation can happen, the artifact has started protecting the process instead of the team.
+
+Keep it rough. Keep it close to the work. Let it be wrong early.
+
+A useful map can contain uncertainty. It can say "evidence is weak." It can say "constraint unknown." It can say "we do not know whether this opportunity is large enough yet." That honesty is the point. The map is not there to prove the team knows everything. It is there to show what the team knows well enough to decide next.
+
+## How to use it lightly
+
+The easiest way to use the map is before a roadmap item becomes too real.
+
+Take a candidate problem and give the team twenty-five minutes. Product brings the customer and business context. Design brings the user journey and interaction questions. Engineering brings constraints, risk, and technical paths. Together, the team fills the page with plain language.
+
+Then ask one question:
+
+_What decision does this map make easier?_
+
+Maybe it makes the next bet obvious. Maybe it shows that the evidence is too thin. Maybe it reveals that the team has three different outcomes hiding under one initiative. Maybe it exposes a constraint that should change the first slice of work.
+
+If the map does not make any decision easier, do not keep it. The goal is not documentation. The goal is a clearer operating habit: before building, make the theory visible enough to inspect.
+
+<Callout variant="info">
+  This post is part of the series **[The Engineering Team Operating
+  Layer](/series/engineering-team-operating-layer)**, about small practices for better engineering
+  teams.
+</Callout>
+
+## Final thoughts
+
+Roadmaps are not the enemy. Tickets are not the enemy. Teams need plans, commitments, delivery rhythms, and the ability to turn intention into shipped software.
+
+But the roadmap is weaker when it starts too soon. It becomes a list of solutions carrying assumptions nobody has named, constraints nobody has surfaced, and bets nobody remembers making.
+
+Better teams do not add process because they enjoy process. They add small operating habits where the work usually loses shape.
+
+The small map does not replace the roadmap. It gives the roadmap a theory.
+
+That is the operating layer this series is about: small practices placed exactly where confusion usually becomes expensive.
+
+Before the team commits to the road, it helps to draw the terrain.
