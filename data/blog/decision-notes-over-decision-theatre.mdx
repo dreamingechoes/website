@@ -1,0 +1,134 @@
+---
+title: 'Decision Notes Over Decision Theatre'
+date: '2026-06-22'
+draft: false
+tags:
+  ['engineering-leadership', 'software-engineering', 'decision-making', 'team-culture', 'planning']
+summary: 'A lightweight Decision Note helps teams keep the memory of why a choice was reasonable, without turning every trade-off into heavy documentation.'
+authors: ['default']
+series:
+  slug: 'engineering-team-operating-layer'
+  order: 2
+---
+
+The decision is still in the code. The reason is gone.
+
+You can watch it happen in slow motion. A team gathers around a hard problem, and the conversation is genuinely good — people raise real concerns, weigh three or four options out loud, change each other's minds. An hour later, everyone leaves with the comfortable sense that the matter has been handled. The only thing missing is any record of what was actually decided, or why.
+
+Then, months later, someone asks why the system works the way it does. The people who were in the room give slightly different answers. One remembers a performance concern. Another remembers a deadline. A third is fairly sure it was about a vendor nobody uses anymore. The choice survived. The thinking behind it did not.
+
+That gap is easy to misread as a documentation problem. Most of the time it is a memory problem — and I've watched an hour evaporate while a team re-argues a decision it had already settled, simply because no one could find the reasoning.
+
+Teams do not only suffer from making bad decisions. They suffer from losing the memory of why a decision was reasonable when it was made.
+
+## Talking about decisions is not deciding
+
+It is worth separating two things that often wear the same clothes.
+
+One is deliberation: the genuine work of weighing options, surfacing trade-offs, and arriving at a choice. The other is decision theatre: the performance of all that, with enough motion and discussion that everyone feels a decision happened, even when nothing was actually committed or recorded.
+
+Decision theatre is comfortable because it produces the feeling of progress without the cost of commitment. No one has to write down the trade-off they accepted. No one has to name the option they rejected and why. The conversation stays warm and open, and the discomfort of closing a decision is deferred.
+
+You can feel the difference in the room. In real deliberation, there is a small moment of tension when the choice lands — someone has to accept a downside on behalf of the team. In theatre, that moment never arrives. The discussion just gradually loses energy, and people leave assuming the part they cared about won.
+
+A good decision is not measured by how much was said about it. It is measured by what it leaves behind: the context it was made in, the trade-off it accepted, the alternative it rejected, and the consequence it chose to live with.
+
+If none of that survives the meeting, the team did not really decide. It rehearsed.
+
+## What a decision leaves behind
+
+The frameworks that capture this are old, and they agree on something simple: a decision is worth recording when its reasoning will outlive the people who made it.
+
+[Architecture Decision Records](https://adr.github.io/), popularized by Michael Nygard, hold exactly that — one decision, the situation that forced it, the consequences accepted. [Martin Fowler](https://martinfowler.com/bliki/ArchitectureDecisionRecord.html) frames them as deliberately lightweight: records centered on the decision, not documents nobody maintains. [DACI](https://www.atlassian.com/team-playbook/plays/daci) handles the social half, making it clear who drove a shared decision and who merely needed to be informed. And [Will Larson](https://lethain.com/is-engineering-strategy-useful/) makes the sharpest point — a strategy always exists whether or not anyone writes it down. The same is true of decisions: your team is already deciding constantly. The only question is whether those choices are visible enough to inspect, or invisible enough to repeat.
+
+What decays fastest is the situation a decision was made in. A choice that looks obviously wrong in hindsight was often perfectly reasonable given what the team knew, the constraints it faced, and the time it had — but strip that away, and the next person sees only the outcome, judged with information the original team never had.
+
+## The cost of invisible decisions
+
+Most expensive engineering arguments are not about new problems. They are reruns.
+
+A choice gets made quietly, nothing durable holds the reasoning, and a few months later the same debate starts from zero — often reopened by someone with no way of knowing it was already tried, for reasons that were good then and might still be. This is the same hidden drag that builds up in [an unexamined backlog](/blog/the-unexamined-backlog), except sharper, because the team re-litigates ground it had already settled. The argument feels fresh to the people having it and exhausting to the people who have had it before.
+
+There is a quieter cost, too. When no one can explain why the system is the way it is, every part of it starts to feel arbitrary, and engineers stop respecting constraints they assume were accidents. The fix is not more process. It is a small, durable trace placed exactly where the thinking tends to disappear.
+
+## The Decision Note
+
+A full ADR is the right tool for genuinely architectural choices: the ones with long shadows, broad blast radius, and consequences people will inherit for years. But most decisions that get lost are smaller than that, and an ADR is too heavy to bother writing for them. So they get nothing.
+
+The Decision Note lives in that gap. It is lighter than an ADR, faster than a meeting summary, and just structured enough to preserve the reasoning.
+
+```text
+Decision:
+Context:
+Options considered:
+Trade-off accepted:
+What we are not solving:
+Revisit when:
+Owner:
+```
+
+That is the whole artifact. It should take a few minutes, not an afternoon.
+
+**Decision** states what was actually chosen, in one plain sentence. If you cannot write this without hedging, the decision has not really been made yet — and noticing that is already useful.
+
+**Context** is the part that ages fastest and matters most. What was true when this was decided? What deadline, constraint, team size, data quality, or external dependency shaped it? This is what protects a future reader from judging a reasonable past choice with information it never had.
+
+**Options considered** keeps an honest record that alternatives existed. It does not need to be exhaustive. Naming even one rejected option, and why it was rejected, saves the team from re-proposing it as if it were new.
+
+**Trade-off accepted** is where the note earns its place. Every real decision gives something up. Writing the downside down on purpose is what separates a decision from a wish. It also signals maturity: the team knew the cost and chose anyway.
+
+**What we are not solving** draws a boundary around the decision so it does not quietly absorb every adjacent concern later. It is the same instinct as the [non-goals in a One-Page Bet Map](/blog/the-small-map-before-the-roadmap) — it reduces future negotiation by making the scope visible now.
+
+**Revisit when** turns the decision into something temporary on purpose. Most decisions are correct only under conditions that will eventually change. Naming the trigger — a scale threshold, a new requirement, a vendor change — means the team can stop defending a choice once the ground beneath it has moved.
+
+**Owner** answers the DACI question in one line. Not who has to maintain the document, but who the team can ask when the reasoning needs to be reopened.
+
+Filled in, it stays just as small:
+
+```text
+Decision: Keep report generation synchronous for now.
+Context: Current volume is low; going async would push the release back two weeks.
+Options considered: Background job, read replica, pre-computed cache.
+Trade-off accepted: Reports may be slow for our largest accounts.
+What we are not solving: The long-term reporting architecture.
+Revisit when: Generation exceeds 5 seconds for 10% of accounts.
+Owner: Backend team.
+```
+
+Anyone reading that in six months knows not only what was chosen, but why it was reasonable, and exactly what would make it worth reopening. Keep it close to the work, too: a line in the pull request, a short entry in the repo, a paragraph where the decision actually lives. The further it sits from the code, the less likely anyone is to find it when they need it.
+
+## The decisions worth remembering
+
+The point was never a thorough archive. An archive optimizes for completeness, which is precisely what makes documentation rot — the volume outgrows anyone's capacity to read it, and the few decisions that mattered drown in the ones that did not. Useful memory optimizes for the opposite: retrieval. So the mature behavior is not writing a Decision Note for everything. It is sensing which decisions will be expensive to forget.
+
+You can feel which ones they are. A choice that is hard to reverse. A rationale that depends on details nobody will remember in six months. A debate you can already picture someone reopening without the missing piece. A decision shared across people who were not all in the room. Those deserve a note. The small, easily reversed, self-explanatory ones do not — and the mature move there is to write nothing and move on.
+
+This is a kind of taste, not a rule. The team is not trying to capture every decision, only the small number whose reasoning is load-bearing. The same judgment that helps a team avoid [saying yes to everything](/blog/every-yes-kills-something) applies here: value comes from being selective, not exhaustive. A team that builds the habit does not feel more bureaucratic — it feels less repetitive, because the arguments that used to recur every quarter happen once, leave a trace, and stay settled until the ground genuinely shifts.
+
+## When every decision gets a note
+
+The failure mode is the mirror image of decision theatre, and just as corrosive. Call it **Note Sprawl**: the moment the practice turns into a habit of documenting everything.
+
+If everything gets a Decision Note, nothing does. The notes pile up, the trivial ones bury the important ones, and the signal that something was worth recording disappears entirely. A reader scanning a wall of notes about variable names and minor refactors has no way to find the three that actually shaped the system. The practice that was supposed to preserve memory ends up obscuring it.
+
+You can spot this drift quickly. When people write notes to look diligent rather than to preserve reasoning, the format has become theatre of a different kind — the performance of rigor instead of the performance of deliberation, but theatre all the same. When a note has no real trade-off, because the decision had no real downside, it probably did not need a note. When the **Revisit when** field is always blank, the team is documenting things that were never going to change.
+
+The discipline is restraint. A Decision Note is valuable in proportion to how rarely it is used. The moment it becomes mandatory, it stops being a signal and becomes noise.
+
+Keep it scarce. Keep it close to the work. Let most decisions pass without one.
+
+<Callout variant="info">
+  This post is part of the series **[The Engineering Team Operating
+  Layer](/series/engineering-team-operating-layer)**, about small practices for better engineering
+  teams.
+</Callout>
+
+## Final thoughts
+
+I keep coming back to the difference between a team that decides and a team that talks. Both can be full of careful, intelligent people. The difference only shows up later — in whether the reasoning survived the meeting.
+
+A Decision Note is a small thing. It does not glorify documentation, and it is not trying to. It refuses one specific loss: the part of a decision that made it reasonable, gone the moment everyone leaves the room.
+
+Most decisions do not deserve one. The few that do are the ones a team will otherwise relive, again and again, with a little less memory each time.
+
+That is the operating layer this series keeps returning to — small habits placed exactly where the work tends to forget itself. Decide well, then leave a trace of why. Not theatre. Not bureaucracy. Enough memory for the next version of the team to build on instead of guess.
