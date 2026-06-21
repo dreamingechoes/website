@@ -18,8 +18,8 @@ import Comments from '@/components/comments'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
-import PostTableOfContents from '@/components/PostTableOfContents'
 import { PostFrontMatter } from 'types/PostFrontMatter'
+import PostTableOfContents from '@/components/PostTableOfContents'
 import SectionContainer from '@/components/SectionContainer'
 import { SeriesContext } from '@/lib/series'
 import Tag from '@/components/Tag'
@@ -86,7 +86,7 @@ export default function PostLayout({
     postUrl
   )}`
 
-  const chatGptPrompt = `Summarize the article "${title}" from the dreamingechoes blog by Iván González Sáiz. Focus exclusively on the content of this article — don't mix in information from other sources. Cover all key points.\n\nFull article: ${postUrl}`
+  const chatGptPrompt = `Summarize the article "${title}" from the dreamingechoes blog by Iván González Sáiz. Focus exclusively on the content of this article — don't mix in information from other sources. Cover all key points. One paragraph maximum.\n\nFull article: ${postUrl}`
   const chatGptUrl = `https://chat.openai.com/?q=${encodeURIComponent(chatGptPrompt)}`
 
   const handleCopyLink = async () => {
