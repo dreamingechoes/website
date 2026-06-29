@@ -1,0 +1,179 @@
+---
+title: 'Risk Sketch: Surface Risk Before It Becomes Rework'
+date: '2026-06-29'
+draft: false
+tags:
+  ['engineering-leadership', 'product-management', 'software-engineering', 'planning', 'delivery']
+summary: 'Risk Sketch is a 20-minute practice for surfacing product, design, and engineering risk before late surprise becomes tense rework and ugly scope cuts.'
+authors: ['default']
+series:
+  slug: 'engineering-team-operating-layer'
+  order: 3
+---
+
+The risky part of an initiative is rarely the kickoff.
+
+The room has energy. Product has enough signal to care. Design can see a direction. Engineering can imagine the first slices. Someone opens the planning doc, someone says the work is probably manageable, and the whole thing begins to harden around a shape that still has too many soft spots.
+
+But late risk has a particular sound — the pause after an estimate. The quiet Slack thread where one engineer writes, "I think auth might be more involved than we thought." The design review where the happy path looks clean, but the empty state, migration path, permissions model, and first-user experience all start tugging on the same loose thread.
+
+Risk does not become expensive because it exists. Risk becomes expensive when the team discovers it after the commitment has already hardened.
+
+That is the operating habit this post is about — not corporate risk management, not a dashboard, not a document that makes uncertainty look controlled. A smaller move. Surface risk early enough to decide while the work is still soft.
+
+## The hidden cost of late risk
+
+Every initiative carries assumptions. Product assumes people will care. Design assumes people will understand the flow. Engineering assumes the data exists, the dependency behaves, the migration is contained, and the edge cases are finite.
+
+That might sound like ordinary uncertainty. It is, partly. The problem is not that these assumptions are wrong. The problem is that they often stay invisible until delivery turns them into facts.
+
+By then, the team has already done the expensive part psychologically. It has named the initiative, placed it on a roadmap, told other people it is coming, and maybe created enough tickets that the work feels more real than the thinking underneath it. This is why a [One-Page Bet Map](/blog/the-small-map-before-the-roadmap) helps before the roadmap gets too confident. It makes the theory visible before the plan starts acting certain.
+
+Late risk converts surprise into rework. Rework becomes tension. And tension, if no one names it clearly, usually gets translated into rushed scope cuts, blame-shaped conversations, or a brittle version of "we are still on track" that nobody fully believes.
+
+The mature move is not pretending risk can be removed. It is making risk visible while the team still has good options.
+
+## Risk is a shared surface
+
+Risk work gets weaker when it belongs to one role.
+
+If Product owns all the risk, engineering complexity becomes an implementation detail that arrives too late. If Engineering owns all the risk, product value can hide behind technical caution. If Design owns all the risk, usability becomes polish instead of evidence that the bet may need reshaping.
+
+The useful surface is shared. Product can be wrong about value. Engineering can be wrong about complexity. Design can be wrong about usability. The point is not to catch each other out — it is to create a room where those possibilities can be said before the team has too much identity invested in the plan.
+
+You can feel why that small permission matters. In many teams, the first person to name risk feels like they are slowing everyone down. So they soften the concern, wait for a better moment, or mention it privately after the meeting. The concern survives, but it loses its chance to shape the work.
+
+I think of this as **Polite Surprise**: everyone had a concern early, but the concern was too socially inconvenient to become a decision. Later, when the risk appears, the team says, "We knew this might happen," which is true and useless.
+
+A risk that stays private is not team knowledge. It is a future surprise with better witnesses.
+
+## What the practice borrows
+
+[Shape Up](https://basecamp.com/shapeup/1.4-chapter-05) treats shaping as a way to remove rabbit holes before a team bets on the work. It finds holes large enough to derail the appetite and patch, cut, or mark them out of bounds.
+
+[Gary Klein's premortem](https://hbr.org/2007/09/performing-a-project-premortem) creates a safer way for people to say what worries them by asking the team to imagine the project has already failed and then name plausible reasons. It works because it changes the social posture: concern becomes contribution, not resistance.
+
+[Cynefin's safe-to-fail probes](https://thecynefin.co/safe-fail-probes/) are useful when the domain is complex and the team cannot analyze its way to the correct answer ahead of time. In those cases, the responsible move is not false confidence. It is small experiments with observable outcomes.
+
+And [Marty Cagan's writing at SVPG](https://www.svpg.com/four-big-risks/) keeps product discovery grounded in four risks: value, usability, feasibility, and viability. That frame matters because it prevents teams from treating engineering risk as the only real risk. A product can be feasible and still not worth building.
+
+Risk Sketch borrows from all of that, then stays deliberately smaller — a twenty-minute pause before the work becomes too solid to question gracefully.
+
+## The Risk Sketch
+
+The Risk Sketch is intentionally plain.
+
+Use it when a bet feels clear enough to pursue but not clear enough to trust.
+
+Give the group twenty minutes with Product, design, and engineering if the work crosses those surfaces. Keep it rough: no polished prose, no long background section, no scoring matrix.
+
+Start with these questions:
+
+```text
+What would make this fail?
+What do we know least?
+Where could engineering complexity hide?
+Where could product value be wrong?
+What assumption needs evidence first?
+What is safe to test before committing?
+```
+
+Then force the output into one small decision:
+
+```text
+Risk:
+Why it matters:
+Next move:
+Owner:
+Timebox:
+Decision trigger:
+```
+
+That second block is where the practice earns its place. Without it, the team has only created a cleaner list of worries.
+
+Risk Sketch is not finished when the risks are named. It is finished when one risk changes what the team does next.
+
+## The risk that needs evidence first
+
+The hardest part is choosing which risk deserves action.
+
+Most initiatives have more than one unknown, and a room full of careful people can generate risks faster than it can resolve them. That is where the practice can drift into anxious intelligence: the wall fills with concerns, and the team leaves heavier than it arrived.
+
+So the useful question is not "what could go wrong?" That opens the door. The better question comes after: **which assumption would most change our next move if it were false?**
+
+Sometimes that assumption is product value. A loud customer request may not be widespread enough. The next move may be five customer conversations, a fake-door test, or a narrower slice that reveals demand before the team builds the whole thing.
+
+Sometimes it is engineering complexity. The UI looks small, but the change touches permissions, billing, analytics, or a part of the system nobody has modified in a year. The next move may be a two-day spike, a migration sketch, or an early conversation with the person who knows the old system.
+
+Sometimes it is usability. The direction is sound and the system can support it, but the user has to understand a new mental model while already under pressure. The next move may be a prototype, a moderated test, or cutting the first version down to one clean interaction.
+
+One risk gets the first response. Not because the others do not matter, but because teams build trust by converting uncertainty into sequence.
+
+## What good output looks like
+
+A good Risk Sketch produces a next move, not a mood.
+
+The next move can be a test: learn whether the value exists before building the full product shape. It can be a spike: reduce engineering uncertainty enough to make the bet responsible. It can be a scope cut, a sequencing change, or explicit acceptance of risk: write down that the team sees the uncertainty, accepts the cost, and will continue anyway.
+
+That last one matters more than teams admit. Or maybe more than teams remember to say out loud.
+
+Not every risk deserves mitigation. Some risks are real and still worth carrying. The difference is whether the team is carrying them consciously. A visible accepted risk creates calmer delivery because no one has to act surprised when the known downside appears. It can become a [Decision Note](/blog/decision-notes-over-decision-theatre) later: what the team accepted, why it was reasonable, and when it should be revisited.
+
+Here is the shape of a useful output:
+
+```text
+Risk: We may not have reliable enough usage data to personalize the first-run flow.
+Why it matters: The proposed experience depends on knowing which workspace state a user is in.
+Next move: Spike the data paths and inspect real examples from five active accounts.
+Owner: Product + backend.
+Timebox: Two days.
+Decision trigger: If state is unreliable, ship one simpler onboarding path first.
+```
+
+Small. Specific. Actionable.
+
+The team does not need a risk register. It needs enough clarity to avoid building a plan on top of fog.
+
+## When risk becomes theatre
+
+The failure mode has a name: **Fear Inventory**.
+
+Fear Inventory happens when the team turns risk into a long list of everything that could go wrong, then treats the size of the list as proof of maturity. It feels rigorous because the conversation is serious. People are naming hard things. The room has gravity.
+
+But nothing changes.
+
+No test. No spike. No cut. No sequencing shift. No explicit acceptance. The team leaves with the same plan it entered with, plus a shadow version of the plan where everyone privately remembers the concern they raised.
+
+That is not risk work. It is anxiety with formatting.
+
+You can spot Fear Inventory by the absence of verbs. If the output is only "risk around data quality," "concern about adoption," or "possible complexity in permissions," the team has not decided anything. A useful output has motion in it: test, inspect, prototype, cut, defer, sequence, accept.
+
+The practice should reduce ambiguity, not decorate it.
+
+## How to keep it light
+
+Risk Sketch works because it is small enough to use before the work feels official.
+
+Use it too late and it becomes a complaint session. Use it too heavily and it becomes another template people fill out after the real thinking has already happened. The timing is part of the tool: after the team has a candidate bet, before it has committed the team to a delivery shape.
+
+Twenty minutes is usually enough: five to write risks silently, ten to cluster and discuss, five to choose one next move. If the conversation needs more than that, the signal is useful: the initiative may be less shaped than everyone hoped.
+
+Keep the room small, too. The people who understand value, usability, and feasibility need to be there. When the practice becomes a large meeting, the social cost of naming risk goes up.
+
+The artifact should live near the work: in the planning doc, the product brief, the pull request that starts the spike, or the note that frames the next customer conversation. Close enough that the team can find it when the risk either disappears or becomes real.
+
+<Callout variant="info">
+  This post is part of the series **[The Engineering Team Operating
+  Layer](/series/engineering-team-operating-layer)**, about small practices for better engineering
+  teams.
+</Callout>
+
+## Final thoughts
+
+Mature teams are not less uncertain. They are less surprised by the uncertainty they could have named earlier.
+
+That distinction changes the emotional texture of delivery. A risk named early can become a test, a spike, a smaller first version, or a conscious bet. A risk named late often becomes pressure. People tense up. The plan starts defending itself. Scope gets cut in ways that feel like loss instead of stewardship.
+
+The goal is not to make every initiative safe. That would be a strange, brittle ambition. The goal is to make the first dangerous assumption visible while the team can still choose its response with care.
+
+Before the next initiative hardens into tickets, give the unknowns twenty minutes in the room. Not to make the team more afraid. To give the work enough honesty that it can move without pretending.
