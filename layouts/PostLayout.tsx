@@ -321,7 +321,7 @@ export default function PostLayout({
                       </div>
                     </Link>
                   </div>
-                  <div className="not-prose rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 to-white p-6 shadow-sm dark:border-primary-500/30 dark:from-primary-900/20 dark:to-gray-900 sm:p-8">
+                  <div className="not-prose overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 to-white p-5 shadow-sm dark:border-primary-500/30 dark:from-primary-900/20 dark:to-gray-900 sm:p-8">
                     <div className="mb-6 text-center sm:text-left">
                       <div className="mb-3 flex items-center justify-center gap-2 sm:justify-start">
                         <Rss className="h-5 w-5 text-primary-500" />
@@ -334,16 +334,16 @@ export default function PostLayout({
                         soon as it's published — no account needed.
                       </p>
                     </div>
-                    <div className="flex flex-col gap-3 sm:flex-row">
-                      <div className="flex flex-1 items-center rounded-lg border border-gray-300 bg-white px-4 py-3 font-mono text-sm text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                    <div className="flex min-w-0 flex-col gap-3 sm:flex-row">
+                      <div className="flex min-w-0 flex-1 items-center break-all rounded-lg border border-gray-300 bg-white px-3 py-3 font-mono text-xs leading-relaxed text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 sm:px-4 sm:text-sm">
                         {`${siteMetadata.siteUrl}/feed.xml`}
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:shrink-0">
                         <button
                           onClick={handleCopyFeed}
                           aria-label={copiedFeed ? 'Feed URL copied' : 'Copy feed URL'}
                           title={copiedFeed ? 'Copied!' : 'Copy feed URL'}
-                          className={`inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
+                          className={`inline-flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 sm:w-auto sm:px-5 ${
                             copiedFeed
                               ? 'bg-emerald-500 text-white hover:bg-emerald-600'
                               : 'bg-primary-500 text-white hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-500'
@@ -352,12 +352,12 @@ export default function PostLayout({
                           {copiedFeed ? (
                             <>
                               <Check className="h-4 w-4" />
-                              <span>Copied!</span>
+                              <span className="whitespace-nowrap">Copied!</span>
                             </>
                           ) : (
                             <>
                               <Link2 className="h-4 w-4" />
-                              <span>Copy URL</span>
+                              <span className="whitespace-nowrap">Copy URL</span>
                             </>
                           )}
                         </button>
@@ -367,10 +367,10 @@ export default function PostLayout({
                           rel="noopener noreferrer"
                           aria-label="Open RSS feed"
                           title="Open RSS feed"
-                          className="inline-flex items-center justify-center gap-2 rounded-lg border border-primary-300 bg-white px-5 py-3 font-semibold text-primary-600 transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-primary-500/50 dark:bg-gray-800 dark:text-primary-400 dark:hover:bg-primary-900/20 dark:focus:ring-offset-gray-900"
+                          className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-primary-300 bg-white px-4 py-3 font-semibold text-primary-600 transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-primary-500/50 dark:bg-gray-800 dark:text-primary-400 dark:hover:bg-primary-900/20 dark:focus:ring-offset-gray-900 sm:w-auto sm:px-5"
                         >
                           <Rss className="h-4 w-4" />
-                          <span>Open feed</span>
+                          <span className="whitespace-nowrap">Open feed</span>
                         </a>
                       </div>
                     </div>
