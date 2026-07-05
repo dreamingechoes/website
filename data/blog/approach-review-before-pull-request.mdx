@@ -1,0 +1,200 @@
+---
+title: 'Approach Review Before the Pull Request Gets Expensive'
+date: '2026-07-06'
+draft: false
+tags: ['engineering-leadership', 'software-engineering', 'architecture', 'planning', 'delivery']
+summary: 'Approach Review helps engineering teams surface trade-offs before pull request review turns into late design debate, tense threads, and costly rework.'
+authors: ['default']
+series:
+  slug: 'engineering-team-operating-layer'
+  order: 4
+---
+
+The hardest pull requests often look reasonable at first.
+
+The diff is clean enough. Tests pass. The description explains the change. Someone has put real care into the work, and the reviewer opens the PR expecting to focus on correctness, edge cases, naming, maybe a missing test or two.
+
+Then the comments start drifting somewhere else.
+
+Why are we changing this service instead of that one? Should this behavior live behind a flag? Did Product expect this edge case? Are we comfortable with this migration path? Who owns the follow-up once the old flow and the new flow coexist?
+
+None of those are bad review questions. They are often the right questions. The problem is timing: the team is not really reviewing code anymore. It is reviewing the approach after several days have already been invested in it.
+
+## The late review tax
+
+A late approach disagreement carries more weight than an early one.
+
+By the time the pull request exists, someone has already made dozens of small decisions. They have named objects, followed seams in the codebase, chosen where state should live, absorbed edge cases, and built a mental model around the path they took. The work is no longer an idea. It has shape.
+
+That is why a comment like "Could we solve this closer to the API boundary?" can land harder than intended. Technically, it may be a design question. Emotionally, it can feel like a request to unmake the last few days.
+
+This is where review starts to fray. The author explains the approach. The reviewer explains the concern. A second reviewer joins with a different model. The thread starts carrying more weight than the code it is attached to, and nobody is quite sure whether they are debating correctness, ownership, architecture, or product behavior.
+
+The expensive part is not disagreement. It is discovering the disagreement after the implementation has started defending itself.
+
+[DORA's software delivery metrics](https://dora.dev/guides/dora-metrics/) are useful here as a lens, not as a ceremony. Lead time, deployment frequency, change fail rate, failed deployment recovery time, and deployment rework rate point at a broader truth: flow depends on where teams discover problems, not only on how fast they merge code.
+
+## Not every review belongs at the end
+
+Pull request review is excellent for local correctness, readability, maintainability, tests, security concerns, and small design choices that only become visible once code exists.
+
+It is weaker as the first place where a team discovers different theories about the work.
+
+That difference matters because a PR creates a strange social posture. The author is asking for review, but they are also showing completed work. The reviewer is invited to critique, but every large comment now carries the possibility of rework.
+
+You can see the shape of it in the comments:
+
+- "This feels like it should be owned by another service."
+- "I thought we agreed the first version would not cover this case."
+- "Can we step back and revisit the API shape?"
+- "This may need Product input before merging."
+
+Those comments are not wrong. They are misplaced energy. They belong earlier, while the approach is still soft enough to change without turning the review into negotiation.
+
+PR review is a poor substitute for approach review when the cost of changing direction has already climbed.
+
+## The Approach Review
+
+Use an Approach Review when the work is too meaningful to let the approach stay private, but not big enough to deserve a heavy process.
+
+The trigger is not size alone. It is the cost of discovering disagreement late.
+
+If the change touches ownership boundaries, user-visible behavior, data migration, security posture, billing, permissions, performance-sensitive paths, or a part of the system few people understand, pause before building the whole thing. If the change is small, reversible, and local, skip the review and write the code.
+
+The artifact can be this plain:
+
+```text
+Problem:
+Proposed approach:
+Main trade-off:
+Files/services affected:
+Known edge cases:
+What I am intentionally not solving:
+Where I want feedback:
+```
+
+That is the whole thing.
+
+**Problem** names the pain or requirement without hiding inside the solution. If the problem cannot be written clearly, the approach is probably carrying fog from earlier in the work. A [One-Page Bet Map](/blog/the-small-map-before-the-roadmap) may be the better artifact before this one.
+
+**Proposed approach** describes the path in normal language. Not every class, function, or migration detail. The shape: where behavior lives, how data moves, what boundary changes, and how the first version remains understandable.
+
+**Main trade-off** forces honesty. Every approach gives something up: speed, purity, flexibility, consistency, performance, simplicity, future optionality. Writing the trade-off down is what keeps the review from pretending there is a perfect path waiting to be discovered.
+
+**Files/services affected** gives reviewers enough terrain to decide whether they need to look closely. It also exposes ownership questions early.
+
+**Known edge cases** protects the PR from surprise-shaped comments later. The point is not to solve every edge case upfront, but to show which ones the author already sees.
+
+**What I am intentionally not solving** is the pressure valve. It tells reviewers where not to expand the work unless they believe the boundary is genuinely unsafe.
+
+**Where I want feedback** turns review from a vague invitation into a targeted one. "Does this boundary feel right?" is easier to answer than "thoughts?"
+
+The practice sits before heavier decision records. An [Architecture Decision Record](https://github.com/architecture-decision-record/architecture-decision-record) records an important decision with its context and consequences. A [Decision Note](/blog/decision-notes-over-decision-theatre) preserves smaller reasoning that would be expensive to forget. An Approach Review helps avoid making that decision privately by accident.
+
+## What good output looks like
+
+A good Approach Review does not produce approval. It produces a clearer next move.
+
+Here is a small example:
+
+```text
+Problem:
+Users can invite teammates before their workspace has completed setup, which creates inconsistent first-run states.
+
+Proposed approach:
+Block invites until setup is complete at the workspace policy layer, then surface a product message in the invite flow.
+
+Main trade-off:
+This keeps the rule centralized, but the UI will need to handle a policy response it does not currently show.
+
+Files/services affected:
+Workspace policy service, invite flow, setup completion event, invite analytics.
+
+Known edge cases:
+Existing pending invites, admins who complete setup in another tab, workspaces imported by support.
+
+What I am intentionally not solving:
+Redesigning the full onboarding flow or changing setup completion criteria.
+
+Where I want feedback:
+Does the policy layer feel like the right ownership boundary, or should this stay inside the invite domain?
+```
+
+That note is not polished. It does not need to be.
+
+What matters is that it lets a reviewer respond before the code hardens around the wrong boundary. Someone might say, "Policy layer is right, but analytics will need a new event." Someone else might say, "This should not block support-imported workspaces."
+
+Small comments. Early comments. Comments that change the next few hours instead of reopening the last few days.
+
+An Approach Review is working when the feedback arrives while the author still feels curious instead of defensive.
+
+## The review needs the right people
+
+The smallest useful review group is usually better than the largest available one. For a local change, one engineer who understands the area may be enough. For a cross-boundary change, include someone who owns the adjacent system. For user-visible behavior, bring Product or Design into the async note. For reliability-sensitive work, include the person who will carry the consequences.
+
+[Team Topologies' interaction modes](https://teamtopologies.com/key-concepts-content/team-interaction-modeling-with-team-topologies) are useful as a quiet check here: does this need collaboration, a clear service boundary, or facilitation from people with specialist knowledge? You do not need to import the whole model into the note. You only need enough context to avoid asking one reviewer to load the entire system at the end.
+
+When that interaction is unnamed, the PR becomes the place where the relationship gets negotiated. That is a heavy job for a comment box.
+
+Name the review surface early:
+
+- technical approach
+- ownership boundary
+- product behavior
+- migration path
+- operational risk
+- edge-case policy
+
+One review does not need all six. It is usually better when it does not.
+
+## When to skip it
+
+The fastest way to ruin a lightweight practice is applying it everywhere.
+
+Do not run an Approach Review for every pull request. Do not ask for one because a change has many lines. Do not turn it into a required section in every ticket. When every change needs a pre-review, the signal disappears.
+
+Skip it when the change is local, reversible, obvious, or already constrained by a trusted decision. Skip it when the PR itself is the right exploration surface, such as a small refactor where the approach is easier to judge in code than in prose.
+
+Use it when disagreement would be expensive if discovered late.
+
+Approach Review is not there to slow down delivery. It is there to protect delivery from avoidable rework, tense review threads, and approach debates that arrive after the author has already paid the implementation cost.
+
+## When approach review becomes theatre
+
+The failure mode is **Pre-Approval Theatre**.
+
+Pre-Approval Theatre happens when the team turns a small review into an approval gate. The note becomes a performance of certainty. Reviewers start acting like a committee. The conversation moves from "is this a reasonable path?" to "has this been blessed?"
+
+That is not maturity. It is bureaucracy in a smaller costume.
+
+You can spot the drift by the verbs. If the practice starts requiring sign-off, blocking, escalation, formal approval, or consensus from people who will not carry the work, it has become too heavy.
+
+Keep the standard lower and sharper:
+
+- Is the problem clear enough?
+- Is the approach understandable?
+- Is the main trade-off named?
+- Is the feedback request specific?
+- Did the review change the next move, reduce uncertainty, or confirm the path?
+
+If yes, move.
+
+The goal is not to make every approach safe. It is to make expensive disagreement visible early enough to handle well.
+
+<Callout variant="info">
+  This post is part of the series **[The Engineering Team Operating
+  Layer](/series/engineering-team-operating-layer)**, about small practices for better engineering
+  teams.
+</Callout>
+
+## Final thoughts
+
+Code review should not be the first place a team discovers the shape of the work.
+
+Sometimes the right thing to review is the diff. Sometimes it is the test. Sometimes it is the trade-off underneath both — the boundary, owner, sequence, or product behavior that made the diff look inevitable.
+
+When that choice is reviewed too late, everyone pays more: rework for the author, careful comments for the reviewer, and brittle threads where technical judgment and social pressure get mixed together.
+
+A few lines before the work hardens can save days of unpicking later. One clear place to say: here is the path I am about to take, here is the trade-off I see, and here is where I want your eyes.
+
+Not every review belongs at the end.
