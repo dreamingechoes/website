@@ -98,26 +98,13 @@ A good Approach Review does not produce approval. It produces a clearer next mov
 Here is a small example:
 
 ```text
-Problem:
-Users can invite teammates before their workspace has completed setup, which creates inconsistent first-run states.
-
-Proposed approach:
-Block invites until setup is complete at the workspace policy layer, then surface a product message in the invite flow.
-
-Main trade-off:
-This keeps the rule centralized, but the UI will need to handle a policy response it does not currently show.
-
-Files/services affected:
-Workspace policy service, invite flow, setup completion event, invite analytics.
-
-Known edge cases:
-Existing pending invites, admins who complete setup in another tab, workspaces imported by support.
-
-What I am intentionally not solving:
-Redesigning the full onboarding flow or changing setup completion criteria.
-
-Where I want feedback:
-Does the policy layer feel like the right ownership boundary, or should this stay inside the invite domain?
+Problem: Users can invite teammates before their workspace has completed setup, which creates inconsistent first-run states.
+Proposed approach: Block invites until setup is complete at the workspace policy layer, then surface a product message in the invite flow.
+Main trade-off: This keeps the rule centralized, but the UI will need to handle a policy response it does not currently show.
+Files/services affected: Workspace policy service, invite flow, setup completion event, invite analytics.
+Known edge cases: Existing pending invites, admins who complete setup in another tab, workspaces imported by support.
+What I am intentionally not solving: Redesigning the full onboarding flow or changing setup completion criteria.
+Where I want feedback: Does the policy layer feel like the right ownership boundary, or should this stay inside the invite domain?
 ```
 
 That note is not polished. It does not need to be.
