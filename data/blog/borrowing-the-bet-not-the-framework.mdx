@@ -1,0 +1,140 @@
+---
+title: 'Borrowing the Question, Not the Framework'
+date: '2026-07-27'
+draft: false
+tags: ['engineering-leadership', 'software-engineering', 'ai', 'delivery', 'team-culture']
+summary: 'AI did not make pre-AI frameworks obsolete. It changed which parts of them still earn their place. This is what happened when our team evaluated Shape Up one ritual at a time, asking what question each practice answers and which decision it still protects.'
+authors: ['default']
+---
+
+My team recently finished evaluating what adopting Shape Up might mean for the way we work.
+
+We had been running two-week sprints for a while: the usual rituals, a board that moved, and a rhythm that mostly worked. Rather than adopting a new methodology as a package, we mapped what Shape Up asks teams to do against what was already happening in ours. Bets, appetite, cool-down, the pitch, the hill chart. One column for the method, one column for us.
+
+The outcome was less dramatic than an adoption story usually sounds. Roughly eighty percent of it was already present in our process, often under different names. We aligned some of the vocabulary, made a few implicit habits more visible, and introduced the remaining twenty percent as changes we can test rather than rules we now have to follow.
+
+Halfway through that exercise, the room went a little quiet.
+
+Part of that was recognition. What initially looked like a new way of working was, in many places, a clearer description of how we already worked. But the other part was harder to put a finger on, and it is the thing I kept coming back to after we finished.
+
+Shape Up was published in 2019, and it was designed for a world where certain things were reliably slow and uncertain. Exploring an implementation. Standing up a prototype. Pulling and analyzing the data behind a claim. Chasing down a technical unknown. Drafting a proposal, or the first working version of almost anything. Every one of those has become dramatically faster and cheaper to explore for us in the last couple of years, and a fair number of the rituals we were evaluating exist precisely because those things used to be expensive.
+
+That does not mean Shape Up is outdated. The method did not suddenly stop being useful. But some of the conditions that justified specific parts of it have shifted, and a simple comparison between what the framework prescribes and what a team already does will not reveal that.
+
+That was the more interesting outcome of the exercise. We did not simply decide which parts of Shape Up to adopt. We ended up asking a more useful question: which rituals still answer an expensive question for us today, and which ones were built around constraints that no longer exist in quite the same form?
+
+## The rename that felt like progress
+
+The first lesson was about vocabulary.
+
+A framework arrives packaged with words, and the words do something subtle: they name things that were previously tacit. The way we already decided what to work on got a word — _bet_. The instinct we already had about how much a problem was worth got a word — _appetite_. That part is genuinely useful. A team that can point at a habit can teach it to whoever joins next, argue about whether it's working, and notice when it quietly stops happening. Shared vocabulary is real infrastructure, and we already had our own version of it: [weekly bets](/blog/weekly-bets-vs-backlog-treadmills) and [the small map before the roadmap](/blog/the-small-map-before-the-roadmap) were in how we talked long before any book handed us the words.
+
+But naming a behavior and changing a behavior are not the same move, and the lift you feel in the first week comes almost entirely from the naming. The distinction that matters is narrower than "useful or not":
+
+- A new **name** gives you clarity about something you were already doing.
+- A new **question** changes how the team actually works.
+- Adopting the vocabulary is not the same as transforming the process.
+
+The first two are both worth having, for different reasons. A team that confuses them will reorganize around a glossary and wonder why nothing downstream moved.
+
+## Framework Cosplay
+
+There's a failure mode waiting on the other side of that confusion, and you fall into it with the best intentions.
+
+Call it **Framework Cosplay**: a team puts on the full costume of a method — every ritual, every ceremony, every artifact — out of fidelity to the framework rather than evidence that any of it solves a problem the team actually has. The cool-down happens because Shape Up has a cool-down. The estimation ceremony continues because that's how the ceremony goes.
+
+You've sat in the meeting where this happens. The planning-poker cards come out, two people argue the difference between a five and an eight, a number lands in a field, and nobody opens that field again. The estimate isn't informing a decision. It's being produced because producing it is the ritual.
+
+The tell is in the verbs. _The framework says we should…_ _The methodology recommends…_ The justification points outward, at the manual, instead of inward, at the team — and once justified that way, a practice becomes very hard to remove, because removing it reads as disloyalty rather than judgment.
+
+The healthy version reverses the direction: for each ritual, what problem of _ours_ does this address, and what decision does it help us make? A practice that can point at both has earned its place. One that can only point at the book hasn't, and dropping it costs nothing except the costume.
+
+## The part that changed the question
+
+So if most of it was a rename, what was the rest? The clearest example is appetite — not because it answers an old question better, but because it asks a different one.
+
+A two-week sprint often organizes the conversation around a fixed window: _what can we complete in this amount of time?_ Appetite starts somewhere else: _how much is this problem worth to us?_ You decide what you're willing to spend based on how much the problem matters, and let that constrain the solution — rather than filling the next window with something that deserved two days of thought and a decision.
+
+It would be easy to file that as estimation with different units, and that reading misses the point. The value isn't a more accurate number. It's attaching the investment to the value of the problem _before_ the scope of the solution starts growing on its own, which is the direction scope always grows when nobody has said out loud what the thing is worth.
+
+That gave us the first half of a test: a piece of a framework earns its place when it changes the question the team asks, not just the word the team uses. It turned out we needed a second half.
+
+## What got cheap, and what didn't
+
+Because some of these rituals weren't competing with our existing habits. They were competing with conditions that no longer hold.
+
+A lot of the most familiar rituals in software — story-point estimation, timeboxed research spikes, a large share of planning ceremony — were built to manage one specific kind of uncertainty: the cost and unpredictability of _doing the work_. Not just writing the code: pulling the numbers to size a problem, spiking an unknown, drafting a first design, checking whether a metric moves the way someone claimed. All of it carried real time and real doubt, and the ceremony was scaffolding built around that doubt.
+
+Give a team a decent AI harness and a good chunk of that cost drops. Code production, initial exploration, research, prototypes, preliminary analysis, first drafts — the two-day spike lands in an afternoon, the dashboard someone had to build before a question could be answered arrives mid-conversation. Not perfectly, and not without review, but enough that the ritual built around the old cost starts to look oversized.
+
+What didn't get cheaper is nearly everything around producing the work:
+
+- deciding what deserves to be built;
+- resolving product ambiguity and validating the result;
+- coordinating ownership, dependencies, and rollout;
+- building trust and alignment.
+
+That's the gap I've written about as [the space AI compresses and the space it doesn't](/blog/ai-shrinks-cycle-time-humans-dont), and it's the second half of the test. A ritual on the production side may now cost more than the information it produces is worth. A ritual on the human side is, if anything, more valuable than it was — because when building the wrong thing also becomes much faster, deciding what to build is where the leverage goes.
+
+I want to resist the overreach, though, because I've watched it ruin otherwise good arguments. AI has not eliminated uncertainty, and estimation is not dead. Plenty of teams have real forecasting obligations, external commitments, or coordination problems where a shared sizing exercise is the cheapest way to surface disagreement. The narrower claim is this: on some work, in some teams, a full estimation process can be replaced by a smaller conversation about risk, uncertainty, or confidence, when that conversation is already enough to make the decision the ceremony existed to inform. The question isn't whether estimation is valid. It's whether the ceremony is still proportionate to what it tells you.
+
+## Four questions, four outcomes
+
+Put both halves together and you get something you can run, ritual by ritual, against any framework:
+
+1. What question is this ritual trying to answer?
+2. Is that question still hard, expensive, or relevant for _this_ team?
+3. Are we already answering it some other way?
+4. Does the information it produces actually change a decision?
+
+The wrong way to open the discussion is _should we adopt Shape Up?_ That invites a yes or no answered on faith, a vote on a brand. Going ritual by ritual is the version that produces something you can defend six months later.
+
+Here's what a few of ours looked like:
+
+```text
+Ritual:            Story-point estimation
+Answers:           How much effort and uncertainty does this work contain?
+Still expensive?   Less than it was — early exploration now reduces some of it.
+Changes a call?    Rarely, for our work. The number lands and nobody reopens it.
+Outcome:           Shrink — swap the ceremony for a short risk-and-confidence check.
+
+Ritual:            The pitch — writing up a problem before committing to it
+Answers:           Is this framed well enough to be worth a bet?
+Still expensive?   Yes. Framing is human work and it stayed human work.
+Changes a call?    Yes — but we already do this as a one-page bet map.
+Outcome:           Map — same question, our artifact, no process transformation.
+
+Ritual:            Appetite
+Answers:           How much is this problem worth to us?
+Still expensive?   Yes — and cheap execution made it sharper, not cheaper.
+Changes a call?    Yes. It sets the ceiling before scope starts drifting.
+Outcome:           Adopt.
+```
+
+Four outcomes fall out of that, and they're more honest than a yes or no:
+
+**Map**: we already answer this question through an existing practice. Connect the two concepts so people can read the book and recognize themselves in it, but don't pretend we transformed anything.
+
+**Adopt**: it introduces a question or behavior we weren't handling well. Take it, and be able to say which problem it solves.
+
+**Shrink**: the question still matters, but it no longer needs the full ceremony. Keep the smallest version that still informs the decision.
+
+**Retire**: it no longer produces information that changes a decision, or it answers a problem we can now solve more directly. Let it go, even if the framework insists.
+
+None of those verdicts are universal. They're ours, and the same three rituals could land differently in a team with a different risk profile, different stakeholders, or a different relationship to forecasting. The four questions transfer. The answers don't.
+
+## Borrowing the question, not the identity
+
+The mistake underneath most of this is treating a framework as a contract — an all-or-nothing commitment where taking one piece obligates you to the whole. Treat it as a menu instead. A team that adopts appetite but skips the cool-down because the cool-down doesn't fit its release rhythm isn't doing Shape Up badly. It's doing the hard part well: keeping the pieces that change a question it cares about, shrinking the ones that got oversized, and owing no apology to the book for the difference.
+
+Which reframes what "adopting" a method even means. We took a few questions that Shape Up happens to phrase unusually well and put them to work in a process that stays ours. The name of the framework is a loan, not an identity — and the moment it becomes an identity, every ritual inside it stops being reviewable.
+
+## Final thoughts
+
+Finishing the exercise didn't turn us into a Shape Up team. It gave us a clearer view of the process we already had, a more consistent vocabulary for parts of it, and a short list of changes worth testing.
+
+It also left us with a better question to ask of any methodology. A framework isn't relevant or obsolete as a block. It's a bundle of practices, each built on assumptions about what is expensive, slow, or uncertain. AI has changed some of those assumptions, mostly the ones about producing a first version of something. It has changed far less about deciding what deserves to be built, resolving ambiguity, validating outcomes, and getting a group of people to genuinely agree — and sorting one from the other, practice by practice, is most of the work.
+
+You don't owe a methodology your loyalty. You owe your team a process that still makes sense under the conditions it operates in today.
+
+So: which of your team's rituals would survive the question _what decision does this help us make now?_
