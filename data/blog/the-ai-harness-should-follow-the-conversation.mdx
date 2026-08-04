@@ -1,0 +1,226 @@
+---
+title: 'The AI Harness Should Follow the Conversation'
+date: '2026-08-04'
+draft: false
+tags: ['engineering-leadership', 'ai', 'delivery', 'team-culture', 'developer-tools']
+summary: 'Building an AI harness for my team taught me that the tooling was only part of the work. The more important outcome was making our working agreements visible, discussable, and executable.'
+authors: ['default']
+---
+
+Over the last few weeks, I have been building an AI harness for my team.
+
+It covers most of the path from an early product idea to what happens after that idea reaches real users: gathering context and metrics, defining the problem, planning the work, implementing it, running quality checks, reviewing the code, preparing the rollout, measuring the impact, and capturing what we learned seven or thirty days later.
+
+The harness brings together agents, instructions, documentation, checks, human gates, and evaluations around that flow. It is probably the most complete AI-assisted system I have built so far.
+
+The original goal was practical. I wanted us to delegate more of the work that AI has made cheaper in time and attention: gathering information from different sources, extracting metrics, preparing a first analysis, drafting plans, implementing well-bounded changes, running repeatable checks, or assembling the context needed for a review or rollout.
+
+Not because those activities are unimportant, but because much of their cost comes from repetition, volume, and context gathering rather than from the judgment involved.
+
+The time recovered could then be spent on the parts of engineering that have not become cheaper: understanding users, talking to stakeholders, challenging assumptions, finding valuable problems, proposing ideas, navigating trade-offs, and helping shape the product before anyone starts building.
+
+That was the intention behind the harness. But while building it, I discovered that **the most useful outcome was not the automation itself**.
+
+It was being forced to describe, with much more precision than usual, how we believe work should move through the team.
+
+## The decisions hiding inside the process
+
+I first noticed this while documenting the research phase.
+
+The goal sounded simple: collect enough metrics and context to understand whether a problem is worth solving before anyone starts implementing a solution. It is a familiar part of product development, and one that engineers and product teams perform all the time.
+
+However, describing it precisely enough for an AI agent to execute exposed a surprising number of unanswered questions.
+
+_What counts as enough evidence? What should happen when a signal is weak? How far should the agent investigate an unknown before asking someone for help? Which conclusions may it infer, and which ones require an explicit product decision?_
+
+When the process lives mainly in people's heads, many of those questions can remain unanswered. The team relies on experience, context, and an informal understanding of what _“it depends”_ means in each situation.
+
+An AI system cannot work from the same shared intuition. It needs boundaries, sources of truth, instructions for handling uncertainty, and a clear understanding of when to continue and when to stop.
+
+Every missing fact creates a design decision: should the harness infer a plausible answer, skip the step, or ask someone?
+
+The answer we kept returning to was that **uncertainty should become a question, not a confident-looking assumption**. A plausible guess can make a workflow appear efficient while quietly moving it away from reality.
+
+Writing those rules means making decisions about how the team should work.
+
+That was the first important learning: an AI harness is not only tooling around a model. It is also a version of the team's working agreements made executable.
+
+## A system around the model
+
+A better prompt can improve an individual interaction, but it does not necessarily create a reliable way of working.
+
+Without a shared system, the quality of AI-assisted work still depends heavily on who is driving. One person remembers to gather the relevant metrics while another starts from the implementation. One validates assumptions while another accepts the first reasonable answer. Reviews differ, rollout plans vary, and the learnings after release remain in someone's notes or disappear entirely.
+
+The model may be the same, but **the surrounding process is not**.
+
+The harness was my attempt to make that process more consistent: not to force every initiative to produce the same answer, but to ensure that it passes through the same important questions.
+
+The content still needs to adapt to the work. A small internal improvement should not produce the same artifacts as a major product initiative. Some steps may genuinely be unnecessary. But when that happens, the reason should be explicit rather than the step disappearing silently.
+
+Consistency should apply to the questions, boundaries, and quality expectations, not to the answers themselves.
+
+The goal is not to remove judgment from the process. It is to prevent repetitive work and missing context from consuming the attention that judgment requires.
+
+## A proposal can start with one person, but it cannot end there
+
+I built the initial proof of concept largely on my own.
+
+That was useful. A working proposal is easier to evaluate than an abstract description, and I wanted to understand what was technically possible before asking the team to spend time discussing it.
+
+It also allowed me to explore the full flow and see whether the harness could support research, definition, implementation, rollout, and learning rather than becoming another isolated coding assistant.
+
+The risk appeared later.
+
+Once a prototype works, it becomes persuasive. People can see the value of the overall idea, but they cannot necessarily see every assumption encoded inside it: where the process stops, what may be skipped, what counts as complete, how uncertainty is handled, or which decisions remain explicitly human.
+
+Around the same time, our team was [reviewing a new methodology one practice at a time to adopt it](/blog/borrowing-the-question-not-the-framework). Rather than adopting the framework as a package, we discussed the question behind each ritual, whether that question was still relevant to us, and whether the information it produced would actually change a decision.
+
+We eventually concluded that we were already doing much of what the methodology proposed. The useful part was not introducing an entirely new way of working, but making our existing practices more explicit and identifying the places where our process still had gaps.
+
+Those conversations changed the direction of the harness.
+
+Instead of completing my original version and asking the team to adapt to it, I began reconciling it with what we had agreed together. I continued writing the initial proposals, but the decisions underneath them increasingly became team decisions.
+
+Some rules that had seemed obvious while I was writing them became much less obvious as soon as somebody else had to imagine working inside them. Those were often the most useful conversations.
+
+A whole team does not need to collaboratively write every instruction, check, or workflow definition. Someone still has to create the first version, connect the pieces, and turn the ideas into something concrete enough to evaluate.
+
+But while the implementation can have a clear owner, the working agreements it represents need to remain open to discussion.
+
+**The harness should adapt to the team, not the team to the harness.**
+
+## Defaults are part of the design
+
+Every automated workflow carries opinions, even when they are presented as simple defaults.
+
+Running a review before opening a pull request places friction at a different point from reviewing it afterwards. Allowing a step to be marked as _not applicable_, but never silently skipped, says something about accountability. Stopping when information is missing instead of generating a plausible answer defines how much uncertainty the team is willing to accept.
+
+Deciding that outward-facing communication should remain a draft, that a rollout cannot advance without explicit ownership, or that the work is not complete until its impact has been reviewed are not technical details. They are statements about how the team wants to operate.
+
+None of these decisions looks especially significant in isolation. Together, they become the process people follow.
+
+This is why collaboration around the harness is not just a way to improve adoption. It is part of designing the system responsibly.
+
+One person can propose and implement the process, but the people who will operate inside it need to be able to challenge its assumptions.
+
+The most valuable changes were often not technical. They came from someone asking _why a gate was optional, why a step happened at that point, what evidence was necessary, or what the harness should do when reality did not match the expected path_.
+
+Those conversations made the harness better, but they also made our understanding of the work clearer.
+
+## Where the engineer begins
+
+One of the most important design questions became: _Where should the harness stop and wait for an engineer?_
+
+At first, I approached this mainly as a question of control. Which decisions should never be delegated? Where do we need explicit approval? Which actions are too consequential for an AI system to take on its own?
+
+Those questions still matter, but over time I started to see the boundary differently.
+
+The places where the harness needs to stop are not simply the weaknesses of the system. They are often the points where **the most valuable engineering work begins**.
+
+An AI system can gather large amounts of context, compare metrics, trace behaviour across repositories, summarize previous decisions, and produce a plausible recommendation. What it cannot do is fully understand why one stakeholder sees the problem differently from another, which constraint has not been written down, what a customer is struggling to express, or whether solving the visible request would address the real need underneath it.
+
+More data does not remove the need for those conversations.
+
+A metric can show that something is happening, but not always why it matters. A support ticket can describe a problem, but not how representative it is. A stakeholder can request a feature, but understanding the desired outcome may require challenging the request, speaking to users, involving another team, or reframing the problem entirely.
+
+That is where I want engineers to spend more of their time.
+
+The harness can arrive at those moments with the repetitive work already done. It can collect the available evidence, identify gaps, surface contradictions, and prepare the questions that still need answers. But the engineer has to leave the tool, talk to people, understand the context, and bring that knowledge back into the process.
+
+Seen this way, a human gate is not merely an approval step. It is a transition from **information processing to product judgment**.
+
+Before committing to a problem, somebody needs to understand whether it is worth solving and for whom. Before accepting a scope, somebody needs to explore the trade-offs with product, design, and the teams affected by it. Before advancing a rollout, somebody needs to interpret the signals in the context of real users. After release, somebody needs to decide what the results mean and whether they change what the team should do next.
+
+The harness should stop at those points not because the work cannot continue technically, but because continuing without those conversations would produce _a polished answer to an incomplete question_.
+
+The useful question is therefore not only what the AI is capable of doing.
+
+It is where an engineer can add understanding that does not exist in the available data.
+
+## Delegating volume to create room for product work
+
+The goal of this work was never simply to produce more code.
+
+Producing a first version of code is becoming cheaper. So is gathering information from several systems, extracting metrics, preparing documentation, drafting a rollout plan, reviewing predictable patterns, or tracing an unknown across multiple repositories.
+
+A well-designed harness can take on much of that work. It can gather evidence before a conversation, prepare the first structured version of an idea, implement well-bounded changes, run repeatable checks, and return to a person when additional context or judgment is required.
+
+But the value does not come from replacing the engineer at the centre of the process. It comes from **changing what sits at the centre of the engineer's day**.
+
+Instead of spending hours assembling information, the engineer can use that information to have a better conversation. Instead of starting with an empty document, they can challenge a first proposal. Instead of manually reconstructing what happened after a release, they can focus on interpreting the result and deciding what the team should learn from it.
+
+This is the shift I want the harness to support: engineers spending less time producing the inputs to product decisions and more time participating in those decisions.
+
+That means talking to stakeholders, investigating the problems users are experiencing, understanding the constraints of other teams, questioning whether an idea is worth pursuing, proposing alternatives, and helping define what meaningful impact would look like before implementation begins.
+
+It means becoming more involved not only in _how_ something is built, but in _why it should exist, whose problem it solves, which trade-offs are acceptable, and what evidence should change our direction_.
+
+That is [the engineering work that leaves no commit](/blog/engineering-value-beyond-code), and its importance grows as producing code, documentation, and analysis becomes cheaper.
+
+AI can accelerate execution, but it cannot manufacture the shared understanding on which good product decisions depend. That understanding still comes from engineers engaging with users, stakeholders, and one another.
+
+The goal is therefore not merely a faster engineering team. It is a team whose engineers have more room to exercise product judgment because the harness carries more of the work around those decisions.
+
+## Protecting the work that loses urgency
+
+One of the parts of the harness I care about most happens after a feature has been released.
+
+At the end of the pilot, after seven days, and again after thirty days, the flow returns to the metrics the work was expected to influence. It compares the outcome with the original assumptions and prepares the context for a decision: keep the feature, iterate on it, or reconsider it.
+
+Most teams agree that this is important. Few do it consistently.
+
+The reason is usually not a lack of care. Once the feature has shipped, the natural urgency disappears. There is no deployment waiting, no pull request blocking someone, and no immediate problem demanding attention. By the time the thirty-day mark arrives, the next piece of work is already louder.
+
+As I wrote in [The Work Is Not Done When It Ships](/blog/shipping-debrief-work-not-done), shipping creates an opportunity to learn, but that learning is easily lost unless the team deliberately protects it.
+
+This is a good example of what the harness can contribute.
+
+The system can return to the original hypothesis, retrieve the relevant information, compare the expected and observed signals, and prepare the analysis without waiting for someone to remember. A person still interprets the evidence and makes the product decision, but the repetitive work required to reach that point no longer competes for the same attention.
+
+In this case, automation is valuable not because it makes an urgent step faster, but because it helps preserve **a valuable step that has no natural urgency at all**.
+
+It also closes the loop between delivery and product learning. The information gathered after release does not remain an isolated report; it can inform the next idea, scope adjustment, or decision about where the team should invest.
+
+That is the kind of continuity a prompt alone cannot provide. It requires a system that remembers what the work was intended to achieve and brings that context back when it becomes relevant.
+
+## Does every team need a harness?
+
+Probably not one as extensive as this.
+
+What we built reflects our product, tools, repositories, and existing ways of working. Much of it would not transfer directly to another team, and attempting to reproduce the complete system without a clear need could easily become an expensive tooling project.
+
+But I do think most teams would benefit from attempting a smaller version of the exercise.
+
+Choose one part of your workflow: researching an idea, defining a problem, reviewing an implementation approach, preparing a rollout, or checking the impact a month after launch.
+
+Write it down with enough precision that an AI system could theoretically execute it. Include the information it needs, the sources it should trust, what it may decide, what it must never assume, and where it should stop for a person.
+
+Then take that description to the people who perform the work and ask them to challenge it.
+
+The conversation will quickly expose where the team has a real agreement and where it only has a collection of individual habits. It will also show which parts of the process are genuinely valuable and which survive mainly because nobody has questioned them recently.
+
+A few questions were particularly useful for us:
+
+- Which parts of this process are volume, and which require judgment?
+- Where should the harness stop for an engineer, and what understanding should they add?
+- When information is missing, should the harness infer an answer or ask a question?
+- Which steps must remain consistent, and where should the outcome adapt to the initiative?
+- What important work currently happens only when somebody remembers?
+
+The automation can come later. The first benefit is **making the process visible enough to discuss**.
+
+Building a harness is partly a technical exercise, but it is also an exercise in organizational clarity. The quality of the result depends less on how many agents or instructions it contains than on whether the team understands and trusts the decisions encoded inside it.
+
+## Final thoughts
+
+After three weeks, I am pleased with what the harness can do. But I am more interested in what building it helped us clarify.
+
+It gave us a concrete object around which to discuss how we want product and engineering work to move through the team. It exposed assumptions that had previously remained implicit and helped us identify which activities could be delegated without delegating the responsibility behind them.
+
+The purpose is not to remove engineers from the process or reduce engineering to supervising generated code. It is to move repetitive and context-heavy work away from the centre of their day so that they can participate more deeply in understanding users, shaping products, and making better decisions.
+
+The result is not a fixed methodology that the team must follow. It is a version of our current understanding, implemented in a form that can be reviewed, challenged, and changed as that understanding evolves.
+
+That is the property I would protect in any AI-assisted workflow.
+
+**Use the harness to carry the volume. Give engineers the space to build understanding.** And make sure the system remains the consequence of the team's conversations, rather than a replacement for them.
