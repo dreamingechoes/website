@@ -23,6 +23,7 @@ import PostTableOfContents from '@/components/PostTableOfContents'
 import SectionContainer from '@/components/SectionContainer'
 import { SeriesContext } from '@/lib/series'
 import Tag from '@/components/Tag'
+import TextSelectionActions from '@/components/TextSelectionActions'
 import TextToSpeech from '@/components/TextToSpeech'
 import { Toc } from 'types/Toc'
 import XLogo from '@/components/icons/XLogo'
@@ -124,6 +125,7 @@ export default function PostLayout({
   }
 
   const scrollToTop = () => {
+    window.dispatchEvent(new Event('tts-user-scroll'))
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -264,7 +266,11 @@ export default function PostLayout({
                     <TextToSpeech />
                     <PostTableOfContents toc={toc} />
                   </div>
-                  <div className="prose dark:prose-dark max-w-none">{children}</div>
+                  <TextSelectionActions postUrl={postUrl}>
+                    <div className="prose max-w-none selection:bg-primary-200 selection:text-gray-900 dark:prose-dark dark:selection:bg-primary-500 dark:selection:text-white">
+                      {children}
+                    </div>
+                  </TextSelectionActions>
                 </div>
                 {/* Engagement Section */}
                 <div className="pt-4 pb-4">

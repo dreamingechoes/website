@@ -45,12 +45,14 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
   const [totalTime, setTotalTime] = useState(0)
   const [canHighlight, setCanHighlight] = useState(false)
   const [following, setFollowing] = useState(true)
+  const [playerInView, setPlayerInView] = useState(true)
 
   const queueRef = useRef<SpeechSynthesisUtterance[]>([])
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const chunkTimesRef = useRef<number[]>([])
   const voiceSelectorRef = useRef<HTMLDivElement>(null)
   const progressBarRef = useRef<HTMLDivElement>(null)
+  const playerRef = useRef<HTMLDivElement>(null)
 
   const indexRef = useRef<ContentIndex | null>(null)
   const chunksRef = useRef<SpeechChunk[]>([])
@@ -65,6 +67,19 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     setSupported(typeof window !== 'undefined' && 'speechSynthesis' in window)
     setCanHighlight(highlightsSupported())
   }, [])
+
+  useEffect(() => {
+    const player = playerRef.current
+    if (!supported || !player || typeof IntersectionObserver === 'undefined') return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setPlayerInView(entry.intersectionRatio >= 0.5),
+      { threshold: [0, 0.5] }
+    )
+    observer.observe(player)
+
+    return () => observer.disconnect()
+  }, [supported])
 
   useEffect(() => {
     const loadVoices = () => {
@@ -145,6 +160,12 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
   useEffect(() => {
     const surrender = () => setFollowing(false)
     const onKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.target instanceof Element &&
+        event.target.closest('button, input, select, textarea, [role="slider"]')
+      )
+        return
+
       const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ']
       if (keys.includes(event.key)) surrender()
     }
@@ -152,11 +173,13 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     window.addEventListener('wheel', surrender, { passive: true })
     window.addEventListener('touchmove', surrender, { passive: true })
     window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('tts-user-scroll', surrender)
 
     return () => {
       window.removeEventListener('wheel', surrender)
       window.removeEventListener('touchmove', surrender)
       window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('tts-user-scroll', surrender)
     }
   }, [])
 
@@ -370,156 +393,182 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
       .replace(/ Online$/g, '')
   }
 
+  const floating = isActive && !playerInView
+
   return (
-    <div className="w-full rounded-2xl bg-gray-100 dark:bg-gray-800 p-3">
-      {/* Progress bar */}
-      <div className="mb-3">
-        <div
-          ref={progressBarRef}
-          onClick={isActive ? handleProgressClick : undefined}
-          onKeyDown={
-            isActive
-              ? (e) => {
-                  if (e.key === 'ArrowLeft') {
-                    seekToChunk(Math.max(0, currentChunkIndex - 1))
-                  } else if (e.key === 'ArrowRight') {
-                    seekToChunk(Math.min(totalChunks - 1, currentChunkIndex + 1))
-                  } else if (e.key === 'Home') {
-                    seekToChunk(0)
-                  } else if (e.key === 'End') {
-                    seekToChunk(totalChunks - 1)
-                  } else if (e.key === 'Enter' || e.key === ' ') {
-                    // Optionally, play/pause on Enter/Space
-                    isActive && paused ? play() : pause()
-                  }
-                }
-              : undefined
-          }
-          tabIndex={isActive ? 0 : -1}
-          className={`h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden ${
-            isActive ? 'cursor-pointer' : ''
-          }`}
-          role={isActive ? 'slider' : undefined}
-          aria-label={isActive ? 'Seek position' : undefined}
-          aria-valuemin={isActive ? 0 : undefined}
-          aria-valuemax={isActive ? totalChunks : undefined}
-          aria-valuenow={isActive ? currentChunkIndex + 1 : undefined}
-        >
-          <div
-            className="h-full rounded-full bg-primary-500 dark:bg-primary-400 transition-all duration-300"
-            style={{ width: isActive ? `${progress}%` : '0%' }}
-          />
-        </div>
-        {isActive && (
-          <div className="mt-1.5 flex justify-between text-xs text-gray-600 dark:text-gray-400">
-            <span>{formatTime(elapsedTime)}</span>
-            <span>{formatTime(totalTime)}</span>
-          </div>
-        )}
-      </div>
+    <div ref={playerRef} className={floating ? 'h-24' : undefined}>
+      <div
+        className={
+          floating
+            ? 'fixed bottom-6 left-4 z-40 w-64 rounded-2xl border border-gray-200 bg-white p-2.5 shadow-sm ring-1 ring-black/5 dark:border-gray-700 dark:bg-gray-800 dark:ring-white/10 sm:left-1/2 sm:w-80 sm:-translate-x-1/2'
+            : 'w-full rounded-2xl bg-gray-100 p-3 dark:bg-gray-800'
+        }
+        role={floating ? 'region' : undefined}
+        aria-label={floating ? 'Article audio controls' : undefined}
+      >
+        {!floating && (
+          <div className="mb-3">
+            <div
+              ref={progressBarRef}
+              onClick={isActive ? handleProgressClick : undefined}
+              onKeyDown={
+                isActive
+                  ? (e) => {
+                      const keys = ['ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter', ' ']
+                      if (!keys.includes(e.key)) return
+                      e.preventDefault()
 
-      {/* Controls */}
-      <div className="flex items-center gap-3">
-        {/* Play/Pause button */}
-        <button
-          type="button"
-          onClick={isActive && !paused ? pause : play}
-          aria-label={paused ? 'Resume' : speaking ? 'Pause' : 'Play'}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-500 text-white transition-colors hover:bg-primary-600 dark:bg-primary-400 dark:text-gray-900 dark:hover:bg-primary-300"
-        >
-          {speaking ? (
-            <Pause className="h-5 w-5" aria-hidden="true" />
-          ) : (
-            <Play className="h-5 w-5 ml-0.5" aria-hidden="true" />
-          )}
-        </button>
-
-        {/* Status text */}
-        <div className="flex-1 min-w-0">
-          <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-            {paused ? 'Paused' : speaking ? 'Playing...' : 'Listen to article'}
-          </div>
-          {isActive && totalChunks > 0 && (
-            <div className="text-xs text-gray-600 dark:text-gray-400">
-              Section {currentChunkIndex + 1} of {totalChunks}
-            </div>
-          )}
-          {!isActive && selectedVoice && (
-            <div className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1">
-              <Volume2 className="h-3 w-3" aria-hidden="true" />
-              <span>{getVoiceDisplayName(selectedVoice)}</span>
-            </div>
-          )}
-        </div>
-
-        {/* Re-follow the reading position after a manual scroll */}
-        {isActive && canHighlight && !following && (
-          <button
-            type="button"
-            onClick={resumeFollowing}
-            aria-label="Follow the reading position"
-            title="Follow the reading position"
-            className="flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
-          >
-            <Crosshair className="h-3.5 w-3.5" aria-hidden="true" />
-            <span className="hidden sm:inline">Follow</span>
-          </button>
-        )}
-
-        {/* Voice selector (only when not active) */}
-        {!isActive && voices.length > 1 && (
-          <div className="relative" ref={voiceSelectorRef}>
-            <button
-              type="button"
-              onClick={() => setShowVoiceSelector(!showVoiceSelector)}
-              aria-label="Select voice"
-              aria-expanded={showVoiceSelector}
-              className="flex h-9 items-center gap-1 rounded-full px-3 text-xs text-gray-600 transition-colors hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
+                      if (e.key === 'ArrowLeft') {
+                        seekToChunk(Math.max(0, currentChunkIndex - 1))
+                      } else if (e.key === 'ArrowRight') {
+                        seekToChunk(Math.min(totalChunks - 1, currentChunkIndex + 1))
+                      } else if (e.key === 'Home') {
+                        seekToChunk(0)
+                      } else if (e.key === 'End') {
+                        seekToChunk(totalChunks - 1)
+                      } else if (e.key === 'Enter' || e.key === ' ') {
+                        isActive && paused ? play() : pause()
+                      }
+                    }
+                  : undefined
+              }
+              tabIndex={isActive ? 0 : -1}
+              className={`h-1.5 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700 ${
+                isActive ? 'cursor-pointer' : ''
+              }`}
+              role={isActive ? 'slider' : undefined}
+              aria-label={isActive ? 'Seek position' : undefined}
+              aria-valuemin={isActive ? 0 : undefined}
+              aria-valuemax={isActive ? totalChunks : undefined}
+              aria-valuenow={isActive ? currentChunkIndex + 1 : undefined}
             >
-              <span>Voice</span>
-              <ChevronDown className="h-3 w-3" aria-hidden="true" />
-            </button>
-            {showVoiceSelector && (
-              <div className="absolute right-0 bottom-full mb-2 z-50 w-64 max-h-64 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
-                <div className="p-1">
-                  {voices.map((v) => (
-                    <button
-                      key={v.name}
-                      type="button"
-                      onClick={() => {
-                        setSelectedVoice(v)
-                        setShowVoiceSelector(false)
-                      }}
-                      className={`w-full rounded-md px-3 py-2 text-left text-sm transition-colors ${
-                        selectedVoice?.name === v.name
-                          ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300'
-                          : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      <div className="font-medium truncate">{getVoiceDisplayName(v)}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
-                        {v.lang}
-                        {!v.localService && ' · needs a connection'}
-                      </div>
-                    </button>
-                  ))}
-                </div>
+              <div
+                className="h-full rounded-full bg-primary-500 transition-all duration-300 dark:bg-primary-400"
+                style={{ width: isActive ? `${progress}%` : '0%' }}
+              />
+            </div>
+            {isActive && (
+              <div className="mt-1.5 flex justify-between text-xs text-gray-600 dark:text-gray-400">
+                <span>{formatTime(elapsedTime)}</span>
+                <span>{formatTime(totalTime)}</span>
               </div>
             )}
           </div>
         )}
 
-        {/* Stop button (only when active) */}
-        {isActive && (
+        <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={stop}
-            aria-label="Stop"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-300 text-gray-600 transition-colors hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
+            onClick={isActive && !paused ? pause : play}
+            aria-label={paused ? 'Resume' : speaking ? 'Pause' : 'Play'}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-500 text-white transition-colors hover:bg-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:bg-primary-500 dark:text-white dark:hover:bg-primary-400 dark:focus-visible:ring-offset-gray-800"
           >
-            <Square className="h-4 w-4" aria-hidden="true" />
+            {speaking ? (
+              <Pause className="h-5 w-5" aria-hidden="true" />
+            ) : (
+              <Play className="ml-0.5 h-5 w-5" aria-hidden="true" />
+            )}
           </button>
-        )}
+
+          <div className="min-w-0 flex-1">
+            <div
+              className="truncate text-sm font-medium text-gray-900 dark:text-gray-100"
+              aria-live="polite"
+            >
+              {paused
+                ? 'Paused'
+                : speaking
+                ? floating
+                  ? 'Playing article'
+                  : 'Playing...'
+                : 'Listen to article'}
+            </div>
+            {floating && (
+              <div className="text-xs tabular-nums text-gray-600 dark:text-gray-400">
+                {formatTime(elapsedTime)} / {formatTime(totalTime)}
+              </div>
+            )}
+            {!floating && isActive && totalChunks > 0 && (
+              <div className="text-xs text-gray-600 dark:text-gray-400">
+                Section {currentChunkIndex + 1} of {totalChunks}
+              </div>
+            )}
+            {!isActive && selectedVoice && (
+              <div className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
+                <Volume2 className="h-3 w-3" aria-hidden="true" />
+                <span>{getVoiceDisplayName(selectedVoice)}</span>
+              </div>
+            )}
+          </div>
+
+          {isActive && canHighlight && !following && (
+            <button
+              type="button"
+              onClick={resumeFollowing}
+              aria-label={
+                floating ? 'Return to the current passage' : 'Follow the reading position'
+              }
+              title={floating ? 'Return to the current passage' : 'Follow the reading position'}
+              className="flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus-visible:ring-offset-gray-800"
+            >
+              <Crosshair className="h-3.5 w-3.5" aria-hidden="true" />
+              {!floating && <span className="hidden sm:inline">Follow</span>}
+            </button>
+          )}
+
+          {!isActive && voices.length > 1 && (
+            <div className="relative" ref={voiceSelectorRef}>
+              <button
+                type="button"
+                onClick={() => setShowVoiceSelector(!showVoiceSelector)}
+                aria-label="Select voice"
+                aria-expanded={showVoiceSelector}
+                className="flex h-9 items-center gap-1 rounded-full px-3 text-xs text-gray-600 transition-colors hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus-visible:ring-offset-gray-800"
+              >
+                <span>Voice</span>
+                <ChevronDown className="h-3 w-3" aria-hidden="true" />
+              </button>
+              {showVoiceSelector && (
+                <div className="absolute right-0 bottom-full z-50 mb-2 max-h-64 w-64 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-sm ring-1 ring-black/5 dark:border-gray-700 dark:bg-gray-800 dark:ring-white/10">
+                  <div className="p-1">
+                    {voices.map((v) => (
+                      <button
+                        key={v.name}
+                        type="button"
+                        onClick={() => {
+                          setSelectedVoice(v)
+                          setShowVoiceSelector(false)
+                        }}
+                        className={`w-full rounded-md px-3 py-2 text-left text-sm transition-colors ${
+                          selectedVoice?.name === v.name
+                            ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-100'
+                            : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                        }`}
+                      >
+                        <div className="truncate font-medium">{getVoiceDisplayName(v)}</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          {v.lang}
+                          {!v.localService && ' · needs a connection'}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {isActive && (
+            <button
+              type="button"
+              onClick={stop}
+              aria-label="Stop"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-200 text-gray-600 transition-colors hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:focus-visible:ring-offset-gray-800"
+            >
+              <Square className="h-4 w-4" aria-hidden="true" />
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )
