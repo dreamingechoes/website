@@ -1,6 +1,6 @@
 import { Parent, Node, Literal } from 'unist'
 import { visit } from 'unist-util-visit'
-import sizeOf from 'image-size'
+import { imageSize } from 'image-size'
 import fs from 'fs'
 
 type ImageNode = Parent & {
@@ -21,8 +21,10 @@ export default function remarkImgToJsx() {
         const imageNode = node.children.find((n) => n.type === 'image') as ImageNode
 
         // only local files
-        if (fs.existsSync(`${process.cwd()}/public${imageNode.url}`)) {
-          const dimensions = sizeOf(`${process.cwd()}/public${imageNode.url}`)
+        const imagePath = `${process.cwd()}/public${imageNode.url}`
+        if (fs.existsSync(imagePath)) {
+          // image-size v2 reads a buffer rather than a path
+          const dimensions = imageSize(fs.readFileSync(imagePath))
 
           // Convert original node to next/image
           ;(imageNode.type = 'mdxJsxFlowElement'),
