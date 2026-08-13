@@ -1,24 +1,20 @@
-import { ChevronDown, Pause, Play, Square, Volume2 } from 'lucide-react'
+import {
+  ContentIndex,
+  SpeechChunk,
+  buildChunks,
+  buildContentIndex,
+  createDomRange,
+  findRangeIndex,
+} from '@/lib/ttsContent'
+import {
+  SENTENCE_HIGHLIGHT,
+  clearHighlights,
+  highlightsSupported,
+  paintHighlight,
+  scrollRangeIntoView,
+} from '@/lib/ttsHighlight'
+import { ChevronDown, Crosshair, Pause, Play, Square, Volume2 } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
-
-function chunkText(text: string, maxLen = 180): string[] {
-  // Split by sentences and then by approximate length
-  const sentences = text.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/)
-  const chunks: string[] = []
-  let buf = ''
-
-  for (const s of sentences) {
-    if ((buf + ' ' + s).trim().length > maxLen && buf.trim()) {
-      chunks.push(buf.trim())
-      buf = s
-    } else {
-      buf = (buf + ' ' + s).trim()
-    }
-  }
-
-  if (buf.trim()) chunks.push(buf.trim())
-  return chunks
-}
 
 // Estimate reading time in seconds based on character count
 // Average speaking rate is about 150 words per minute, ~5 chars per word = 750 chars/min = 12.5 chars/sec
@@ -47,28 +43,49 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
   const [totalChunks, setTotalChunks] = useState(0)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
+  const [canHighlight, setCanHighlight] = useState(false)
+  const [following, setFollowing] = useState(true)
 
   const queueRef = useRef<SpeechSynthesisUtterance[]>([])
-  const chunksRef = useRef<string[]>([])
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const chunkTimesRef = useRef<number[]>([])
   const voiceSelectorRef = useRef<HTMLDivElement>(null)
   const progressBarRef = useRef<HTMLDivElement>(null)
 
+  const indexRef = useRef<ContentIndex | null>(null)
+  const chunksRef = useRef<SpeechChunk[]>([])
+  const activeSentenceRef = useRef(-1)
+  const followingRef = useRef(true)
+
+  useEffect(() => {
+    followingRef.current = following
+  }, [following])
+
   useEffect(() => {
     setSupported(typeof window !== 'undefined' && 'speechSynthesis' in window)
+    setCanHighlight(highlightsSupported())
+  }, [])
 
+  useEffect(() => {
     const loadVoices = () => {
       if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
       const availableVoices = window.speechSynthesis.getVoices()
       if (availableVoices.length > 0) {
-        // Filter to only high-quality UK English voices
+        // Good UK English voices across macOS, Windows and Chrome, in the order
+        // they are offered. The network voices lead because they read long-form
+        // prose best; the locally installed ones follow as an offline fallback.
         const preferredVoiceNames = [
-          'uk english male',
           'uk english female',
+          'uk english male',
+          'daniel',
           'kate',
           'oliver',
+          'serena',
+          'arthur',
+          'martha',
           'libby',
+          'george',
+          'hazel',
         ]
         const filteredVoices = availableVoices.filter((v) => {
           const nameLower = v.name.toLowerCase()
@@ -86,11 +103,14 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
           (voice, index, self) => index === self.findIndex((v) => v.name === voice.name)
         )
 
-        setVoices(uniqueVoices)
-        // Auto-select first voice if none selected
-        if (!selectedVoice && uniqueVoices.length > 0) {
-          setSelectedVoice(uniqueVoices[0])
-        }
+        const orderedVoices = [...uniqueVoices].sort(
+          (a, b) =>
+            preferredVoiceNames.findIndex((n) => a.name.toLowerCase().includes(n)) -
+            preferredVoiceNames.findIndex((n) => b.name.toLowerCase().includes(n))
+        )
+
+        setVoices(orderedVoices)
+        setSelectedVoice((current) => current ?? orderedVoices[0] ?? null)
       }
     }
 
@@ -105,8 +125,9 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
         window.speechSynthesis.onvoiceschanged = null
       }
       if (timerRef.current) clearInterval(timerRef.current)
+      clearHighlights()
     }
-  }, [selectedVoice])
+  }, [])
 
   // Close voice selector when clicking outside
   useEffect(() => {
@@ -119,49 +140,59 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const getTextContent = useCallback(() => {
-    if (typeof document === 'undefined') return ''
-    const contentElement = document.querySelector(contentSelector)
-    if (!contentElement) return ''
+  // Any deliberate scroll hands control back to the reader. Listening to intent
+  // events rather than 'scroll' avoids mistaking our own scrolling for theirs.
+  useEffect(() => {
+    const surrender = () => setFollowing(false)
+    const onKeyDown = (event: KeyboardEvent) => {
+      const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ']
+      if (keys.includes(event.key)) surrender()
+    }
 
-    const clone = contentElement.cloneNode(true) as HTMLElement
+    window.addEventListener('wheel', surrender, { passive: true })
+    window.addEventListener('touchmove', surrender, { passive: true })
+    window.addEventListener('keydown', onKeyDown)
 
-    // Remove elements we don't want to read aloud
-    const selectorsToRemove = [
-      'pre', // Code blocks
-      'code', // Inline code
-      '.sr-only', // Screen reader only elements
-      'script', // Scripts
-      'style', // Styles
-      'noscript', // Noscript fallbacks
-      'svg', // SVG graphics
-      'img', // Images (alt text might be read)
-      'figure', // Figure elements (often contain code/images)
-      'figcaption', // Figure captions
-      'button', // Buttons
-      'nav', // Navigation
-      'aside', // Sidebars
-      '[role="navigation"]',
-      '[role="button"]',
-      '[aria-hidden="true"]',
-      '.mermaid', // Mermaid diagrams
-      '.katex', // Math formulas
-      '.math', // Math blocks
-      'table', // Tables (can be confusing when read)
-      '.toc', // Table of contents
-      '.callout-title', // Callout titles (icons/emojis)
-    ]
-    selectorsToRemove.forEach((selector) => {
-      clone.querySelectorAll(selector).forEach((el) => el.remove())
-    })
+    return () => {
+      window.removeEventListener('wheel', surrender)
+      window.removeEventListener('touchmove', surrender)
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [])
 
-    // Get text and clean it up
-    let text = clone.textContent?.trim() || ''
-    // Remove multiple spaces and normalize whitespace
-    text = text.replace(/\s+/g, ' ').trim()
+  const getContentIndex = useCallback(
+    (rebuild = false) => {
+      if (typeof document === 'undefined') return null
+      if (!rebuild && indexRef.current) return indexRef.current
 
-    return text
-  }, [contentSelector])
+      const contentElement = document.querySelector(contentSelector)
+      if (!contentElement) return null
+
+      const index = buildContentIndex(contentElement)
+      indexRef.current = index.text ? index : null
+      return indexRef.current
+    },
+    [contentSelector]
+  )
+
+  const clearReadingPosition = useCallback(() => {
+    activeSentenceRef.current = -1
+    clearHighlights()
+  }, [])
+
+  /** Paints the sentence being read and, when following, keeps it on screen. */
+  const showReadingPosition = useCallback(
+    (sentence: { start: number; end: number } | null) => {
+      const index = indexRef.current
+      if (!index || !canHighlight) return
+
+      const range = sentence ? createDomRange(index, sentence.start, sentence.end) : null
+      paintHighlight(SENTENCE_HIGHLIGHT, range)
+
+      if (followingRef.current) scrollRangeIntoView(range)
+    },
+    [canHighlight]
+  )
 
   const startTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -177,17 +208,17 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     }
   }
 
-  const buildQueue = (startFromChunk = 0) => {
-    const text = getTextContent()
-    if (!text) return
+  const buildQueue = (startFromChunk = 0, rebuildIndex = false) => {
+    const index = getContentIndex(rebuildIndex)
+    if (!index) return
 
-    const chunks = chunkText(text)
+    const chunks = buildChunks(index)
     chunksRef.current = chunks
     setTotalChunks(chunks.length)
     setCurrentChunkIndex(startFromChunk)
 
     // Calculate estimated time for each chunk and total
-    const chunkTimes = chunks.map((c) => estimateReadingTime(c))
+    const chunkTimes = chunks.map((c) => estimateReadingTime(c.text))
     chunkTimesRef.current = chunkTimes
     setTotalTime(chunkTimes.reduce((a, b) => a + b, 0))
 
@@ -196,9 +227,9 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     setElapsedTime(elapsedUpToStart)
 
     // Only create utterances from startFromChunk onwards
-    queueRef.current = chunks.slice(startFromChunk).map((c, idx) => {
+    queueRef.current = chunks.slice(startFromChunk).map((chunk, idx) => {
       const actualIdx = startFromChunk + idx
-      const u = new SpeechSynthesisUtterance(c)
+      const u = new SpeechSynthesisUtterance(chunk.text)
       u.lang = selectedVoice?.lang || 'en-GB'
       u.rate = 1
       u.pitch = 1
@@ -211,6 +242,16 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
         setPaused(false)
         setCurrentChunkIndex(actualIdx)
         startTimer()
+
+        // A chunk is one sentence, or a piece of an over-long one. Either way
+        // the sentence it belongs to is the reading position, so a long sentence
+        // stays lit across the two or three utterances that speak it.
+        const sentenceIndex = findRangeIndex(index.sentences, chunk.start)
+        const sentence = index.sentences[sentenceIndex]
+        if (sentenceIndex === activeSentenceRef.current) return
+
+        activeSentenceRef.current = sentenceIndex
+        showReadingPosition(sentence ?? { start: chunk.start, end: chunk.end })
       }
 
       u.onend = () => {
@@ -220,6 +261,7 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
           stopTimer()
           setCurrentChunkIndex(0)
           setElapsedTime(0)
+          clearReadingPosition()
         }
       }
 
@@ -227,6 +269,7 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
         setSpeaking(false)
         setPaused(false)
         stopTimer()
+        clearReadingPosition()
       }
 
       return u
@@ -249,7 +292,8 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     // If not currently speaking or paused, start fresh
     if (!speaking) {
       synth.cancel()
-      buildQueue()
+      setFollowing(true)
+      buildQueue(0, true)
       if (queueRef.current.length === 0) return
       for (const u of queueRef.current) synth.speak(u)
     }
@@ -274,6 +318,7 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     stopTimer()
     setCurrentChunkIndex(0)
     setElapsedTime(0)
+    clearReadingPosition()
   }
 
   const seekToChunk = (chunkIndex: number) => {
@@ -282,6 +327,7 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     const synth = window.speechSynthesis
     synth.cancel()
     stopTimer()
+    clearReadingPosition()
 
     // Rebuild queue starting from the selected chunk
     buildQueue(chunkIndex)
@@ -301,6 +347,15 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
     const targetChunk = Math.floor(percentage * totalChunks)
 
     seekToChunk(Math.max(0, Math.min(targetChunk, totalChunks - 1)))
+  }
+
+  const resumeFollowing = () => {
+    setFollowing(true)
+    const index = indexRef.current
+    const sentence = index?.sentences[activeSentenceRef.current]
+    const chunk = chunksRef.current[currentChunkIndex]
+    const target = sentence ?? chunk
+    if (index && target) scrollRangeIntoView(createDomRange(index, target.start, target.end))
   }
 
   if (!supported) return null
@@ -397,6 +452,20 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
           )}
         </div>
 
+        {/* Re-follow the reading position after a manual scroll */}
+        {isActive && canHighlight && !following && (
+          <button
+            type="button"
+            onClick={resumeFollowing}
+            aria-label="Follow the reading position"
+            title="Follow the reading position"
+            className="flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
+          >
+            <Crosshair className="h-3.5 w-3.5" aria-hidden="true" />
+            <span className="hidden sm:inline">Follow</span>
+          </button>
+        )}
+
         {/* Voice selector (only when not active) */}
         {!isActive && voices.length > 1 && (
           <div className="relative" ref={voiceSelectorRef}>
@@ -428,7 +497,10 @@ export default function TextToSpeech({ contentSelector = '.prose' }: TextToSpeec
                       }`}
                     >
                       <div className="font-medium truncate">{getVoiceDisplayName(v)}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">{v.lang}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        {v.lang}
+                        {!v.localService && ' · needs a connection'}
+                      </div>
                     </button>
                   ))}
                 </div>

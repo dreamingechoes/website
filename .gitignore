@@ -35,4 +35,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-.github
+# agent tooling
+.agent/
+.claude/
+.codex/
+.cursor/
+.aider*
+CLAUDE.md
+AGENTS.md

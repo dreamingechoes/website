@@ -46,3 +46,21 @@ h6 {
 .prose .not-prose + h3 {
   margin-top: 1.5rem;
 }
+
+/* Text-to-speech reading position.
+
+   The sentence being read is inverted onto primary-500, the same treatment the
+   play button uses, so it reads as a deliberate marker rather than a tint.
+
+   ::highlight() only paints color, background-color, text-decoration and
+   text-shadow — border-radius and padding are not available here, which is why
+   the block has square edges. */
+::highlight(tts-sentence) {
+  background-color: #9333ea;
+  color: #ffffff;
+}
+
+.dark ::highlight(tts-sentence) {
+  background-color: #c084fc;
+  color: #171717;
+}
