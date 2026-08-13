@@ -1,21 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from '@vercel/og'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import fs from 'fs'
+import path from 'path'
 import siteMetadata from '../../data/siteMetadata'
 
-export const config = {
-  runtime: 'edge',
-}
-
-const nunitoFontPath = new URL(
-  '../../node_modules/@fontsource/nunito/files/nunito-latin-800-normal.woff',
-  import.meta.url
-)
-const interFontPath = new URL(
-  '../../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff',
-  import.meta.url
-)
-const nunitoFontData = fetch(nunitoFontPath).then((res) => res.arrayBuffer())
-const interFontData = fetch(interFontPath).then((res) => res.arrayBuffer())
+/**
+ * This route runs on the Node.js runtime rather than the edge one. @vercel/og
+ * ships a 1.3 MB resvg.wasm, which on its own does not fit inside the 1 MB edge
+ * function limit, and the edge runtime is deprecated besides.
+ *
+ * The fonts live in public/fonts/og and are pulled into the function bundle by
+ * outputFileTracingIncludes in next.config.js. Satori reads woff, ttf and otf,
+ * so these cannot be the woff2 files the site itself serves.
+ */
+const fontDir = path.join(process.cwd(), 'public', 'fonts', 'og')
+const nunitoFont = fs.readFileSync(path.join(fontDir, 'nunito-800.woff'))
+const interFont = fs.readFileSync(path.join(fontDir, 'inter-400.woff'))
 
 const sanitize = (value?: string | null) => (value ? value.replace(/\s+/g, ' ').trim() : '')
 
@@ -63,17 +64,15 @@ const LogoIcon = () => (
   </svg>
 )
 
-export default async function handler(req: Request) {
-  try {
-    const { searchParams } = new URL(req.url)
+const firstValue = (value?: string | string[]) => (Array.isArray(value) ? value[0] : value)
 
-    const titleParam = sanitize(searchParams.get('title')) || siteMetadata.title
-    const summaryParam = sanitize(searchParams.get('summary')) || siteMetadata.description
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const titleParam = sanitize(firstValue(req.query.title)) || siteMetadata.title
+    const summaryParam = sanitize(firstValue(req.query.summary)) || siteMetadata.description
     const domain = siteMetadata.siteUrl.replace(/^https?:\/\//, '')
 
-    const [nunitoFont, interFont] = await Promise.all([nunitoFontData, interFontData])
-
-    return new ImageResponse(
+    const image = new ImageResponse(
       (
         <div
           style={{
@@ -193,12 +192,16 @@ export default async function handler(req: Request) {
             weight: 400,
           },
         ],
-        headers: {
-          'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600',
-        },
       }
     )
+
+    // ImageResponse is a web Response; the Node runtime needs a buffer instead.
+    const body = Buffer.from(await image.arrayBuffer())
+
+    res.setHeader('Content-Type', 'image/png')
+    res.setHeader('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=3600')
+    res.status(200).send(body)
   } catch (error) {
-    return new Response('Failed to generate the image.', { status: 500 })
+    res.status(500).send('Failed to generate the image.')
   }
 }

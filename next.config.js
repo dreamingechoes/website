@@ -59,6 +59,11 @@ module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   trailingSlash: true,
+  // The OG image route reads these at runtime; tracing does not pick up a
+  // path built with process.cwd(), so they are declared explicitly.
+  outputFileTracingIncludes: {
+    '/api/og': ['./public/fonts/og/**'],
+  },
   async rewrites() {
     return {
       beforeFiles: [

@@ -12,6 +12,9 @@
     "format:fix": "prettier --write .",
     "prepare": "husky install"
   },
+  "engines": {
+    "node": "24.x"
+  },
   "dependencies": {
     "@fontsource/inter": "^5.1.0",
     "@fontsource/nunito": "^5.1.0",
