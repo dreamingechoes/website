@@ -1,0 +1,108 @@
+---
+title: 'The Half of Product Engineering Nobody Assigns You'
+date: '2026-08-13'
+draft: false
+tags: ['career-growth', 'ai', 'software-engineering', 'product-management', 'reflection']
+summary: 'As AI makes implementation cheaper, product engineers grow by practising the product, writing, pricing, and distribution decisions their briefs omit.'
+authors: ['default']
+---
+
+A landing page can expose more uncertainty than a codebase. Redesigning the [Avenida](https://www.avenida.so/) landing page did exactly that. The words took far more passes than the layout.
+
+If your career has mostly begun after someone else framed the problem, you may know the refuge I found: clean architecture, useful observability, anything more familiar than deciding what the product was for.
+
+The sentences were not the problem. I could make them cleaner, shorter, move a paragraph, change a heading. But each pass returned me to questions code could not settle: what exactly is this, who should recognise the problem as theirs, and why would they care enough to try it?
+
+That refuge can become a blind spot. You can spend years becoming extraordinarily good at execution and get almost no repetitions at the decisions surrounding it. Somebody else learned whether the problem mattered, what to call the solution, what it should cost and how anyone would find it. You learned to build it well.
+
+AI did not create that gap. It made the gap harder to ignore. I have been circling this shift from several sides: [the return of taste in software engineering](/blog/the-return-of-taste-in-software-engineering) argued that choosing well becomes scarcer as plausible implementations get cheaper; [the AI harness should follow the conversation](/blog/the-ai-harness-should-follow-the-conversation) showed why tooling can carry volume but not the conversations that make a problem worth solving.
+
+That change does more than expose missing judgment. When a harness carries more of the research, scaffolding, implementation and checks, one engineer can reach further around the product loop — into framing, positioning, pricing, distribution, measurement and the conversations that decide whether the thing should exist. The leverage creates room for judgment reps that used to sit behind weeks of implementation.
+
+The distance between an idea and a plausible implementation collapsed faster than the distance between a plausible implementation and the right product. The question is where you get the repetitions to cross that second distance.
+
+## The Inherited Brief
+
+A conventional week for a competent engineer at a functioning company can look like this.
+
+A problem arrives. Somebody in product already decided it mattered, and talked to the users who convinced them. Somebody in design already decided what it looks like. Somebody in marketing will decide how it gets described, and somebody in finance decided months ago, in a spreadsheet you will never open, what the company charges for it. By the time the work reaches you it has been framed, scoped, priced and named, and your part begins at _build this well_.
+
+Call the pattern the **Inherited Brief**: treating a framed problem as the beginning of your work rather than the middle of it.
+
+This is not a complaint about specialisation, and not an argument that product managers or designers are surplus: splitting the loop lets each part be done by someone genuinely good at it.
+
+The side effect is an **Inherited Brief** that can become the boundary of your development. Think about the last ticket you finished — maybe something like _add filtering to the reports page_. You could build that with clean seams and a test suite the next person will thank you for, and still end the week with no real sense of whether anyone wanted filtering, or what the reports page is for.
+
+The brief gives you implementation reps. It does not automatically give you judgment reps. And that distinction matters more now that one engineer can reach further across the product loop without needing every first version to become a quarter of work.
+
+## Product skills filed under other departments
+
+Say "engineers should understand product and marketing" out loud and half the room hears a request to sit in more meetings, the other half that engineering has been demoted to a service function. Neither is what I mean.
+
+The goal is not to turn engineers into part-time product managers, designers and marketers. It is to build enough contact with those disciplines that technical decisions can see what happens on either side of implementation. The specialists I have worked with are better at their craft than I will ever be. That is not a reason to stay ignorant of it.
+
+With Avenida, every scope decision became a negotiation with myself: not only _can I build this_, but _what will saying yes cost for the next three years?_ That second question is a systems question. It has dependencies, second-order effects and a maintenance bill, and there is nobody on the other side of the table to stop my enthusiasm from writing cheques the product will have to cash later.
+
+Then the work leaves the codebase. The plan you place on a pricing page encodes incentives. The sentence on the landing page decides who recognises the problem as theirs. The place where you mention the product decides whether anyone finds it, and the event you choose to measure decides which version of reality reaches you afterwards.
+
+Pricing has made that especially concrete with Avenida. Deciding what belongs in the free tier and what becomes paid is not only picking a number; it is making a theory about where the value sits, who feels it, and what behaviour each tier or limit will encourage. Then the product gets to answer.
+
+Each choice belongs to a discipline with its own depth. Making a rough version yourself does not make you a specialist. It does make it harder to treat demand, positioning, incentives and measurement as facts that arrive from somewhere upstream.
+
+Distribution was the sharpest lesson for me. Building something does not cause anyone to find it. Who is this for? Where do those people already spend their attention? Why would they leave whatever they use today? We spend our careers downstream of demand, on features somebody else already established that people wanted, and it is genuinely disorienting the first time nobody shows up.
+
+The same discomfort returns in analytics. Engineers tend to be good at measuring what happened. Product judgment begins one step earlier: deciding which signal should make you stop and reconsider.
+
+## Writing as the compression test
+
+Of all of these, I would put writing first, and I say that as someone who spent years treating it as adjacent to the real work rather than load-bearing to it.
+
+A landing page is the clearest example, because it is brutally constrained. It asks you to state, in one sentence somebody reads in two seconds, what this is and who should care. There is nowhere to hide. When that sentence will not settle, the block is often upstream of copywriting: the product itself is still unclear, and calling it a design problem can keep that uncertainty comfortably out of view.
+
+A landing page asks for a second thing at the same time, which is harder to name. Clear thinking tells you what the product is; positioning decides which truth to lead with — the audience it can serve, the alternative it replaces, and the reason to pay attention now. That was the loop I kept running into with Avenida. At some point it stopped being a copy problem. The sentences were fine. The thing underneath them was fuzzy, and no amount of rearranging words was going to sharpen a thought I had not finished having.
+
+That generalises further than it has any right to. The RFC that produces polite agreement instead of disagreement, the proposal nobody engages with, the trade-off you cannot get a room to accept, the strategy document everyone nods at and nobody uses — the failure is usually upstream of the prose. Sometimes someone tried to describe a thing they had not yet decided; sometimes the thinking was sound and the trade-off never became legible enough for anyone else to care about it. Writing catches that fuzziness, which may be why so many of us route around the parts of the job that require it.
+
+## The product questions that come back to your desk
+
+I have been building Avenida for a while. It is still a beta, 1.0 is not out yet, and the reason it belongs here is not the product.
+
+It belongs because owning something end to end means everything a company would route to another department comes back to your desk. What should this cost? What belongs in the free tier? Why would somebody sign up, and why would they come back? Which apparently good ideas should I deliberately not build?
+
+There is nobody to escalate to. No product partner whose judgment you can borrow while privately disagreeing with it.
+
+And the feedback is a different kind from the feedback you get at work — not more honest; it is pointed at something else. Your manager and your team can tell you whether you collaborated well, whether the implementation held up, whether people trusted your calls. What they cannot tell you is what reality did with your assumptions. People visit and do not sign up. Somebody signs up and never returns. Nobody picks the plan you built the pricing page around. That is not an argument you can win, because it is not an argument. It is behaviour, and the work is interpreting it without flattering yourself.
+
+## One step upstream, one step downstream
+
+Reading can name the terrain, but intuition arrives through reps: decisions made with incomplete information, some of them wrong, followed by an honest return to what happened.
+
+Which raises the practical question, and the one I think matters most. Where do those reps come from, when your job is designed to hand you a framed problem every Monday?
+
+The first answer is that plenty of them are already sitting just outside the edges of the brief. The principle is small enough to carry around: **move one step upstream or one step downstream from where your role normally begins and ends.**
+
+Upstream looks like asking to be in the conversation where the problem gets framed rather than the one where it gets assigned. Asking why this is the thing being prioritised now, and listening properly to the answer. Spending twenty minutes with someone in support who talks to unhappy users all day. Writing the first draft of a proposal instead of waiting to receive one.
+
+Downstream is the half almost everyone skips, because once something ships the urgency evaporates and the next thing is louder. It looks like agreeing what success means before implementation starts, and then going back to look. Reading how the feature gets used, and what people do instead of using it. Writing the launch note nobody wants to write. Treating [the work as unfinished when it ships](/blog/shipping-debrief-work-not-done) rather than at merge.
+
+None of that requires a new title, a reorg, or ownership of an entire product. Some of it needs coordinating with whoever does own that work, which is fine. Mostly it needs treating the boundary of your role as a convention rather than a wall.
+
+## End-to-end ownership at a small scale
+
+The second answer is to own something yourself, at whatever scale you can reasonably manage. That is what Avenida has been for me, and I want to be careful recommending it, because the genre is full of people overselling this.
+
+It will not teach you what it is like to change a system three teams depend on, carry a migration through compliance constraints, or answer a 3am page when the money on the line is not yours. Those need scale, other people, and consequences you cannot unilaterally decide to accept. A small project is closer to a gym for decisions your day job can route elsewhere than to a second career.
+
+And there is a version of it that costs more than it returns. Curiosity ≠ Insurance. A thing you build because a question will not leave you alone is a different object from one you build because [the future stopped feeling solid](/blog/career-standby-future-stops-feeling-solid) and you are trying to keep your profile current. The first gives energy back. The second is an unpaid second job that will take whatever the first one left you. If you have small children, or a hard season, or a job that already takes everything, adding a project on top is not the answer — and the reps upstream and downstream of your own work cost nothing but attention.
+
+What made the project useful was owning it end to end and reaching decisions I could not escalate to a specialist. A side project is one reliable place to get those repetitions, though it is not the only one.
+
+## Final thoughts
+
+The engineers who can look at a plausible, well-built, working thing and say _this is not the right thing, here is why, and here is what we should build instead_ are not stepping away from engineering. They are making the technical ability count inside the whole product, not only inside the implementation.
+
+The same leverage that compressed implementation also shortens the path to those repetitions. One person can put a plausible version in front of someone, test the positioning or a pricing assumption, watch whether anybody finds it, and return to the original bet while the question is still warm. A technology often discussed as a threat to implementation also creates more room to practise everything around it.
+
+The useful question is not which skills to acquire before it is too late. It is quieter than that: which part of building a product have you always been able to hand to somebody else, and where could you get one honest repetition of it?
+
+You will not read your way there. You get there by owning something far enough through the loop to be wrong, seeing what reality did with the assumption, and going back afterwards to understand why. It can be small. Mine still is.
