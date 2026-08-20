@@ -1,0 +1,112 @@
+---
+title: 'Growing Engineering Judgment Without the Grunt Work'
+date: '2026-08-20'
+draft: false
+tags: ['engineering-leadership', 'career-growth', 'mentorship', 'junior-engineers', 'ai']
+summary: 'Entry-level work ran a loop that quietly produced senior judgment. AI shortens that loop, so teams have to build on purpose what they used to get free.'
+authors: ['default']
+---
+
+The spreadsheet is always the same shape. Applications down the left, dates in the middle, and a final column that stays mostly empty.
+
+Several of the people I mentor are changing careers, arriving in software from fields that had nothing to do with it, and the conversation we have now is not the one we were having two years ago. Back then it was about getting good enough. Now it is quieter and much harder to answer: _the roles I was told to aim for do not seem to be opening._
+
+They are not imagining it. Employment for workers aged 22 to 25 in the occupations most exposed to AI now sits roughly [19% below](https://digitaleconomy.stanford.edu/news/canariesaug26/) where it would be had it kept pace with their less-exposed peers, up from roughly 15% a year earlier. What makes the number strange is how it happened. The adjustment appears to run primarily through fewer hires rather than more separations. Doors are being opened less often.
+
+The temptation, when somebody brings you that, is to reassure. It is not the wrong instinct. It is aimed at the wrong party — which took me longer to see than it should have.
+
+Because the entry-level role was never only a job. It was the mechanism that produced senior engineers, because ordinary work forced people through a loop they could not skip. We are shortening that loop and quietly expecting the mechanism to keep running.
+
+## The entry-level rung that paid for itself
+
+Nobody sat down and designed the ladder. That is the part worth sitting with.
+
+For decades the industry ran an apprenticeship it never put on a budget line. Someone joined, got the unglamorous end of the backlog, and spent a couple of years on work whose output was only part of what the company got back. The other part was an engineer who had watched things break and seen which decisions aged badly — [the half of product engineering nobody assigns you](/blog/half-product-engineering-nobody-assigns-you), and nobody ever costed it.
+
+Which is why it is disappearing without anyone deciding to cancel it. A Harvard working paper tracking résumé and job-posting data across roughly 280,000 US firms found that after a company adopts generative AI, junior employment falls about [9% within six quarters](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5425555), while senior employment shows no comparable decline. The authors call it seniority-biased technological change, and land on a sentence worth reading twice: a technology that substitutes for entry-level execution while complementing expert judgment can erode the future supply of the very expertise it complements.
+
+None of which proves AI replaced anyone, and firms are making different choices with the same technology. IBM announced it would [triple US entry-level hiring in 2026](https://www.axios.com/2026/02/13/ai-ibm-tech-jobs) while junior hiring was falling elsewhere, having first rewritten the job so juniors spend less time on routine code and more with customers.
+
+So this is not only a hiring problem. It is a supply chain cutting off its own upstream, one reasonable quarterly decision at a time — and the people paying for it are the ones still adding rows to that spreadsheet.
+
+## The loop that built the judgment
+
+Think about where your own judgment came from. Not the courses. Not the books.
+
+The obvious answer is that the work was hard, and it took me a while to see why that is not the whole of it. Plenty of junior work was punishing and taught nothing. Three years of build systems leaves somebody expert at build systems. Difficulty on its own is not educational. Some of it is only cost.
+
+What the old job did, reliably and without meaning to, was force a sequence. You were put inside a problem whose end you could not see. You had to form a view before anybody would tell you whether it was right. You chose. Then reality corrected you — slowly, or at three in the morning — and somebody further along was near enough to explain what you had missed. Judgment was the residue of running that loop a few hundred times.
+
+Which is the more precise version of what is at risk. AI does not remove difficulty; anyone who has debugged code they did not write knows it invents plenty. What it does is let you go from the problem to a plausible answer without passing through the part where you had to form a view. The loop does not get harder. It gets shorter at exactly the point where the learning was.
+
+That does not make the effect inevitable. The same model can run that loop far more often than the old job ever did: form a view, have it challenged, compare three designs, build one, find out why it was wrong, go again, all before lunch. The difference that matters is whether anybody has to commit to a view before the plausible answer arrives. That used to be enforced by the work. Now it has to be enforced by us.
+
+Learning research has a name for this. Robert and Elizabeth Bjork call them [desirable difficulties](https://www.unh.edu/teaching-learning-resource-hub/sites/default/files/media/2023-06/itow-introducing-desirable-difficulties-into-practice-and-instruction-bjork-and-bjork.pdf): conditions that slow you down now and produce more durable learning later. Performance is what you see during the work — fast, fluent, looking like progress. Learning is what survives a delayed test, and the conditions that maximise one routinely damage the other.
+
+A small controlled study in April found novices paired with an AI assistant performed [about 14 points better out of 100](https://arxiv.org/html/2604.18538v1), finished faster and reported lower workload — then scored slightly lower on a retest a week later, on a sample too small to settle that last part. The researchers titled it _Fast and Forgettable_, which saves me finding a better phrase.
+
+Lisanne Bainbridge saw this coming in 1983. In [_Ironies of Automation_](https://ckrybus.com/static/papers/Bainbridge_1983_Automatica.pdf) she pointed out that automating the routine parts of a system leaves the operator only the exceptional parts, while removing the practice that made exceptions handleable. Her conclusion was that automation creates more need for training, not less. Forty-three years later we are running that experiment on a whole profession and treating the result as news.
+
+## The slope we were already on
+
+This is the part that does not let any of us off.
+
+AI did not break that loop. It removed the last friction on a slope we had been walking down for years, mostly for good reasons: better tooling, better documentation, abstractions good enough that nobody had to understand the layer underneath.
+
+Then there is what we built on top of that, which is harder to see because every piece of it is defensible. Being blocked became something you escalate rather than sit with. Senior engineers took pride in unblocking people fast, as a generous colleague does. Cycle time became a number we watched, so being stuck became a number going the wrong way. Pairing drifted into taking over. Review became where somebody hands you the answer. And whatever survived that, a more experienced person is one message away at any hour.
+
+Nobody decided to reduce apprenticeship. Each of those behaviours is locally correct and most are kind. Together they compressed the interval between meeting a problem and being told the answer — the interval the loop was made of.
+
+Do it often enough and support quietly changes shape. We take away the struggle that might have taught something because, in the moment, taking it away is indistinguishable from helping.
+
+So the honest position is not nostalgia. Plenty of the grunt work deserved to go, and nobody learned anything durable from the fourth hour of a dependency conflict. We never had to separate the difficulty that taught something from the difficulty that merely cost something, because the two arrived bundled, free of charge.
+
+That bundle has been unbundled. What is left is a question we have never had to answer: which difficulties were load-bearing?
+
+## Outcome-Only Review
+
+There is a smaller version of this inside teams that did keep hiring, and it is easier to fix.
+
+Work arrives. It gets reviewed for whether it functions, matches the ticket, passes the tests. It does. It ships. Everyone moves on, and nobody asks how the person arrived at this shape rather than another. Call it **Outcome-Only Review**: evaluating what was produced while never surfacing the reasoning that produced it.
+
+Nobody is rescuing anyone here. The work is good, the review is competent, and nothing gets transmitted — because the reviewable artifact and the learnable thing stopped being the same object the moment a model could generate the artifact. A diff shows what somebody produced. It cannot tell you whether they considered another path, why they rejected it, or whether they would notice when this one stopped being right.
+
+A Microsoft Research survey of 319 knowledge workers found the corollary: higher confidence in the AI correlated with [less critical thinking](https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/), higher confidence in oneself with more. Which matters here because confidence in your own judgment comes from having formed views, watched some survive contact with reality and others fail, and understood why.
+
+The counterweight is not a programme. It starts with asking what else was considered, before saying anything about what was chosen, and sitting through the pause — because the first few times, the answer is that nothing else was, and that silence is most of the diagnosis. From there it stays small. Which part would you defend in six months, and which part are you unsure of. Letting somebody run the investigation when something breaks instead of watching you run it. Putting them in the room where the problem gets framed, not only where it gets handed over.
+
+The goal isn't more review. It's review that stops ending at the artifact.
+
+## Human gates as teaching positions
+
+Which brings me back to something I built without understanding what I had built.
+
+The [AI harness for my team](/blog/the-ai-harness-should-follow-the-conversation) has human gates in it — points where the system stops, because what comes next needs somebody to leave the tool and talk to people. I designed them as a question about control: which decisions should never be delegated.
+
+They are also, and this took a while to see, a written list of every decision in our process that requires judgment, with the evidence it needs and the reason it cannot be handed over. Which is to say: a curriculum. The same act of description that let the machine handle more of the volume produced the most precise map we have of where that loop still runs.
+
+The map matters because hiring alone will not fix this. Enrique Ide's model of [intergenerational knowledge transfer](https://arxiv.org/abs/2507.16078) predicts that entry-level automation can raise output now and lower long-run growth **even without reducing junior employment**, when it moves novices away from the ablest experts. Tacit knowledge passes between people solving the same problem at the same time. If your junior sits downstream of the gate, reviewing what the system produced, the headcount looks fine and the transmission is still broken.
+
+So the gates are worth a second use. Not as rubber stamps — as places to put somebody less experienced inside the decision while it is being made, close enough to hear the reasoning form rather than meet it after it has hardened.
+
+## The door, seen from the inside
+
+In February I wrote [a gentler piece for people learning to build in the age of AI](/blog/learning-to-build-in-the-age-of-ai): the door is not closing, it is shifting, and what you carry into it matters more now than it would have five years ago.
+
+All of that still holds. It was also incomplete in a way this year's mentoring conversations made hard to ignore.
+
+Encouragement does not rebuild a mechanism. You can tell somebody with complete sincerity that judgment is the scarce thing now, and they can agree with you, and go home, and still have nowhere to build any. The reps we tell people to get are available mostly inside a job, and the job is what is not on offer. Telling a person to develop judgment while the industry closes the places judgment was developed is not advice. It is a description of the problem, addressed to the one party who cannot solve it.
+
+There is one lever still available from outside, and it is worth being honest about its size. You can make the reasoning around what you build visible — what you considered, what you rejected, where the model was plausible and wrong, what changed your mind. That is real practice, and it is not an apprenticeship. A project of your own cannot manufacture production consequences, a system you inherited from somebody who left, a colleague who disagrees and turns out to be right, or a decision you watch age for two years.
+
+It is the small version. It is what there is. The rest of it has to be built from inside.
+
+## Final thoughts
+
+The uncomfortable thing about a byproduct is that you only discover you depended on it after it stops arriving. The industry got its next generation of judgment as change from a transaction it thought was for something else. It never appeared in a plan, so its disappearance did not either.
+
+There is a version of this that ends badly without anyone acting in bad faith. It only needs the locally reasonable call, repeated, until the pool stops being replenished and everyone bids for a shrinking group somebody else paid to form a decade ago.
+
+The alternative is not to slow anything down. It is to put on the plan what used to arrive by accident: who is forming a view about what, next to whom, before somebody hands them the answer. That is a strange thing to have to write down. We never had to — the work ran that apprenticeship for us, and never sent an invoice.
+
+It is sending one now. And it is addressed to the people already inside, holding the door.
